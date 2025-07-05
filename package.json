@@ -1,0 +1,38 @@
+{
+  "name": "bpro-resume-website",
+  "version": "1.0.0",
+  "description": "现代化的个人简历和作品集网站模板，支持响应式设计和主题切换",
+  "main": "index.html",
+  "scripts": {
+    "serve": "python -m http.server 8000",
+    "build": "echo '静态网站无需构建'",
+    "deploy": "echo '请使用Cloudflare Pages进行部署'"
+  },
+  "keywords": [
+    "resume",
+    "portfolio",
+    "personal-website",
+    "responsive",
+    "html5",
+    "css3",
+    "javascript",
+    "bootstrap",
+    "static-site"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/resumewebsite.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/resumewebsite/issues"
+  },
+  "homepage": "https://yourusername.github.io/resumewebsite",
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead",
+    "not ie <= 11"
+  ]
+}

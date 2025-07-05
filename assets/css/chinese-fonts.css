@@ -1,0 +1,54 @@
+/*
+  已切换为系统字体方案，无需任何本地字体文件。
+  推荐字体族如下：
+  "PingFang SC", "Microsoft YaHei", "Source Han Sans SC", "Noto Sans SC", "WenQuanYi Micro Hei", "Helvetica Neue", Arial, sans-serif;
+*/
+
+body, html {
+  font-family:
+    "PingFang SC",
+    "Microsoft YaHei",
+    "Source Han Sans SC",
+    "Noto Sans SC",
+    "WenQuanYi Micro Hei",
+    "Helvetica Neue", Arial, sans-serif;
+}
+
+/* 中文字体配置 - 系统字体方案 */
+
+/* 中文字体变量 */
+:root {
+    --chinese-font: 'PingFang SC', 'Microsoft YaHei', 'Source Han Sans SC', 'Noto Sans SC', 'WenQuanYi Micro Hei', 'Helvetica Neue', Arial, sans-serif;
+}
+
+/* 应用中文字体到所有元素 */
+body,
+html {
+    font-family: var(--chinese-font) !important;
+}
+
+/* 确保所有文本元素使用中文字体 */
+h1, h2, h3, h4, h5, h6,
+p, span, div, a, li, button, input, textarea {
+    font-family: var(--chinese-font) !important;
+}
+
+/* 特殊处理一些可能被其他CSS覆盖的元素 */
+.section-title,
+.hero-title,
+.watermark-title .title,
+.about_me_area .left-info h2,
+.service_card .title a,
+.blog-area .post-title a,
+.resume-area .resume-wrapper .resume-content .resume-title,
+.skills-area .skill-progressbar .title,
+.contact_action .content .title {
+    font-family: var(--chinese-font) !important;
+}
+
+/* 确保深色模式下的字体也正确 */
+html.dark body,
+html.dark h1, html.dark h2, html.dark h3, html.dark h4, html.dark h5, html.dark h6,
+html.dark p, html.dark span, html.dark div, html.dark a, html.dark li {
+    font-family: var(--chinese-font) !important;
+} 

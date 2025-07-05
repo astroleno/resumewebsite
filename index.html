@@ -1,0 +1,3521 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <!-- Basic Page Needs
+    ================================================== -->
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!-- Specific Meta
+    ================================================== -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <meta name="keyword" content="简历,作品集,个人简历,个人作品集,个人网站,响应式,html5,css3,创意,简洁">
+    <meta name="description" content="琅环的个人简历和作品集网站 - 展示专业技能和项目经验">
+    <meta name="author" content="琅环">
+
+    <!-- Site Title
+    ================================================== -->
+    <title>琅环 - 个人简历与作品集</title>
+
+    <!-- Favicon
+    ================================================== -->
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+
+    <!-- Google Fonts
+    ================================================== -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@100..800&display=swap">
+
+    <!-- 字体预加载优化
+    ================================================== -->
+    <!-- 已切换为系统字体方案，无需本地字体文件，极致加速体验 -->
+
+    <!-- All CSS Here
+    ================================================== -->
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="assets/css/swiper-bundle.min.css">
+    <link rel="stylesheet" href="assets/css/animate.min.css">
+    <link rel="stylesheet" href="assets/css/glightbox.min.css">
+    <link rel="stylesheet" href="assets/css/style.min.css">
+    <!-- 自定义竹色主题 -->
+    <link rel="stylesheet" href="assets/css/custom-theme.css">
+    <!-- 中文字体 -->
+    <link rel="stylesheet" href="assets/css/chinese-fonts.css">
+    <!-- ===================== 纵向时间轴模块开始 ===================== -->
+    <link rel="stylesheet" href="assets/css/timeline.css">
+    <!-- 在blog区块前插入 -->
+    <!-- ===================== 作品集Masonry瀑布流样式 ===================== -->
+    <style>
+        /* 作品集专用样式，保证与主页风格一致 */
+        .portfolio-menu {
+            margin-bottom: 24px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px 12px;
+            justify-content: flex-start;
+        }
+        .portfolio-menu .btn {
+            border-radius: 18px;
+            padding: 0.4em 1.4em;
+            font-size: 1em;
+            font-weight: 600;
+            background: #668055;
+            color: #fff;
+            border: none;
+            box-shadow: none;
+            margin: 0;
+            transition: background 0.2s, color 0.2s;
+            min-width: 80px;
+            min-height: 38px;
+            line-height: 1.2;
+        }
+        .portfolio-menu .btn.active, .portfolio-menu .btn:focus {
+            background: #a2b89f;
+            color: #fff;
+        }
+        .portfolio-menu .btn:not(.active):hover {
+            background: #7a9a6f;
+            color: #fff;
+        }
+        @media (max-width: 768px) {
+            .portfolio-menu {
+                gap: 8px 6px;
+            }
+            .portfolio-menu .btn {
+                font-size: 0.98em;
+                min-width: 70px;
+                min-height: 32px;
+                padding: 0.3em 1em;
+            }
+        }
+        .portfolio-masonry {
+            column-count: 4;
+            column-gap: 12px;
+            margin-top: 18px;
+            /* 优化重排性能 */
+            will-change: auto;
+            transform: translateZ(0); /* 启用硬件加速 */
+            transition: all 0.3s ease; /* 平滑过渡 */
+        }
+        @media screen and (max-width: 1024px) {
+            .portfolio-masonry { column-count: 3; }
+        }
+        @media screen and (max-width: 768px) {
+            .portfolio-masonry { column-count: 2; }
+        }
+        @media screen and (max-width: 480px) {
+            .portfolio-masonry { column-count: 1; }
+        }
+        .portfolio-card {
+            break-inside: avoid;
+            display: block;
+            width: 100%;
+            margin-bottom: 12px;
+            box-sizing: border-box;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(80,100,80,0.06);
+            background: #fff;
+            cursor: pointer;
+            transition: box-shadow 0.2s;
+            position: relative; /* 为加载指示器定位 */
+        }
+        
+        /* 图片容器，使用宽高比防止重排 */
+        .portfolio-thumb-container {
+            position: relative;
+            width: 100%;
+            background: #f5f8f2;
+            overflow: hidden;
+            padding-bottom: 75%; /* 默认4:3比例，会被JavaScript动态更新为实际比例 */
+            border-radius: 8px;
+            transition: padding-bottom 0.3s ease; /* 添加平滑过渡效果 */
+        }
+        
+        .portfolio-thumb-container img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: opacity 0.3s ease;
+        }
+        .portfolio-card:hover {
+            box-shadow: 0 4px 16px rgba(80,100,80,0.13);
+        }
+        .portfolio-thumb {
+            width: 100%;
+            height: 100%; /* 适配容器高度 */
+            object-fit: cover;
+            display: block;
+            background: #f5f8f2;
+            transition: opacity 0.3s ease; /* 平滑的透明度过渡 */
+        }
+        /* 懒加载时的占位样式 */
+        .portfolio-thumb.lazyload {
+            opacity: 0;
+        }
+        .portfolio-thumb.lazyloaded {
+            opacity: 1;
+        }
+        /* 加载状态指示器 */
+        .portfolio-card .portfolio-thumb-container::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 20px;
+            height: 20px;
+            margin: -10px 0 0 -10px;
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid #809A6F;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: 1;
+        }
+        .portfolio-card.loading .portfolio-thumb-container::before {
+            opacity: 1;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .portfolio-card-content {
+            padding: 12px 14px 10px 14px;
+            background: #fff;
+            border-top: 1px solid #eee;
+        }
+        .portfolio-title {
+            font-size: 1.08em;
+            font-weight: bold;
+            margin-bottom: 0.3em;
+            color: #333;
+        }
+        .portfolio-desc {
+            font-size: 0.98em;
+            color: #666;
+        }
+        /* Masonry卡片内容自适应高度 */
+        .portfolio-card-content { min-height: 54px; }
+        /* 弹窗标题下划线逻辑优化 */
+        .portfolio-modal-title.no-link { text-decoration: none !important; cursor: default; }
+        .portfolio-modal-title a, .portfolio-modal-title.link { text-decoration: underline !important; }
+        
+        /* 弹窗与模糊 */
+        .portfolio-modal-bg {
+            position: fixed;
+            left: 0; top: 0;
+            width: 100vw; height: 100vh;
+            z-index: 9999; /* 确保在所有内容之上 */
+            background: rgba(0,0,0,0.85); /* 深色半透明，和主内容区一致 */
+            backdrop-filter: blur(6px);   /* 统一全屏模糊 */
+            animation: fadeInBg 0.25s;
+        }
+        .portfolio-modal,
+        .portfolio-modal-content,
+        .portfolio-modal-img-container,
+        .portfolio-modal-img-bg {
+            box-sizing: border-box !important;
+        }
+
+        /* --- START OF THE ABSOLUTELY, POSITIVELY FINAL FIX --- */
+        .portfolio-modal {
+            /* 关键：使用绝对定位，脱离文档流，使其免疫于外部flex/grid布局的干扰 */
+            position: absolute !important;
+            top: 50% !important;
+            left: 50% !important;
+            /* 关键：使用transform将元素自身宽高的一半移回，实现完美居中 */
+            transform: translate(-50%, -50%) !important;
+
+            /* 之前的优秀样式保持不变 */
+            display: flex !important;
+            flex-direction: column !important;
+            width: 640px !important;
+            max-width: 96vw !important;
+            max-height: 96vh;
+            opacity: 0;
+            transition: opacity 0.25s, transform 0.25s;
+            /* 移除margin: auto，因为它在绝对定位下无用 */
+            margin: 0 !important;
+            border-radius: 16px !important; /* 展开卡片小圆角 */
+            overflow: hidden !important;
+        }
+
+        /* 修复：当弹窗显示时，transform要复位 */
+        .portfolio-modal.show {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1) !important;
+        }
+        /* --- END OF THE ABSOLUTELY, POSITIVELY FINAL FIX --- */
+
+        .portfolio-modal-img-container {
+            width: 100%;
+            height: auto;
+            max-height: 70vh;
+            background: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0; /* 防止被压缩 */
+        }
+        .portfolio-modal-img-bg {
+            width: auto !important;
+            height: auto !important;
+            max-width: 100% !important;
+            max-height: 100% !important;
+            display: block !important;
+        }
+        .portfolio-modal-content {
+            width: 100% !important;
+            background: rgba(255,255,255,0.96) !important;
+            border-radius: 0 !important;
+            padding: 1px 0 24px 0 !important;
+            border-top: 1px solid #eee !important;
+            overflow-y: auto;
+            flex-shrink: 1; /* 允许内容区域在需要时被压缩 */
+        }
+        
+        .portfolio-modal-bg.hide { animation: fadeOutBg 0.22s forwards; }
+        @keyframes fadeInBg { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes fadeOutBg { from { opacity: 1; } to { opacity: 0; } }
+        
+        .portfolio-modal-title, .portfolio-modal-desc, .portfolio-modal-detail {
+            padding-left: 24px !important;
+            padding-right: 24px !important;
+            margin-left: 0 !important;
+            margin-right: 0 !important;
+            margin-top: 16px !important;
+            margin-bottom: 0 !important;
+            text-align: left !important;
+        }
+        .portfolio-modal-title { font-size: 1.1em; font-weight: bold; color: #7a9a5c; margin-top: 18px !important; }
+        .portfolio-modal-desc { font-size: 1em; color: #222; margin-top: 10px !important; }
+        .portfolio-modal-detail { font-size: 0.98em; color: #444; margin-top: 10px !important; }
+        .portfolio-modal-link { margin-bottom: 1em; }
+        .portfolio-modal-close { display: none !important; }
+        .portfolio-menu .btn.active, .portfolio-menu .btn:focus { background: #809A6F; color: #fff; }
+        .portfolio-modal-title a, .portfolio-modal-title {
+            text-decoration: none;
+        }
+        .portfolio-modal-title a {
+            text-decoration: underline; /* 有链接的标题加下划线 */
+        }
+        
+        /* 排序按钮样式 */
+        .btn-outline-secondary.active {
+            background-color: #809A6F !important;
+            border-color: #809A6F !important;
+            color: white !important;
+        }
+        .btn-outline-secondary:hover {
+            background-color: #6b8a5f !important;
+            border-color: #6b8a5f !important;
+            color: white !important;
+        }
+        .sidebar-menu.blurred {
+            filter: blur(6px) brightness(0.7);
+            pointer-events: none;
+            transition: filter 0.2s;
+        }
+        .sidebar-menu-overlay.blurred {
+            filter: blur(6px) brightness(0.7);
+            pointer-events: none;
+        }
+    </style>
+    <!-- 强力覆盖全局按钮样式，彻底隔离呼吸圆环按钮，保证所有端都显示纯净圆环 -->
+    <style>
+    .breathing-backtotop-btn {
+      background: transparent !important;
+      border: none !important;
+      box-shadow: none !important;
+      border-radius: 50% !important;
+      padding: 0 !important;
+      width: var(--ring-size) !important;
+      height: var(--ring-size) !important;
+      min-width: 0 !important;
+      min-height: 0 !important;
+      outline: none !important;
+      position: relative !important;
+      z-index: 10001 !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+    }
+    .breathing-backtotop-btn::before {
+      /* 保证动画正常 */
+      pointer-events: none;
+    }
+    .breathing-backtotop-btn .icon {
+      pointer-events: none;
+    }
+    .breathing-backtotop-wrapper {
+      display: block !important;
+      opacity: 1 !important;
+      pointer-events: auto !important;
+      z-index: 10000 !important;
+      position: fixed !important;
+      right: 30px !important;
+      bottom: 30px !important;
+    }
+    /* 保证在所有屏幕尺寸下都显示 */
+    @media (max-width: 10000px) {
+      .breathing-backtotop-wrapper { display: block !important; opacity: 1 !important; }
+    }
+    </style>
+    <!-- 强制让返回顶部按钮在所有端、所有屏幕尺寸下始终显示，z-index极高，便于桌面端调试 -->
+    <style>
+    .breathing-backtotop-wrapper {
+      display: block !important;
+      opacity: 1 !important;
+      pointer-events: auto !important;
+      z-index: 99999 !important;
+      position: fixed !important;
+      right: 30px !important;
+      bottom: 30px !important;
+    }
+    .breathing-backtotop-btn {
+      z-index: 99999 !important;
+    }
+    </style>
+    <!-- 彻底隔离和调试样式，保证按钮和SVG绝对可见，便于定位问题 -->
+    <style>
+    /* 呼吸圆环返回顶部按钮最终正式样式，彻底去除调试色和all: unset;，保证SVG箭头正常显示 */
+    .breathing-backtotop-wrapper {
+      position: fixed !important;
+      right: 30px !important;
+      bottom: 30px !important;
+      z-index: 10000 !important;
+      display: block !important;
+      opacity: 1 !important;
+      pointer-events: auto !important;
+    }
+    .breathing-backtotop-btn {
+      width: 50px;
+      height: 50px;
+      border: none;
+      background: transparent;
+      border-radius: 50%;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: none;
+      outline: none;
+      z-index: 10001;
+      /* 不要all: unset;，否则SVG会丢失样式 */
+    }
+    .breathing-backtotop-btn::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      border-radius: 50%;
+      border: 5px solid #809a6f;
+      animation: breathe-animation 5s ease-in-out infinite;
+      z-index: 1;
+      background: none;
+      pointer-events: none;
+    }
+    .breathing-backtotop-btn .icon {
+      width: 24px;
+      height: 24px;
+      color: #809a6f;
+      fill: #809a6f;
+      z-index: 2;
+      position: relative;
+      display: block;
+      pointer-events: none;
+    }
+    @keyframes breathe-animation {
+      0%, 100% {
+        transform: scale(0.95);
+        box-shadow: 0 0 15px 3px rgba(128,154,111,0.4), inset 0 0 15px 3px rgba(128,154,111,0.4);
+        filter: brightness(0.8);
+      }
+      50% {
+        transform: scale(1.05);
+        box-shadow: 0 0 25px 8px rgba(128,154,111,0.7), inset 0 0 25px 8px rgba(128,154,111,0.7);
+        filter: brightness(1.2);
+      }
+    }
+    </style>
+    <!-- 彻底解决遮挡问题：降低右下角版权信息z-index -->
+    <style>
+    .sidebar-menu .copyright-content,
+    .mobile-menu .copyright-content {
+      position: relative;
+      z-index: 10 !important; /* 必须低于返回顶部按钮的9999+，彻底防止遮挡 */
+    }
+    </style>
+
+    <style>
+    @media (max-width: 768px) {
+      .timeline-flex-layout {
+        flex-direction: column !important;
+        align-items: stretch !important;
+      }
+      .timeline-axis {
+        width: 100vw !important;
+        min-width: 0 !important;
+        margin-bottom: 10px !important;
+        display: block !important;
+        overflow-x: auto !important;
+        padding-bottom: 0 !important;
+      }
+      .timeline-list {
+        display: flex !important;
+        flex-direction: row !important;
+        gap: 0 !important;
+        width: max-content !important;
+        min-width: 100vw !important;
+        justify-content: flex-start !important;
+        overflow-x: auto !important;
+        font-size: 0.92em !important;
+        padding: 0 8px !important;
+        white-space: nowrap !important;
+        scrollbar-width: thin;
+        scrollbar-color: #a2b89f #f7faf5;
+      }
+      .timeline-list::-webkit-scrollbar {
+        height: 4px;
+        background: #f7faf5;
+      }
+      .timeline-list::-webkit-scrollbar-thumb {
+        background: #a2b89f;
+        border-radius: 2px;
+      }
+      .timeline-item-point {
+        min-width: 28px !important;
+        font-size: 0.92em !important;
+        margin: 0 2px !important;
+        white-space: nowrap !important;
+        text-align: center !important;
+      }
+      .timeline-card-container {
+        width: 100% !important;
+        margin-left: 0 !important;
+        min-width: 0 !important;
+      }
+      .timeline-card,
+      .portfolio-ai-card,
+      .timeline-card.show {
+        min-height: unset !important;
+        height: auto !important;
+        max-height: unset !important;
+        overflow: visible !important;
+        padding: 12px 6px 18px 6px !important;
+        font-size: 1em !important;
+      }
+      .timeline-card-date {
+        font-size: 1em !important;
+        margin-left: 0 !important;
+      }
+      .timeline-section .container {
+        padding-left: 6px !important;
+        padding-right: 6px !important;
+      }
+    }
+    </style>
+</head>
+
+<body>
+
+    <!-- ========== 返回顶部呼吸按钮 ========== -->
+    <div class="breathing-backtotop-wrapper" style="position: fixed; bottom: 30px; right: 30px; z-index: 10000;">
+      <button class="breathing-backtotop-btn" aria-label="返回顶部">
+        <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M11.9999 10.8284L7.05019 15.7782L5.63598 14.364L11.9999 8L18.3639 14.364L16.9497 15.7782L11.9999 10.8284Z"></path>
+        </svg>
+      </button>
+    </div>
+    <style>
+    :root {
+      --ring-size: 50px;
+      --ring-thickness: 5px;
+      --ring-color: #809a6f;
+      --glow-color: rgba(128, 154, 111, 0.7);
+      --glow-color-faint: rgba(128, 154, 111, 0.4);
+    }
+    /* 独立呼吸圆环返回顶部按钮样式，彻底隔离全局按钮样式 */
+    .breathing-backtotop-wrapper {
+      opacity: 0;
+      transition: opacity 0.3s;
+      pointer-events: none;
+      z-index: 10000 !important;
+      display: block !important;
+    }
+    .breathing-backtotop-wrapper.btn-show {
+      opacity: 1;
+      pointer-events: auto;
+      z-index: 10000 !important;
+      display: block !important;
+    }
+    .breathing-backtotop-btn {
+      position: relative;
+      width: var(--ring-size);
+      height: var(--ring-size);
+      padding: 0;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      transition: transform 0.2s ease-out;
+      outline: none;
+      border-radius: 50%;
+      box-shadow: none;
+      /* 不受全局按钮样式影响 */
+    }
+    .breathing-backtotop-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      box-sizing: border-box;
+      border-radius: 50%;
+      border: var(--ring-thickness) solid var(--ring-color);
+      animation: breathe-animation 5s ease-in-out infinite;
+      z-index: 1;
+    }
+    .breathing-backtotop-btn .icon {
+      width: 50%;
+      height: 50%;
+      color: var(--ring-color);
+      transition: transform 0.3s ease-in-out;
+      position: absolute;
+      left: 25%;
+      top: 25%;
+      z-index: 2;
+    }
+    .breathing-backtotop-btn:hover {
+      transform: scale(1.1);
+    }
+    .breathing-backtotop-btn:hover .icon {
+      transform: translateY(-2px);
+    }
+    .breathing-backtotop-btn:active {
+      transform: scale(0.95);
+    }
+    @keyframes breathe-animation {
+      0%, 100% {
+        transform: scale(0.95);
+        box-shadow:
+          0 0 15px 3px var(--glow-color-faint),
+          inset 0 0 15px 3px var(--glow-color-faint);
+        filter: brightness(0.8);
+      }
+      50% {
+        transform: scale(1.05);
+        box-shadow:
+          0 0 25px 8px var(--glow-color),
+          inset 0 0 25px 8px var(--glow-color);
+        filter: brightness(1.2);
+      }
+    }
+    </style>
+    <script>
+    // 平滑滚动到顶部
+    (function(){
+    const btn = document.querySelector('.breathing-backtotop-btn');
+    if(btn){
+      btn.addEventListener('click', function(){
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    }
+    })();
+    </script>
+    <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    Preloader Start
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+    <div class="preloader">
+        <div class="preShape1"></div>
+        <div class="preShape2"></div>
+        <h4 class="content">loading</h4>
+    </div>
+    <!--~~./ Preloader End ~~-->
+    
+    <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    left sidebar start here
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+    <div class="left-sidebar">
+        <!-- Chat Icon -->
+        <a href="index.html#contact" class="message" aria-label="Message Me">
+            <svg width="17" height="13" viewBox="0 0 17 13" xmlns="http://www.w3.org/2000/svg">
+                <path d="M1.52734 0.820312C0.699219 0.820312 0.0273438 1.49219 0.0273438 2.32031C0.0273438 2.79219 0.249219 3.23594 0.627344 3.52031L7.42734 8.62031C7.78359 8.88594 8.27109 8.88594 8.62734 8.62031L15.4273 3.52031C15.8055 3.23594 16.0273 2.79219 16.0273 2.32031C16.0273 1.49219 15.3555 0.820312 14.5273 0.820312H1.52734ZM0.0273438 4.32031V10.8203C0.0273438 11.9234 0.924219 12.8203 2.02734 12.8203H14.0273C15.1305 12.8203 16.0273 11.9234 16.0273 10.8203V4.32031L9.22734 9.42031C8.51484 9.95469 7.53984 9.95469 6.82734 9.42031L0.0273438 4.32031Z" fill="currentColor"/>
+            </svg>
+        </a>
+
+        <!-- Social Media Icons -->
+        <div class="social-icon">
+            <!-- Icon Item -->
+            <a href="https://github.com/astroleno" target="_blank" rel="noopener" 
+                data-bs-toggle="tooltip"
+                data-bs-placement="top"
+                data-bs-title="Follow Me On Github"
+                aria-label="github">
+                <svg width="16" height="16" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M7.01249 0.867188C3.36635 0.867188 0.410156 3.82572 0.410156 7.47474C0.410156 10.5709 2.54051 13.1616 5.41253 13.8786C5.38172 13.7894 5.36191 13.6858 5.36191 13.5575V12.4282C5.09396 12.4282 4.645 12.4282 4.53221 12.4282C4.0805 12.4282 3.67886 12.2338 3.48409 11.8726C3.26787 11.4712 3.23045 10.8573 2.69456 10.4817C2.53556 10.3567 2.6566 10.2141 2.83982 10.2334C3.17819 10.3292 3.45878 10.5616 3.72288 10.9063C3.98587 11.2515 4.10967 11.3297 4.60099 11.3297C4.83922 11.3297 5.19575 11.3159 5.53137 11.2631C5.71183 10.8044 6.02379 10.3821 6.40508 10.1827C4.2065 9.95643 3.15728 8.86178 3.15728 7.37563C3.15728 6.7358 3.42962 6.11689 3.89234 5.59544C3.74048 5.07785 3.54957 4.02229 3.95066 3.62034C4.93991 3.62034 5.53797 4.26237 5.68157 4.43582C6.17455 4.26677 6.71594 4.17096 7.28484 4.17096C7.85484 4.17096 8.39843 4.26677 8.89251 4.43692C9.03446 4.26457 9.63307 3.62034 10.6245 3.62034C11.0273 4.02285 10.8341 5.08281 10.6806 5.5993C11.1406 6.11964 11.4113 6.7369 11.4113 7.37563C11.4113 8.86068 10.3637 9.95478 8.16845 10.1822C8.77256 10.4977 9.21327 11.3842 9.21327 12.0521V13.5575C9.21327 13.6148 9.20062 13.6561 9.19401 13.7051C11.7667 12.8026 13.6148 10.3578 13.6148 7.47474C13.6148 3.82572 10.6586 0.867188 7.01249 0.867188Z" fill="currentColor"/>
+                </svg>
+            </a>
+            <!-- Icon Item -->
+            <a href="https://www.instagram.com/aitoshuu/" target="_blank" rel="noopener" 
+                data-bs-toggle="tooltip"
+                data-bs-placement="top"
+                data-bs-title="Follow Me On Instagram"
+                aria-label="instagram">
+                <svg width="16" height="16" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4.36087 0.529297C2.24296 0.529297 0.519531 2.25409 0.519531 4.37368V9.69666C0.519531 11.8162 2.24296 13.541 4.36087 13.541H9.67965C11.7976 13.541 13.521 11.8162 13.521 9.69666V4.37368C13.521 2.25409 11.7976 0.529297 9.67965 0.529297H4.36087ZM4.36087 1.12074H9.67965C11.4781 1.12074 12.93 2.57377 12.93 4.37368V9.69666C12.93 11.4966 11.4781 12.9496 9.67965 12.9496H4.36087C2.56239 12.9496 1.11051 11.4966 1.11051 9.69666V4.37368C1.11051 2.57377 2.56239 1.12074 4.36087 1.12074ZM10.5661 2.89507C10.4094 2.89507 10.2591 2.95738 10.1482 3.0683C10.0374 3.17921 9.97514 3.32965 9.97514 3.48651C9.97514 3.64337 10.0374 3.79381 10.1482 3.90472C10.2591 4.01564 10.4094 4.07795 10.5661 4.07795C10.7229 4.07795 10.8732 4.01564 10.984 3.90472C11.0948 3.79381 11.1571 3.64337 11.1571 3.48651C11.1571 3.32965 11.0948 3.17921 10.984 3.0683C10.8732 2.95738 10.7229 2.89507 10.5661 2.89507ZM7.02026 3.78223C5.22864 3.78223 3.7699 5.24212 3.7699 7.03517C3.7699 8.82821 5.22864 10.2881 7.02026 10.2881C8.81189 10.2881 10.2706 8.82821 10.2706 7.03517C10.2706 5.24212 8.81189 3.78223 7.02026 3.78223ZM7.02026 4.37368C8.4925 4.37368 9.67965 5.56176 9.67965 7.03517C9.67965 8.50857 8.4925 9.69666 7.02026 9.69666C5.54802 9.69666 4.36087 8.50857 4.36087 7.03517C4.36087 5.56176 5.54802 4.37368 7.02026 4.37368Z" fill="currentColor" stroke="#5C5D68" stroke-width="0.5"/>
+                </svg>     
+            </a>
+            <!-- 小红书 -->
+            <a href="https://www.xiaohongshu.com/user/profile/5c7fca5c000000001601f01f" target="_blank" rel="noopener" 
+                data-bs-toggle="tooltip"
+                data-bs-placement="top"
+                data-bs-title="Follow Me On 小红书"
+                aria-label="xiaohongshu">
+                <img src="assets/img/social/xhs.svg" alt="小红书" style="width:16px;height:16px;display:inline-block;vertical-align:middle;">
+            </a>
+            <!-- 图虫 -->
+            <a href="https://aitoshuu.tuchong.com/" target="_blank" rel="noopener" 
+                data-bs-toggle="tooltip"
+                data-bs-placement="top"
+                data-bs-title="Follow Me On 图虫"
+                aria-label="tuchong">
+                <img src="assets/img/social/tuchong.svg" alt="图虫" style="width:16px;height:16px;display:inline-block;vertical-align:middle;">
+            </a>
+        </div>
+    </div>
+    <!--~~./ end left sidebar ~~-->
+
+    <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    mobile header area start here
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+    <header class="header-area">
+        <!--toggler button-->
+        <button class="navbar-toggler" aria-label="sidebar open button">
+            <span></span>
+        </button>
+    </header>
+    <!--~~./ end mobile header area ~~-->
+
+    
+    <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    right sidebar start here
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+    <div class="sidebar-menu">
+        <div class="sidebar-header">
+            <div class="color-mode">
+                <button class="btn_theme_switch btn-primary-gradient" aria-label="Dark - Light Switch">
+                    <svg class="sun" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M11 17.5C14.5899 17.5 17.5 14.5899 17.5 11C17.5 7.41015 14.5899 4.5 11 4.5C7.41015 4.5 4.5 7.41015 4.5 11C4.5 14.5899 7.41015 17.5 11 17.5Z" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                        <path d="M18.14 18.14L18.01 18.01M18.01 3.99L18.14 3.86L18.01 3.99ZM3.86 18.14L3.99 18.01L3.86 18.14ZM11 1.08V1V1.08ZM11 21V20.92V21ZM1.08 11H1H1.08ZM21 11H20.92H21ZM3.99 3.99L3.86 3.86L3.99 3.99Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                    </svg>
+                    <svg class="moon" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M1.03009 11.42C1.39009 16.57 5.76009 20.76 10.9901 20.99C14.6801 21.15 17.9801 19.43 19.9601 16.72C20.7801 15.61 20.3401 14.87 18.9701 15.12C18.3001 15.24 17.6101 15.29 16.8901 15.26C12.0001 15.06 8.00009 10.97 7.98009 6.13996C7.97009 4.83996 8.24009 3.60996 8.73009 2.48996C9.27009 1.24996 8.62009 0.659961 7.37009 1.18996C3.41009 2.85996 0.70009 6.84996 1.03009 11.42Z" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <!-- nav menu list -->
+        <ul class="nav-menu" id="nav">
+            <li class="menu-item">
+                <a href="#home" class="nav-link active">
+                    <img src="assets/img/nav-icons/home.svg" style="width:1.6em;height:1.6em;vertical-align:middle;margin-right:0.5em;" alt="首页">
+                    首页
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="#about" class="nav-link">
+                    <img src="assets/img/nav-icons/about.svg" style="width:1.6em;height:1.6em;vertical-align:middle;margin-right:0.5em;" alt="关于我">
+                    关于我
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="#protfolio" class="nav-link">
+                    <img src="assets/img/nav-icons/portfolio.svg" style="width:1.6em;height:1.6em;vertical-align:middle;margin-right:0.5em;" alt="作品集">
+                    作品集
+                </a>
+            </li>
+            <!-- 顺序互换：先简历后博客 -->
+            <li class="menu-item">
+                <a href="#resume" class="nav-link">
+                    <img src="assets/img/nav-icons/resume.svg" style="width:1.6em;height:1.6em;vertical-align:middle;margin-right:0.5em;" alt="简历">
+                    简历
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="#blog" class="nav-link">
+                    <img src="assets/img/nav-icons/blog.svg" style="width:1.6em;height:1.6em;vertical-align:middle;margin-right:0.5em;" alt="博客">
+                    博客
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="#contact" class="nav-link">
+                    <img src="assets/img/nav-icons/contact.svg" style="width:1.6em;height:1.6em;vertical-align:middle;margin-right:0.5em;" alt="联系我">
+                    联系我
+                </a>
+            </li>
+        </ul>
+        <!-- copyright content -->
+        <div class="copyright-content text-center">
+            <p>
+                2025 <a href="index.html">@琅环</a>
+            </p>
+        </div>
+    </div>
+    <div class="sidebar-menu-overlay"></div>
+   <!--~~./ end right sidebar ~~-->
+
+    <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    mobile menu start here
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+    <div class="mobile-menu">
+
+        <div class="menu-header d-flex align-items-center justify-content-between">
+            <!-- logo -->
+            <!-- 删除logo区块 -->
+            <!-- <div class="logo">
+                <a href="index.html">
+                    <img src="assets/img/logo/logo.png" class="light" alt="琅环 - 个人简历与作品集">
+                    <img src="assets/img/logo/logo-dark.png" class="dark" alt="琅环 - 个人简历与作品集">
+                </a>
+            </div> -->
+
+            <!-- 删除右上角关闭按钮 -->
+            <!-- <button class="close-btn" type="button" aria-label="menu close button">
+                <i class="fal fa-times"></i>
+            </button> -->
+        </div>
+        <!-- nav menu list -->
+        <ul class="nav-menu" id="mobile_nav">
+            <li class="menu-item">
+                <a href="#home" class="nav-link active">
+                    <img src="assets/img/nav-icons/home.svg" style="width:1.6em;height:1.6em;vertical-align:middle;margin-right:0.5em;" alt="首页">
+                    首页
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="#about" class="nav-link">
+                    <img src="assets/img/nav-icons/about.svg" style="width:1.6em;height:1.6em;vertical-align:middle;margin-right:0.5em;" alt="关于我">
+                    关于我
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="#protfolio" class="nav-link">
+                    <img src="assets/img/nav-icons/portfolio.svg" style="width:1.6em;height:1.6em;vertical-align:middle;margin-right:0.5em;" alt="作品集">
+                    作品集
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="#blog" class="nav-link">
+                    <img src="assets/img/nav-icons/blog.svg" style="width:1.6em;height:1.6em;vertical-align:middle;margin-right:0.5em;" alt="博客">
+                    博客
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="#resume" class="nav-link">
+                    <img src="assets/img/nav-icons/resume.svg" style="width:1.6em;height:1.6em;vertical-align:middle;margin-right:0.5em;" alt="简历">
+                    简历
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="#contact" class="nav-link">
+                    <img src="assets/img/nav-icons/contact.svg" style="width:1.6em;height:1.6em;vertical-align:middle;margin-right:0.5em;" alt="联系我">
+                    联系我
+                </a>
+            </li>
+        </ul>
+
+        <!-- Social Media Icons -->
+        <div class="social-icon">
+            <!-- Icon Item -->
+            <a href="https://github.com/astroleno" target="_blank" rel="noopener" 
+                data-bs-toggle="tooltip"
+                data-bs-placement="top"
+                data-bs-title="Follow Me On Github"
+                aria-label="github">
+                <svg width="16" height="16" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M7.01249 0.867188C3.36635 0.867188 0.410156 3.82572 0.410156 7.47474C0.410156 10.5709 2.54051 13.1616 5.41253 13.8786C5.38172 13.7894 5.36191 13.6858 5.36191 13.5575V12.4282C5.09396 12.4282 4.645 12.4282 4.53221 12.4282C4.0805 12.4282 3.67886 12.2338 3.48409 11.8726C3.26787 11.4712 3.23045 10.8573 2.69456 10.4817C2.53556 10.3567 2.6566 10.2141 2.83982 10.2334C3.17819 10.3292 3.45878 10.5616 3.72288 10.9063C3.98587 11.2515 4.10967 11.3297 4.60099 11.3297C4.83922 11.3297 5.19575 11.3159 5.53137 11.2631C5.71183 10.8044 6.02379 10.3821 6.40508 10.1827C4.2065 9.95643 3.15728 8.86178 3.15728 7.37563C3.15728 6.7358 3.42962 6.11689 3.89234 5.59544C3.74048 5.07785 3.54957 4.02229 3.95066 3.62034C4.93991 3.62034 5.53797 4.26237 5.68157 4.43582C6.17455 4.26677 6.71594 4.17096 7.28484 4.17096C7.85484 4.17096 8.39843 4.26677 8.89251 4.43692C9.03446 4.26457 9.63307 3.62034 10.6245 3.62034C11.0273 4.02285 10.8341 5.08281 10.6806 5.5993C11.1406 6.11964 11.4113 6.7369 11.4113 7.37563C11.4113 8.86068 10.3637 9.95478 8.16845 10.1822C8.77256 10.4977 9.21327 11.3842 9.21327 12.0521V13.5575C9.21327 13.6148 9.20062 13.6561 9.19401 13.7051C11.7667 12.8026 13.6148 10.3578 13.6148 7.47474C13.6148 3.82572 10.6586 0.867188 7.01249 0.867188Z" fill="currentColor"/>
+                </svg>
+            </a>
+            <!-- Icon Item -->
+            <a href="https://www.instagram.com/aitoshuu/" target="_blank" rel="noopener" 
+                data-bs-toggle="tooltip"
+                data-bs-placement="top"
+                data-bs-title="Follow Me On Instagram"
+                aria-label="instagram">
+                <svg width="16" height="16" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4.36087 0.529297C2.24296 0.529297 0.519531 2.25409 0.519531 4.37368V9.69666C0.519531 11.8162 2.24296 13.541 4.36087 13.541H9.67965C11.7976 13.541 13.521 11.8162 13.521 9.69666V4.37368C13.521 2.25409 11.7976 0.529297 9.67965 0.529297H4.36087ZM4.36087 1.12074H9.67965C11.4781 1.12074 12.93 2.57377 12.93 4.37368V9.69666C12.93 11.4966 11.4781 12.9496 9.67965 12.9496H4.36087C2.56239 12.9496 1.11051 11.4966 1.11051 9.69666V4.37368C1.11051 2.57377 2.56239 1.12074 4.36087 1.12074ZM10.5661 2.89507C10.4094 2.89507 10.2591 2.95738 10.1482 3.0683C10.0374 3.17921 9.97514 3.32965 9.97514 3.48651C9.97514 3.64337 10.0374 3.79381 10.1482 3.90472C10.2591 4.01564 10.4094 4.07795 10.5661 4.07795C10.7229 4.07795 10.8732 4.01564 10.984 3.90472C11.0948 3.79381 11.1571 3.64337 11.1571 3.48651C11.1571 3.32965 11.0948 3.17921 10.984 3.0683C10.8732 2.95738 10.7229 2.89507 10.5661 2.89507ZM7.02026 3.78223C5.22864 3.78223 3.7699 5.24212 3.7699 7.03517C3.7699 8.82821 5.22864 10.2881 7.02026 10.2881C8.81189 10.2881 10.2706 8.82821 10.2706 7.03517C10.2706 5.24212 8.81189 3.78223 7.02026 3.78223ZM7.02026 4.37368C8.4925 4.37368 9.67965 5.56176 9.67965 7.03517C9.67965 8.50857 8.4925 9.69666 7.02026 9.69666C5.54802 9.69666 4.36087 8.50857 4.36087 7.03517C4.36087 5.56176 5.54802 4.37368 7.02026 4.37368Z" fill="currentColor" stroke="#5C5D68" stroke-width="0.5"/>
+                </svg>     
+            </a>
+            <!-- 小红书 -->
+            <a href="https://www.xiaohongshu.com/user/profile/5c7fca5c000000001601f01f" target="_blank" rel="noopener" 
+                data-bs-toggle="tooltip"
+                data-bs-placement="top"
+                data-bs-title="Follow Me On 小红书"
+                aria-label="xiaohongshu">
+                <img src="assets/img/social/xhs.svg" alt="小红书" style="width:16px;height:16px;display:inline-block;vertical-align:middle;">
+            </a>
+            <!-- 图虫 -->
+            <a href="https://aitoshuu.tuchong.com/" target="_blank" rel="noopener" 
+                data-bs-toggle="tooltip"
+                data-bs-placement="top"
+                data-bs-title="Follow Me On 图虫"
+                aria-label="tuchong">
+                <img src="assets/img/social/tuchong.svg" alt="图虫" style="width:16px;height:16px;display:inline-block;vertical-align:middle;">
+            </a>
+        </div>
+        <!-- copyright content -->
+        <div class="copyright-content text-center">
+            <p>
+                2025 <a href="index.html">@琅环</a>
+            </p>
+        </div>
+    </div>
+    <!--~~./ mobile menu end here ~~-->
+
+    <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    main body content start here
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+    <main>
+
+        <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        hero area start here
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+        <section class="hero-area section-space" id="home">
+            <div class="container">
+            <div class="row align-items-center">
+              <div class="col-lg-7 col-md-12">
+                <div class="hero-content">
+                  <h2 class="hero-subtitle">我是琅环</h2>
+                  <h1 class="hero-title">持续进化的跨界创造者</h1>
+                  <p class="hero-desc">我热衷于连接技术、设计与哲思，从第一性原理出发，去探索和创造能带来真实价值的、优雅而强大的系统。</p>
+                  <div class="button-groups">
+                    <a href="#resume" class="btn btn-primary-gradient">简历</a>
+                    <a href="#contact" class="btn btn-primary-gradient">联系我</a>
+                                </div>
+                            </div>
+                            </div>
+              <div class="col-lg-5 col-md-12">
+                <div class="hero-image">
+                  <img src="assets/img/hero/hero.webp" alt="琅环" class="img-fluid">
+                        </div>
+                    </div>
+                        </div>
+                    </div>
+        </section>
+        <!--~~./ end hero area ~~-->
+
+        <!-- ========== 1. 关于我（About Me） ========== -->
+        <div class="about_me_area section-space" id="about">
+            <div class="container">
+                <!-- section title -->
+                <div class="watermark-title text-center wow animate__animated animate__fadeInUp" data-watermark="About Me">
+                    <h6 class="title">
+                        关于我
+                    </h6>
+                </div>
+                <div class="about-content-wrapper wow animate__animated animate__fadeInUp">
+                    <div class="row g-4 align-items-end">
+                        <div class="col-lg-6 col-xl-7">
+                            <!-- about area left content -->
+                            <div class="left-info">
+                                <h2>
+                                    琅环
+                                </h2>
+                                <p class="designation">
+                                    跨界系统创造者 / 31岁 / 上海
+                                </p>
+                                <p class="content">
+                                    我是一位由好奇心驱动的系统性创造者。我不止步于'知道'，更通过深度研究与亲手实践去'理解'。现在，我专注于将AI的强大能力，通过系统化设计，落地为能创造真实价值的一个个具体项目。
+                                </p>
+                                <div class="button-groups  wow animate__animated animate__fadeInUp">
+                                    <a href="#" class="btn btn-primary-gradient">简历</a>
+                                    <a href="#" class="btn btn-primary-outlined contact-btn-fix">联系我</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-xl-5">
+                            <div class="right-info">
+                                <!-- about area right content -->
+                                <!-- 个人信息表格修正为横向一行一个字段 -->
+                                <table class="table table-borderless" style="font-size: 1.2rem;">
+                                  <tbody>
+                                    <tr>
+                                      <th style="width: 5em;">姓名</th><td>琅环</td>
+                                    </tr>
+                                    <tr>
+                                      <th>国籍</th><td>中国</td>
+                                    </tr>
+                                    <tr>
+                                      <th>电话</th><td>+86 188 1827 2870</td>
+                                    </tr>
+                                    <tr>
+                                      <th>邮箱</th><td>619492003@qq.com</td>
+                                    </tr>
+                                    <tr>
+                                      <th>经验</th><td>5年+</td>
+                                    </tr>
+                                    <tr>
+                                      <th>微信</th><td>aitoshuu</td>
+                                    </tr>
+                                    <tr>
+                                      <th>语言</th><td>中文、英文</td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>                     
+                </div>
+            </div>
+        </div>
+        <!--~~./ about me area end~~-->
+
+        <!-- ========== 2. 我的服务（My Services） ========== -->
+        <div class="service-area section-space">
+            <div class="container">
+                <!-- section title -->
+                <h2 class="section-title wow animate__animated animate__fadeInUp">
+                    <svg width="26" height="33" viewBox="0 0 26 33" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M9.57695 23.0121L9.57639 23.0121C4.66099 23.0051 0.677265 19.0214 0.670312 14.106V14.1054V1.59448V1.19448H1.07031H3.06914H3.46914V1.59448V14.1051C3.47558 17.4771 6.20558 20.207 9.57769 20.2132H19.9601L13.5906 13.8437L13.3078 13.5609L13.5906 13.278L15.005 11.8636L15.288 11.5807L15.5708 11.8637L25.0337 21.3332L25.3164 21.6161L25.0336 21.8988L15.5707 31.3617L15.2879 31.6445L15.005 31.3617L13.5906 29.9472L13.3078 29.6644L13.5906 29.3816L19.9601 23.0121L9.57695 23.0121Z" fill="currentcolor" stroke="currentcolor" stroke-width="0.8"/>
+                    </svg>  
+                    我的服务
+                </h2>
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        <!-- card content -->
+                        <div class="service_card wow animate__animated animate__fadeInUp">
+                            <div class="card-header">
+                                <img src="assets/img/service/aigc.svg" height="48" width="48" alt="card image">
+                                <a href="#!" class="primary_btn">
+                                    10+个项目
+                                </a>
+                            </div>
+                            <h4 class="title">
+                                <a href="#">
+                                    AIGC与全栈开发
+                                </a>
+                            </h4>
+                            <p class="content">
+                                我构建的不仅是网站，更是能解决问题的AI原生系统。我能完成从服务器部署到前后端开发的全流程，并擅长将大型语言模型（LLMs）与实际应用场景结合，创造自动化、智能化的解决方案。
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <!-- card content -->
+                        <div class="service_card wow animate__animated animate__fadeInUp">
+                            <div class="card-header">
+                                <img src="assets/img/service/design.svg" height="48" width="48" alt="card image">
+                                <a href="#!" class="primary_btn" aria-label="primary button">
+                                    40+项目
+                                </a>
+                            </div>
+                            <h4 class="title">
+                                <a href="#">
+                                    系统性体验设计
+                                </a>
+                            </h4>
+                            <p class="content">
+                                我的设计根植于对"人"的深刻理解，无论是物理空间的动线，还是数字产品的交互。我能基于设计思维，结合专业级视觉叙事能力，创造出直观、高效且富有美感的完整用户体验系统。
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <!-- card content -->
+                        <div class="service_card wow animate__animated animate__fadeInUp">
+                            <div class="card-header">
+                                <img src="assets/img/service/visual.svg" height="48" width="48" alt="card image">
+                                <a href="#!" class="primary_btn" aria-label="primary button">
+                                    15+ 项目
+                                </a>
+                            </div>
+                            <h4 class="title">
+                                <a href="#">
+                                    跨界品牌与视觉叙事
+                                </a>
+                            </h4>
+                            <p class="content">
+                                凭借为国家地理、Getty Images、华润等顶级品牌服务的经验，我擅长将抽象的品牌理念，转化为跨越线上与线下的、高标准的视觉资产，讲述令人信服的品牌故事。
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <!-- card content -->
+                        <div class="service_card wow animate__animated animate__fadeInUp">
+                            <div class="card-header">
+                                <img src="assets/img/service/growth.svg" height="48" width="48" alt="card image">
+                                <a href="#!" class="primary_btn" aria-label="primary button">
+                                    5个项目
+                                </a>
+                            </div>
+                            <h4 class="title">
+                                <a href="#">
+                                    战略性内容与增长
+                                </a>
+                            </h4>
+                            <p class="content">
+                                我相信增长源于真正的价值。我专注于从第一性原理出发，深度研究用户需求，创造具有洞察力的、能引起共鸣的深度内容，并通过构建社区与工具，实现有机的、可持续的价值增长。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--~~./ service area end~~-->
+
+        <!-- ========== 3. 作品集（Portfolio） ========== -->
+        <div class="Protfolio-area section-space" id="protfolio">
+            <div class="container">
+                <!-- section title -->
+                <div class="watermark-title text-center wow animate__animated animate__fadeInUp" data-watermark="Portfolio">
+                    <h6 class="title">
+                        作品集
+                    </h6>
+                </div>
+                <!-- protfolio button list -->
+                <div class="protfolio-menu-wrapper text-center wow animate__animated animate__fadeInUp">
+                    <div class="portfolio-menu">
+                        <button data-tag="*" class="btn btn-primary active" aria-label="Filter All Items">全部</button>
+                        <button data-tag="agent" class="btn btn-primary" aria-label="Filter Agent">Agent</button>
+                        <button data-tag="prompt" class="btn btn-primary" aria-label="Filter Prompt">Prompt</button>
+                        <button data-tag="aigc" class="btn btn-primary" aria-label="Filter AIGC">AIGC</button>
+                        <button data-tag="ue5" class="btn btn-primary" aria-label="Filter UE5">UE5</button>
+                        <button data-tag="web" class="btn btn-primary" aria-label="Filter Web">网站</button>
+                        <button data-tag="design" class="btn btn-primary" aria-label="Filter Design">设计</button>
+                        <button data-tag="photography" class="btn btn-primary" aria-label="Filter Photography">摄影</button>
+                        <button data-tag="video" class="btn btn-primary" aria-label="Filter Video">视频</button>
+                        <button data-tag="poetry" class="btn btn-primary" aria-label="Filter Poetry">诗歌</button>
+                        <button data-tag="music" class="btn btn-primary" aria-label="Filter Music">音乐</button>
+                        <button data-tag="ritual" class="btn btn-primary" aria-label="Filter Ritual">仪式</button>
+                    </div>
+                </div>
+                <!-- 排序按钮 -->
+                <div class="text-center wow animate__animated animate__fadeInUp" style="margin-bottom:16px;">
+                    <button class="btn btn-outline-secondary btn-sm" id="sort-latest">最新优先</button>
+                    <button class="btn btn-outline-secondary btn-sm" id="sort-oldest">最早优先</button>
+                </div>
+                <!-- Masonry瀑布流布局 -->
+                <div class="portfolio-masonry wow animate__animated animate__fadeInUp"></div>
+            </div>
+        </div>
+        <!--~~./ Protfolio-area end~~-->
+
+        <!-- ========== 4. 我的技能（My Skills） ========== -->
+        <div class="skills-area section-space">
+            <div class="container">
+                <!-- section title -->
+                <div class="watermark-title text-center wow animate__animated animate__fadeInUp" data-watermark="Skills">
+                    <h6 class="title">技能</h6>
+                </div>
+                <div class="row">
+                    <!-- ===================== 用户自定义技能饼状图区块 ===================== -->
+                    <div class="col-12">
+                        <div class="row g-4">
+                            <!-- 系统构建与AI开发 -->
+                            <div class="col-md-4">
+                                <div class="skill-category-title">系统构建与AI开发</div>
+                                <ul class="custom-skill-pie-list">
+                                    <li>
+                                        <div class="circle">
+                                            <div class="bar" data-value="0.8" data-thickness="2" data-fill='{"color": "#809A6F"}'></div>
+                                            <div class="box"></div>
+                                        </div>
+                                        <div class="text">Prompt工程、智能体构建及RPA</div>
+                                    </li>
+                                    <li>
+                                        <div class="circle">
+                                            <div class="bar" data-value="0.75" data-thickness="2" data-fill='{"color": "#809A6F"}'></div>
+                                            <div class="box"></div>
+                                        </div>
+                                        <div class="text">AIGC视觉生成 (SD & Midjourney)</div>
+                                    </li>
+                                    <li>
+                                        <div class="circle">
+                                            <div class="bar" data-value="0.4" data-thickness="2" data-fill='{"color": "#809A6F"}'></div>
+                                            <div class="box"></div>
+                                        </div>
+                                        <div class="text">AI模型应用与训练 (LoRA & RAG)</div>
+                                    </li>
+                                </ul>
+                            </div>
+                            <!-- 创意实现与视觉叙事 -->
+                            <div class="col-md-4">
+                                <div class="skill-category-title">创意实现与视觉叙事</div>
+                                <ul class="custom-skill-pie-list">
+                                    <li>
+                                        <div class="circle">
+                                            <div class="bar" data-value="0.95" data-thickness="2" data-fill='{"color": "#809A6F"}'></div>
+                                            <div class="box"></div>
+                                        </div>
+                                        <div class="text">Photoshop与视觉整合工作流</div>
+                                    </li>
+                                    <li>
+                                        <div class="circle">
+                                            <div class="bar" data-value="0.8" data-thickness="2" data-fill='{"color": "#809A6F"}'></div>
+                                            <div class="box"></div>
+                                        </div>
+                                        <div class="text">多模态内容创作 (摄影、剪辑 & 音频)</div>
+                                    </li>
+                                    <li>
+                                        <div class="circle">
+                                            <div class="bar" data-value="0.9" data-thickness="2" data-fill='{"color": "#809A6F"}'></div>
+                                            <div class="box"></div>
+                                        </div>
+                                        <div class="text">3D建模与空间设计 (Rhino & GH)</div>
+                                    </li>
+                                </ul>
+                            </div>
+                            <!-- 战略规划与知识管理 -->
+                            <div class="col-md-4">
+                                <div class="skill-category-title">战略规划与知识管理</div>
+                                <ul class="custom-skill-pie-list">
+                                    <li>
+                                        <div class="circle">
+                                            <div class="bar" data-value="0.75" data-thickness="2" data-fill='{"color": "#809A6F"}'></div>
+                                            <div class="box"></div>
+                                        </div>
+                                        <div class="text">系统性思维与战略规划</div>
+                                    </li>
+                                    <li>
+                                        <div class="circle">
+                                            <div class="bar" data-value="0.9" data-thickness="2" data-fill='{"color": "#809A6F"}'></div>
+                                            <div class="box"></div>
+                                        </div>
+                                        <div class="text">跨领域研究与需求洞察（哲学 & 心理学）</div>
+                                    </li>
+                                    <li>
+                                        <div class="circle">
+                                            <div class="bar" data-value="0.65" data-thickness="2" data-fill='{"color": "#809A6F"}'></div>
+                                            <div class="box"></div>
+                                        </div>
+                                        <div class="text">个人知识资产化</div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <style>
+                .custom-skill-pie-list {
+                    list-style: none;
+                    padding: 0;
+                }
+                .custom-skill-pie-list li {
+                    display: flex;
+                    align-items: center;
+                    margin-bottom: 1.2em;
+                }
+                .custom-skill-pie-list .circle {
+                    width: 56px;
+                    height: 56px;
+                    margin-right: 1em;
+                    position: relative;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                }
+                .custom-skill-pie-list .box {
+                    position: absolute;
+                    left: 0;
+                    top: 0;
+                    width: 56px;
+                    height: 56px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 1.1em;
+                    font-weight: bold;
+                    color: #809A6F; /* 竹色 */
+                    pointer-events: none;
+                    z-index: 2;
+                }
+                .custom-skill-pie-list .text {
+                    font-size: 1.1em;
+                    font-weight: 500;
+                    color: #333;
+                }
+                .custom-skill-pie-list .percent {
+                    color: #809A6F;
+                    font-weight: bold;
+                    margin-left: 0.5em;
+                }
+                .skill-category-title {
+                    font-size: 1.2em;
+                    font-weight: bold;
+                    color: #809A6F; /* 竹色 */
+                    margin-bottom: 0.8em;
+                }
+            </style>
+        </div>
+        <!--~~./ skills area end~~-->
+
+        <!-- ========== 5. 简历（Resume） ========== -->
+        <div class="resume-area section-space" id="resume">
+            <div class="container">
+                <!-- section title -->
+                <div class="watermark-title text-center wow animate__animated animate__fadeInUp" data-watermark="Resume">
+                    <h6 class="title">
+                        简历
+                    </h6>
+                </div>
+                <!-- tab button group -->
+                <div class="tab-button text-center  wow animate__animated animate__fadeInUp">
+                    <ul class="nav nav-pills text-center resume-tab-group" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#work_experience" type="button">
+                                <!-- 公文包图标 - 工作经验 -->
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" style="margin-right: 8px; vertical-align: middle;">
+                                    <path d="M6.5 1A1.5 1.5 0 0 0 5 2.5V3H1.5A1.5 1.5 0 0 0 0 4.5v8A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-8A1.5 1.5 0 0 0 14.5 3H11v-.5A1.5 1.5 0 0 0 9.5 1h-3zm0 1h3a.5.5 0 0 1 .5.5V3H6v-.5a.5.5 0 0 1 .5-.5zm1.886 6.914A.5.5 0 0 1 7.5 7.5V8a.5.5 0 0 1-.5.5H1.5a.5.5 0 0 1-.5-.5V7.5a.5.5 0 0 1 .5-.5H7a.5.5 0 0 1 .5.5v.5a.5.5 0 0 1-.114.386z"/>
+                                </svg>
+                                工作经验
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#education_qualification" type="button">
+                                <!-- 学位帽图标 - 教育 -->
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" style="margin-right: 8px; vertical-align: middle;">
+                                    <path d="M8 0l8 4.5v3c0 1.418-1.105 2.573-2.5 2.573S11 8.918 11 7.5V6.5L8 8 5 6.5V7.5c0 1.418-1.105 2.573-2.5 2.573S0 8.918 0 7.5v-3L8 0z"/>
+                                    <path d="M5 9.5c0 1.418 1.105 2.573 2.5 2.573s2.5-1.155 2.5-2.573V8.5L8 10 5 8.5V9.5z"/>
+                                </svg>
+                                教育
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+                <style>
+                  /* 简历tab按钮组间距，PC端32px，移动端16px */
+                  .resume-tab-group {
+                    display: flex;
+                    justify-content: center;
+                    gap: 32px;
+                  }
+                  @media (max-width: 768px) {
+                    .resume-tab-group {
+                      gap: 16px;
+                    }
+                  }
+                </style>
+                <!-- tab content -->
+                <div class="tab-content  wow animate__animated animate__fadeInUp">
+                    <div class="tab-pane fade show active" id="work_experience" role="tabpanel" tabindex="0">
+                        <div class="row g-4 gx-xxl-5">
+                            <!-- tab single item -->
+                            <div class="col-md-6">
+                                <div class="resume-wrapper">
+                                    <div class="resume-content work">
+                                        <span class="resume-meta">
+                                            2023 - 现在
+                                        </span>
+                                        <h3 class="resume-title">
+                                            AIGC<br>
+                                            Prompt Engineer
+                                        </h3>
+                                        <a href="#" class="institute-name">
+                                            自主搭建AIGC工作流，并落地10+项目
+                                        </a>
+                                    </div>
+                                    <div class="resume-content work">
+                                        <span class="resume-meta">
+                                            2021 - 2025
+                                        </span>
+                                        <h3 class="resume-title">
+                                            上海廿景观工作室 <br>
+                                            景观设计师 项目主管
+                                        </h3>
+                                        <a href="https://themeforest.net/" class="institute-name">
+                                            负责6+项目全流程，参与30+项目
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- tab single item -->
+                            <div class="col-md-6">
+                                <div class="resume-wrapper">
+                                    <div class="resume-content work">
+                                        <span class="resume-meta">
+                                            2020 - 2021
+                                        </span>
+                                        <h3 class="resume-title">
+                                            山水比德设计股份有限公司 <br>
+                                            景观设计师                                        </h3>
+                                        <a href="https://themeforest.net/" class="institute-name">
+                                            落地5项目，参与10+项目
+                                        </a>
+                                    </div>
+                                    <div class="resume-content work">
+                                        <span class="resume-meta">
+                                            2018 - 2020
+                                        </span>
+                                        <h3 class="resume-title">
+                                            上海任轶男景观工作室 <br>
+                                            景观设计师
+                                        </h3>
+                                        <a href="#!" class="institute-name">
+                                            落地20+项目，参与40+项目
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="education_qualification" role="tabpanel" tabindex="0">
+                        <div class="row g-4 g-xl-5">
+                            <!-- tab single item -->
+                            <div class="col-md-6">
+                                <div class="resume-wrapper">
+                                    <div class="resume-content edu">
+                                        <span class="resume-meta">
+                                            2024 - 现在
+                                        </span>
+                                        <h3 class="resume-title">
+                                            创造力与审美系列课程<br>
+                                            传统文化课程
+                                        </h3>
+                                        <a href="#!" class="institute-name">
+                                            丹喵 唯伟 周鹏 等
+                                        </a>
+                                    </div>
+                                    <div class="resume-content edu">
+                                        <span class="resume-meta">
+                                            2024
+                                        </span>
+                                        <h3 class="resume-title">
+                                            AI深度搜索 SD高阶工作流 <br>
+                                            提示词工程师 VibeCoding
+                                        </h3>
+                                        <a href="#!" class="institute-name">
+                                            任易 李继刚 薛志荣 归藏 鹤竹子 等
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- tab single item -->
+                            <div class="col-md-6">
+                                <div class="resume-wrapper">
+                                    <div class="resume-content edu">
+                                        <span class="resume-meta">
+                                            2016 - 2017
+                                        </span>
+                                        <h3 class="resume-title">
+                                            城市设计 <br>
+                                            伦敦大学学院 
+                                        </h3>
+                                        <a href="#!" class="institute-name">
+                                            建筑学硕士
+                                        </a>
+                                    </div>
+                                    <div class="resume-content edu">
+                                        <span class="resume-meta">
+                                            2012 - 2016
+                                        </span>
+                                        <h3 class="resume-title">
+                                            园林景观设计 <br>
+                                            上海交通大学 
+                                        </h3>
+                                        <a href="#!" class="institute-name">
+                                            学士
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--~~./ Resume area end~~-->
+        
+        <!-- ========== 6. 时间线（Timeline） ========== -->
+        <section id="timeline" class="timeline-section section-space">
+            <div class="container">
+                <!-- 标题区域 -->
+                <div class="watermark-title" data-watermark="TIMELINE">
+                    <h6 class="title">过往</h2>
+                </div>
+                <!-- 新的两栏布局 -->
+                <div class="timeline-flex-layout">
+                    <!-- 左侧时间轴 -->
+                    <div class="timeline-axis">
+                        <div class="timeline-line"></div>
+                        <ul class="timeline-list">
+                            <li class="timeline-item-point active" data-index="0"><div class="point-marker"></div><span class="point-label">萌芽</span></li>
+                            <li class="timeline-item-point" data-index="1"><div class="point-marker"></div><span class="point-label">锻造</span></li>
+                            <li class="timeline-item-point" data-index="2"><div class="point-marker"></div><span class="point-label">远行</span></li>
+                            <li class="timeline-item-point" data-index="3"><div class="point-marker"></div><span class="point-label">基石</span></li>
+                            <li class="timeline-item-point" data-index="4"><div class="point-marker"></div><span class="point-label">高光</span></li>
+                            <li class="timeline-item-point" data-index="5"><div class="point-marker"></div><span class="point-label">转向</span></li>
+                            <li class="timeline-item-point" data-index="6"><div class="point-marker"></div><span class="point-label">蓄力</span></li>
+                            <li class="timeline-item-point" data-index="7"><div class="point-marker"></div><span class="point-label">创造</span></li>
+                            <li class="timeline-item-point" data-index="8"><div class="point-marker"></div><span class="point-label">洞察</span></li>
+                            <li class="timeline-item-point" data-index="9"><div class="point-marker"></div><span class="point-label">融合</span></li>
+                        </ul>
+                    </div>
+                    <!-- 右侧内容卡片，全部写死，初始只显示第一个，hover切换 -->
+                    <div class="timeline-card-container">
+                        <div class="timeline-card timeline-card-0 show">
+                            <div class="timeline-card-date">萌芽</div>
+                            <div class="timeline-card-title">思想启蒙：存在主义的创作者</div>
+                            <div class="timeline-card-desc">自4岁起学习绘画，热爱创造，在高中阶段便选择了存在主义作为理解世界的哲学框架，并领悟'生命的本质是同化'等根本性问题。</div>
+                            <div class="timeline-card-details">核心才干：【理念】、【思维】。展现了早期对艺术、创造及哲学思辨的浓厚兴趣与天赋。</div>
+                        </div>
+                        <div class="timeline-card timeline-card-1">
+                            <div class="timeline-card-date">锻造</div>
+                            <div class="timeline-card-title">专业奠基：学院派设计师</div>
+                            <div class="timeline-card-desc">毕业于上海交通大学（本科）与UCL（研究生），系统性地掌握了研究、建模(Rhino/Vray/GH)、策展、演讲等全套专业设计能力。</div>
+                            <div class="timeline-card-details">能力展现：系统性设计思维、专业软件技能、学术研究与公开表达能力，为后续的职业生涯打下坚实基础。</div>
+                </div>
+                        <div class="timeline-card timeline-card-2">
+                            <div class="timeline-card-date">远行</div>
+                            <div class="timeline-card-title">英雄试炼：独立的探索者</div>
+                            <div class="timeline-card-desc">毕业后工作前，独自一人在欧陆旅行40天，期间遭遇签证被偷的极端危机，并最终依靠个人能力顺利解决、安全返回。</div>
+                            <div class="timeline-card-details">能力展现：极致的韧性、危机处理、独立解决复杂问题的能力、强大的信息检索与执行力。这是'英雄之旅'的真实预演。</div>
+                </div>
+                        <div class="timeline-card timeline-card-3">
+                            <div class="timeline-card-date">基石</div>
+                            <div class="timeline-card-title">物理世界 I：职业设计师：落地</div>
+                            <div class="timeline-card-desc">进入景观设计行业，将所学付诸实践，完成南昌经开中央公园、莆田正荣财富中心、海阳宝龙世家大区等多个早期落地项目。</div>
+                            <div class="timeline-card-details">能力展现：将设计图纸转化为实体空间的能力、初步的项目协调与沟通、熟悉行业标准与流程。核心才干：【统率】的初步展现。</div>
+                        </div>
+                        <div class="timeline-card timeline-card-4">
+                            <div class="timeline-card-date">高光</div>
+                            <div class="timeline-card-title">物理世界 II：资深设计师：攻坚</div>
+                            <div class="timeline-card-desc">深度参与并交付苏州碧桂园云栖安缦、上海万科中兴路一号等顶级品牌高标准项目；摄影作品获国家地理、Getty Image采用。</div>
+                            <div class="timeline-card-details">能力展现：在高压下满足顶级甲方要求、专业级的视觉叙事能力、管理复杂项目的能力。这是物理世界营造能力的顶峰。</div>
+                        </div>
+                        <div class="timeline-card timeline-card-5">
+                            <div class="timeline-card-date">转向</div>
+                            <div class="timeline-card-title">范式转移：趋势的觉察者</div>
+                            <div class="timeline-card-desc">自2022年底开始，敏锐地捕捉到AI技术带来的范式转移，开始将注意力转向数字世界，并主动思考个体在AI时代的定位。</div>
+                            <div class="timeline-card-details">能力展现：高度的市场与技术敏感度、跳出本行业思考未来的能力。核心才干：【战略】天赋被时代激活。</div>
+                        </div>
+                        <div class="timeline-card timeline-card-6">
+                            <div class="timeline-card-date">蓄力</div>
+                            <div class="timeline-card-title">系统学习：战略性的学习者</div>
+                            <div class="timeline-card-desc">2024年，为构建新能力栈，完成了包括任易（AI搜索）、赵丹喵（创作）、Ray（商业系统）、大圣（Agent）等一系列高强度、有明确指向性的课程。</div>
+                            <div class="timeline-card-details">能力展现：为目标进行战略性学习规划、高效的知识吸收与整合能力。这并非被动学习，而是主动的'自我赋能'工程。核心才干：【学习】、【搜集】。</div>
+                        </div>
+                        <div class="timeline-card timeline-card-7">
+                            <div class="timeline-card-date">创造</div>
+                            <div class="timeline-card-title">AI赋能：AI训练师与全栈构建者</div>
+                            <div class="timeline-card-desc">不仅能独立开发和部署AI应用（如RAG、自动化脚本），更具备在云服务器上训练定制化LoRA模型的深度技术能力。是多个主流大模型的重度使用者与评测者。学以致用，独立开发并部署了多个AI原生应用：个人服务器、自动化脚本、豆瓣/景观/八字RAG应用，并搭建LobeChat供朋友使用。</div>
+                            <div class="timeline-card-details">能力展现：1.【模型定制】：具备"炼丹"能力，从"使用者"进阶为"训练者"。2.【工作流革新】：创建SD+PS等高效工作流。3.【知识资产化】：系统性沉淀Prompt并构建Agent。从0到1的技术执行力、将想法快速产品化的能力、A-to-Z独立解决技术问题的能力。核心才干：【统率】、【分析】。</div>
+                        </div>
+                        <div class="timeline-card timeline-card-8">
+                            <div class="timeline-card-date">洞察</div>
+                            <div class="timeline-card-title">思想升华：第一性原理思考者</div>
+                            <div class="timeline-card-desc">预判ComfyUI等工具的局限性；领悟"注意力是认知、时间、财富的本质"；并最终构建出【审美求真、体验记忆...】的个人哲学框架。</div>
+                            <div class="timeline-card-details">能力展现：穿透表象的趋势预判能力、对事物进行本质性归纳的抽象思维、高度的元认知与自我觉察。核心才干：【分析】、【思维】、【战略】。</div>
+                        </div>
+                        <div class="timeline-card timeline-card-9">
+                            <div class="timeline-card-date">融合</div>
+                            <div class="timeline-card-title">身份确立：跨界系统创造者</div>
+                            <div class="timeline-card-desc">将物理世界的项目管理经验与数字世界的AI构建能力相融合，形成了独特的、既能'务虚'（战略洞察）又能'务实'（动手落地）的个人品牌。</div>
+                            <div class="timeline-card-details">能力展现：连接数字与现实的'翻译'能力、跨领域解决复杂问题的能力、为所有经历赋予统一意义的品牌定位能力。这是所有才干的集大成。</div>
+                        </div>
+                    </div>
+                </div>
+                <style>
+                /* timeline卡片切换，仅显示一个 */
+                .timeline-card { display: none; }
+                .timeline-card.show { display: block; }
+                /* 让右侧详情卡片高度与左侧时间轴一致 */
+                .timeline-flex-layout {
+                  align-items: stretch;
+                }
+                .timeline-card-container {
+                  height: 100%;
+                  display: flex;
+                  flex-direction: column;
+                  justify-content: stretch;
+                }
+                .timeline-card.show {
+                  height: 100%;
+                  min-height: 500px; /* 兜底，防止内容太少时塌陷，可根据实际调整 */
+                  box-sizing: border-box;
+                }
+                /* date标题右移并字体大一些 */
+                .timeline-card-date {
+                  margin-left: 0;
+                  font-size: 1.35em;
+                  font-weight: bold;
+                  color: #6b8a5a;
+                  letter-spacing: 0.05em;
+                  text-align: left;
+                }
+                /* 让详情内容框更靠左更宽 */
+                .timeline-card-container {
+                  margin-left: 12px;
+                  width: calc(100% - 12px);
+                  /* 保证响应式，原本如有max-width等限制不动 */
+                }
+                </style>
+                <script>
+                // 悬浮切换
+                const timelinePoints = document.querySelectorAll('#timeline .timeline-item-point');
+                const timelineCards = document.querySelectorAll('#timeline .timeline-card');
+                timelinePoints.forEach((node, idx) => {
+                  node.addEventListener('mouseenter', () => {
+                    timelinePoints.forEach((n, i) => n.classList.toggle('active', i === idx));
+                    timelineCards.forEach((c, i) => c.classList.toggle('show', i === idx));
+                  });
+                });
+                // 让右侧详情内容框高度和左侧时间轴严格一致
+                function syncTimelineCardHeight(sectionId) {
+                  const axis = document.querySelector(`#${sectionId} .timeline-axis`);
+                  const cardContainer = document.querySelector(`#${sectionId} .timeline-card-container`);
+                  if(axis && cardContainer) {
+                    cardContainer.style.height = axis.offsetHeight + 'px';
+                  }
+                }
+                window.addEventListener('DOMContentLoaded', function() {
+                  syncTimelineCardHeight('timeline');
+                  syncTimelineCardHeight('portfolio-ai');
+                });
+                window.addEventListener('resize', function() {
+                  syncTimelineCardHeight('timeline');
+                  syncTimelineCardHeight('portfolio-ai');
+                });
+                </script>
+            </div>
+        </section>
+        <!-- ===================== 纵向时间轴模块结束 ===================== -->
+
+        <!-- ========== 7. AI作品集时间轴（portfolio-ai） ========== -->
+        <section id="portfolio-ai" class="timeline-section section-space">
+            <div class="container">
+                <!-- 标题区域 -->
+                <div class="watermark-title" data-watermark="PORTFOLIO-AI">
+                    <h6 class="title">AI历程</h2>
+                </div>
+                <!-- 新的两栏布局，结构与timeline区块完全一致 -->
+                <div class="timeline-flex-layout">
+                    <!-- 左侧时间轴 -->
+                    <div class="timeline-axis">
+                        <div class="timeline-line"></div>
+                        <ul class="timeline-list">
+                            <li class="timeline-item-point active" data-index="0"><div class="point-marker"></div><span class="point-label">基石</span></li>
+                            <li class="timeline-item-point" data-index="1"><div class="point-marker"></div><span class="point-label">深潜</span></li>
+                            <li class="timeline-item-point" data-index="2"><div class="point-marker"></div><span class="point-label">创造</span></li>
+                            <li class="timeline-item-point" data-index="3"><div class="point-marker"></div><span class="point-label">洞察</span></li>
+                            <li class="timeline-item-point" data-index="4"><div class="point-marker"></div><span class="point-label">高光</span></li>
+                            <li class="timeline-item-point" data-index="5"><div class="point-marker"></div><span class="point-label">蓄力</span></li>
+                        </ul>
+                    </div>
+                    <!-- 右侧内容卡片，全部写死，初始只显示第一个，hover切换 -->
+                    <div class="timeline-card-container">
+                        <div class="timeline-card portfolio-ai-card-0 show">
+                            <div class="timeline-card-date">基石</div>
+                            <div class="timeline-card-title">AI原生工作流革新</div>
+                            <div class="timeline-card-desc">自2022年底起，率先将AIGC技术引入专业设计领域。不仅将手绘风格的AI图像用于项目投标，更独创了一套结合Stable Diffusion与Photoshop的图像优化工作流，显著提升了项目效果图的真实感与艺术氛围。</div>
+                            <div class="timeline-card-details">能力展现：新技术的快速商业化应用、优化并革新现有工作流程的系统思维。核心才干：【战略】(洞察先机) + 【统率】(果断执行)。</div>
+                        </div>
+                        <div class="timeline-card portfolio-ai-card-1">
+                            <div class="timeline-card-date">深潜</div>
+                            <div class="timeline-card-title">定制化AI模型训练 (LoRA)</div>
+                            <div class="timeline-card-desc">具备深度技术能力，在云服务器上针对特定领域(如景观效果图、特定建筑风格)进行LoRA模型的定制化训练('炼丹')，实现了远超通用模型的效果，真正让AI服务于专门化、高标准的创作需求。</div>
+                            <div class="timeline-card-details">能力展现：从'使用者'到'训练者'的层级跃迁，具备为特定需求定制AI模型的专业技能。核心才干：【学习】(深度钻研) + 【分析】(模型洞察)。</div>
+                        </div>
+                        <div class="timeline-card portfolio-ai-card-2">
+                            <div class="timeline-card-date">创造</div>
+                            <div class="timeline-card-title">全栈AI应用与聊天机器人开发</div>
+                            <div class="timeline-card-desc">具备从后端到前端的全栈部署能力。在个人服务器上成功部署了多个大型语言模型，并开发了包括微信聊天机器人（具备对话及天气查询功能）、集成式对话平台（LobeChat）等多个可交互的AI应用。</div>
+                            <div class="timeline-card-details">能力展现：A-to-Z的独立技术闭环能力，从想法到可用的线上产品。核心才干：【统率】(主导开发) + 【审慎】(确保稳定)。</div>
+                        </div>
+                        <div class="timeline-card portfolio-ai-card-3">
+                            <div class="timeline-card-date">洞察</div>
+                            <div class="timeline-card-title">行业知识驱动的RAG系统构建</div>
+                            <div class="timeline-card-desc">深入理解RAG(检索增强生成)技术，并结合个人知识库，构建了多个行业专用的智能问答系统，如"豆瓣电影剧情分析器"、"景观设计解说词生成器"等，将非结构化知识转化为可用的智能服务。</div>
+                            <div class="timeline-card-details">能力展现：将非结构化知识转化为智能资产的战略能力，是连接数据与商业价值的桥梁。核心才干：【搜集】(构建知识库) + 【理念】(设计系统)。</div>
+                        </div>
+                        <div class="timeline-card portfolio-ai-card-4">
+                            <div class="timeline-card-date">高光</div>
+                            <div class="timeline-card-title">多模态AI内容创作与编排</div>
+                            <div class="timeline-card-desc">探索AI在多模态内容领域的应用，将Suno生成的AI音乐进行二次编曲和创作，并将其纯熟地应用到个人视频作品中，实现了视觉与听觉的高度协同与艺术创新。</div>
+                            <div class="timeline-card-details">能力展现：跨越图、文、声等不同AI模态的综合创作力，展现了高度的艺术感与技术整合能力。核心才干：【理念】(艺术构思) + 个人艺术背景。</div>
+                        </div>
+                        <div class="timeline-card portfolio-ai-card-5">
+                            <div class="timeline-card-date">蓄力</div>
+                            <div class="timeline-card-title">系统化Prompt工程与知识资产管理</div>
+                            <div class="timeline-card-desc">作为多个主流大模型（ChatGPT, Gemini, Claude等）的重度使用者与评测者，系统性地将高质量的对话和Prompt沉淀到Notion中，并进一步将其转化为可复用的自动化Agent，实现了知识的复利增长。</div>
+                            <div class="timeline-card-details">能力展现：将经验'资产化'的元能力，构建了让自身能力持续进化的个人知识系统。核心才干：【战略】(规划体系) + 【学习】(持续迭代)。</div>
+                        </div>
+                    </div>
+                </div>
+                <style>
+                /* portfolio-ai卡片切换，仅显示一个 */
+                .timeline-card { display: none; }
+                .timeline-card.show { display: block; }
+                </style>
+                <script>
+                // 悬浮切换
+                const portfolioAiPoints = document.querySelectorAll('#portfolio-ai .timeline-item-point');
+                const portfolioAiCards = document.querySelectorAll('#portfolio-ai .timeline-card');
+                portfolioAiPoints.forEach((node, idx) => {
+                  node.addEventListener('mouseenter', () => {
+                    portfolioAiPoints.forEach((n, i) => n.classList.toggle('active', i === idx));
+                    portfolioAiCards.forEach((c, i) => c.classList.toggle('show', i === idx));
+                  });
+                });
+                </script>
+            </div>
+        </section>
+        <!-- ===================== AI作品集时间轴 portfolio-ai 结束 ===================== -->
+
+        <!-- ========== 8. 博客（Blog） ========== -->
+        <div class="blog-area section-space" id="blog">
+            <div class="container">
+                <!-- section title -->
+                <div class="watermark-title text-center wow animate__animated animate__fadeInUp" data-watermark="Blog" >
+              <h6 class="title">博客</h6>
+                                    </div>
+                <!-- 田字形布局开始 -->
+                <div class="row g-4">
+                    <div class="col-12 col-md-6 d-flex">
+                        <div class="card h-100 d-flex flex-column w-100">
+                          <!-- 懒加载：使用lazysizes库，提升加载速度 -->
+                          <img class='card-img-top lazyload' data-src='assets/img/blog/blog1-sm.webp' alt='AI写得比你好，但你真的会"想"吗？'>
+                          <div class='card-body flex-grow-1'>
+                            <h5 class='card-title'>AI写得比你好，但你真的会"想"吗？</h5>
+                            <p class='card-text'>全文约2700字，阅读需10分钟。
+现在尝试一下，你能写出yao shi（key）这个词组吗？
+困难吗？不妨问问自己，你有多久没有提笔写字了？也许你会反驳：现在大模型无所不能，我们为什么还需要写？
+可我认为，几十秒内生成的文章更应让你感到毛骨悚然。
+不是因为它写得太好，恰恰相反，是因为它好得太平均，像是一杯无色无味的白开水，完全正确却味同嚼蜡，看似深刻却千篇一律。更让人恐惧...</p>
+                        </div>
+                          <div class="card-footer bg-white border-0 mt-auto d-flex flex-column align-items-center">
+                            <span class="blog-date text-muted mb-2">2025-06-22</span>
+                            <a href="https://mp.weixin.qq.com/s/tBIxbmlzoBzE8e-XPuimxQ" class='btn btn-primary-gradient' target="_blank" rel="noopener">阅读全文</a>
+                    </div>
+                                    </div>
+                                        </div>
+                    <div class="col-12 col-md-6 d-flex">
+                        <div class="card h-100 d-flex flex-column w-100">
+                          <!-- 懒加载：使用lazysizes库，提升加载速度 -->
+                          <img class='card-img-top lazyload' data-src='assets/img/blog/blog2-sm.webp' alt='真诚为什么是必杀技'>
+                          <div class='card-body flex-grow-1'>
+                            <h5 class='card-title'>真诚为什么是必杀技</h5>
+                            <p class='card-text'>雨后的空气总是格外清新，就像真诚的交流在沉闷的人际关系中带来的那一缕清风。我常思考，为何真诚这种看似简单的品质，却拥有如此强大的力量？为何它被称为"必杀技"？
+当我们说一个人真诚，往往指的是一种内外一致的状态。"神莹内敛，赤心澄澈"——这八个字勾勒出真诚的精髓。神莹，是内在光芒；内敛，是不张扬外露；赤心，是赤子之心；澄澈，是透明无杂质。真诚不是技巧，而是一种存在状态，是内心与外在表达的高度统...</p>
+                                    </div>
+                          <div class="card-footer bg-white border-0 mt-auto d-flex flex-column align-items-center">
+                            <span class="blog-date text-muted mb-2">2025-02-27</span>
+                            <a href="https://mp.weixin.qq.com/s/pSgmZ7Zfe04DfJSGaASh4w" class='btn btn-primary-gradient' target="_blank" rel="noopener">阅读全文</a>
+                                </div>
+                                    </div>
+                                        </div>
+                    <div class="col-12 col-md-6 d-flex">
+                        <div class="card h-100 d-flex flex-column w-100">
+                          <!-- 懒加载：使用lazysizes库，提升加载速度 -->
+                          <img class='card-img-top lazyload' data-src='assets/img/blog/blog3-sm.webp' alt='为什么懂得很多道理，却依旧过不好这一生'>
+                          <div class='card-body flex-grow-1'>
+                            <h5 class='card-title'>为什么懂得很多道理，却依旧过不好这一生</h5>
+                            <p class='card-text'>在人生的旅程中，我们常常被一种声音引导——"知行合一"。这句话常被用来提醒我们，不仅要懂得道理，更要把道理付诸实践。看似简单的一句话，却隐藏了深邃的哲理。它要求我们不仅要去"做"，而且要在"做"的过程中不断深入理解和反思，从而不断调整自己的人生航向。
+然而，我们也许很快会发现，书本上的道理与现实的复杂性之间，存在着一道难以逾越的鸿沟。那些理性抽象的公式，往往忽略了无数具体情境中的细节。而这些...</p>
+                                    </div>
+                          <div class="card-footer bg-white border-0 mt-auto d-flex flex-column align-items-center">
+                            <span class="blog-date text-muted mb-2">2025-02-26</span>
+                            <a href="https://mp.weixin.qq.com/s/FrQf5FhQpeLac0Rr0XBnpw" class='btn btn-primary-gradient' target="_blank" rel="noopener">阅读全文</a>
+                                </div>
+                                    </div>
+                                        </div>
+                    <div class="col-12 col-md-6 d-flex">
+                        <div class="card h-100 d-flex flex-column w-100">
+                          <!-- 懒加载：使用lazysizes库，提升加载速度 -->
+                          <img class='card-img-top lazyload' data-src='assets/img/blog/blog4-sm.webp' alt='当全民用AI写诗：Deepseek 狂欢和它钟爱的量子纠缠幻觉'>
+                          <div class='card-body flex-grow-1'>
+                            <h5 class='card-title'>当全民用AI写诗：Deepseek 狂欢和它钟爱的量子纠缠幻觉</h5>
+                            <p class='card-text'>只需一句话，Deepseek便会为你打点好所有的祝福——比狂欢更危险的，是人类思考能力的温柔退化
+全文3000余字，预计阅读时间15分钟。
+狂潮速写
+相信在春节归乡的诸位看来，下面的场景或许颇为相似：侄儿们沉浸在手游的战场中，时不时发出惊声呼叫；侄女们手指不停地划动着算法推荐的短视频，外放的bgm反复调动着喜怒哀乐的情绪；手机里收到各种带着推理大模型初体验新鲜出炉、AI编成的祝...</p>
+                                    </div>
+                          <div class="card-footer bg-white border-0 mt-auto d-flex flex-column align-items-center">
+                            <span class="blog-date text-muted mb-2">2025-01-26</span>
+                            <a href="https://mp.weixin.qq.com/s/308Zne8UuCHs-yAejHRrUQ" class='btn btn-primary-gradient' target="_blank" rel="noopener">阅读全文</a>
+                                </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 田字形布局结束 -->
+            </div>
+        </div>
+        <!--~~./ blog-area end~~-->
+
+        <!-- ========== 9. 我的兴趣（My Interests） ========== -->
+        <div class="interest-area section-space">
+            <div class="container">
+                <!-- section title -->
+                <h2 class="section-title wow animate__animated animate__fadeInUp">
+                    <svg width="26" height="33" viewBox="0 0 26 33" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M9.57695 23.0121L9.57639 23.0121C4.66099 23.0051 0.677265 19.0214 0.670312 14.106V14.1054V1.59448V1.19448H1.07031H3.06914H3.46914V1.59448V14.1051C3.47558 17.4771 6.20558 20.207 9.57769 20.2132H19.9601L13.5906 13.8437L13.3078 13.5609L13.5906 13.278L15.005 11.8636L15.288 11.5807L15.5708 11.8637L25.0337 21.3332L25.3164 21.6161L25.0336 21.8988L15.5707 31.3617L15.2879 31.6445L15.005 31.3617L13.5906 29.9472L13.3078 29.6644L13.5906 29.3816L19.9601 23.0121L9.57695 23.0121Z" fill="currentcolor" stroke="currentcolor" stroke-width="0.8"/>
+                    </svg>                    
+                    兴趣
+                </h2>
+                <!-- interest list -->
+                <div class="interest-list wow animate__animated animate__fadeInUp">
+                    <!-- single item -->
+                    <div class="single-item">
+                                    <div class="icon">
+                            <img src="assets/img/interest/阅读.svg" alt="阅读" class="interest-icon-img">
+                                    </div>
+                        <h3 class="title">阅读</h3>
+                                        </div>
+                    <!-- single item -->
+                    <div class="single-item">
+                        <div class="icon">
+                            <img src="assets/img/interest/写作.svg" alt="写作" class="interest-icon-img">
+                                    </div>
+                        <h3 class="title">写作</h3>
+                                </div>
+                    <!-- single item -->
+                    <div class="single-item">
+                                    <div class="icon">
+                            <img src="assets/img/interest/露营.svg" alt="露营" class="interest-icon-img">
+                                    </div>
+                        <h3 class="title">露营</h3>
+                                        </div>
+                    <!-- single item -->
+                    <div class="single-item">
+                        <div class="icon">
+                            <img src="assets/img/interest/探索.svg" alt="探索" class="interest-icon-img">
+                                    </div>
+                        <h3 class="title">探索</h3>
+                                </div>
+                    <!-- single item -->
+                    <div class="single-item">
+                        <div class="icon">
+                            <img src="assets/img/interest/摄影.svg" alt="摄影" class="interest-icon-img">
+                            </div>
+                        <h3 class="title">摄影</h3>
+                        </div>
+                    <!-- single item -->
+                    <div class="single-item">
+                        <div class="icon">
+                            <img src="assets/img/interest/传统.svg" alt="传统" class="interest-icon-img">
+                    </div>
+                        <h3 class="title">传统</h3>
+                </div>
+            </div>
+        </div>
+        </div>
+        <style>
+          .interest-icon-img {
+            width: 40px;
+            height: 40px;
+            display: block;
+            margin: 0 auto;
+            /* 竹色主题色 #809A6F */
+            filter: invert(62%) sepia(13%) saturate(611%) hue-rotate(56deg) brightness(90%) contrast(90%);
+          }
+        </style>
+        </div>
+        <!--~~./ interest area end~~-->
+
+        <!-- ========== 10. 联系我（Contact Me） ========== -->
+        <div class="contact-area" id="contact">
+            <div class="container">
+                <!-- section title -->
+                <div class="watermark-title text-center wow animate__animated animate__fadeInUp" 
+                    data-watermark="CONTACT">
+                    <h6 class="title">
+                        联系方式
+                    </h6>
+                </div>
+                <h2 class="section-title mb-4 wow animate__animated animate__fadeInUp">
+                    <svg width="26" height="33" viewBox="0 0 26 33" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M9.57695 23.0121L9.57639 23.0121C4.66099 23.0051 0.677265 19.0214 0.670312 14.106V14.1054V1.59448V1.19448H1.07031H3.06914H3.46914V1.59448V14.1051C3.47558 17.4771 6.20558 20.207 9.57769 20.2132H19.9601L13.5906 13.8437L13.3078 13.5609L13.5906 13.278L15.005 11.8636L15.288 11.5807L15.5708 11.8637L25.0337 21.3332L25.3164 21.6161L25.0336 21.8988L15.5707 31.3617L15.2879 31.6445L15.005 31.3617L13.5906 29.9472L13.3078 29.6644L13.5906 29.3816L19.9601 23.0121L9.57695 23.0121Z" fill="currentcolor" stroke="currentcolor" stroke-width="0.8"/>
+                    </svg>  
+                    联系我
+                </h2>
+                <div class="row">
+                    <div class="col-md-6">
+                        <!-- contact left content -->
+                        <div class="contact-content wow animate__animated animate__fadeInUp">
+                            <p class="text">
+                                智能，构建洞察。<br>
+                                创造，锚定优雅。
+                            </p>
+                            <ul>
+                                <li>
+                                    <a href="手机:18818272870">
+                                        手机: +86 188 1827 2870
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="wechat:aitoshuu">
+                                        Wechat: aitoshuu
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        地址: 上海市浦东新区
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-6 wow animate__animated animate__fadeInUp">
+                        <!-- contact form -->
+                        <form action="contact-form.php" method="post" class="contact-form">
+                            <div class="row g-4">
+                                <div class="col-12">
+                                    <input type="text" placeholder="尊称" name="client__name">
+                                </div>
+                                <div class="col-12">
+                                    <input type="email" placeholder="邮箱" name="client_email">
+                                </div>
+                                <div class="col-12">
+                                    <textarea name="contact__message" id="message" placeholder="留言"></textarea>
+                                </div>
+                                <div class="col-12">
+                                    <button type="submit" class="btn-primary-gradient">
+                                        发送
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <!-- google map -->
+                <div class="google-map  wow animate__animated animate__slideInUp" data-wow-delay=".5s">
+                    <iframe
+                        width="100%"
+                        height="300"
+                        frameborder="0" style="border:0"
+                        src="https://www.google.com/maps?q=31.211022,121.512356&z=17&output=embed"
+                        allowfullscreen
+                        loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+                </div>
+            </div>
+            <!-- contact background image -->
+            <div class="contact-bg">
+                <!-- <img src="assets/img/contact/bg.png" height="500" width="1500" alt="background image"> -->
+            </div>
+            <!-- contact background shape -->
+            <div class="contact-shape">
+                <img src="assets/img/contact/shape.png" height="130" width="1400" alt="background shape image">
+            </div>
+        </div>
+        <!--~~./ contact area end~~-->
+
+    </main>
+    <!--~~./ main body content end here ~~-->
+
+
+    <!-- ==============================================
+     Warning: Do not delete / remove this svg  
+    =============================================== -->
+    <svg class="position-absolute" style="width: 0; height:0;">
+        <clipPath id="testimonialShape" clipPathUnits="objectBoundingBox">
+            <path d="M0.545,0.004 C0.661,0.024,0.79,0.135,0.873,0.267 C0.955,0.399,1,0.551,0.996,0.682 C0.955,0.867,0.847,0.765,0.743,0.853 C0.639,0.94,0.57,0.99,0.453,0.995 C0.335,1,0.155,1,0.087,0.909 C0.018,0.796,-0.015,0.69,0.007,0.533 C0.03,0.377,0.12,0.265,0.21,0.159 C0.301,0.052,0.429,-0.017,0.545,0.004"></path>
+        </clipPath>
+    </svg>
+    <svg class="position-absolute" style="width: 0; height:0">
+        <linearGradient id="paintLight" x1="45.6518" y1="0.675537" x2="45.6518" y2="48.9633" gradientUnits="userSpaceOnUse">
+            <stop stop-color="white" stop-opacity="0.2"/>
+            <stop offset="1" stop-color="#9772E0" stop-opacity="0.4"/>
+        </linearGradient>
+        <linearGradient id="paintDark" x1="12.9252" y1="0.675537" x2="12.9252" y2="48.9633" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#0B0020" stop-opacity="0"/>
+            <stop offset="1" stop-color="#5E27CA" stop-opacity="1"/>
+        </linearGradient>
+    </svg>
+    <svg class="position-absolute" style="width: 0; height:0"> 
+        <linearGradient id="paint1006" x1="12.2031" y1="0.242187" x2="12.2031" y2="21.2422" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#6029CB"/>
+            <stop offset="1" stop-color="#E5D9FE"/>
+        </linearGradient>
+    </svg>        
+    <!-- ==============================================
+     Warning End
+    =============================================== -->
+
+    <!-- All The JS Files
+    ================================================== -->
+    <script src="assets/js/popper.min.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/jquery-3.6.0.min.js"></script>
+    <script src="assets/js/swiper-bundle.min.js"></script>
+    <script src="assets/js/waypoints.min.js"></script>
+    <script src="assets/js/wow.min.js"></script>
+    <script src="assets/js/jquery.counterup.min.js"></script>
+    <script src="assets/js/circle-progress.min.js"></script>
+    <script src="assets/js/lazysizes.min.js"></script>
+    <script src="assets/js/glightbox.min.js"></script>
+    <script src="assets/js/isotope.pkgd.min.js"></script>
+    <script src="assets/js/packery-mode.pkgd.min.js"></script>
+    <script src="assets/js/script.js"></script>
+    <!-- 字体加载状态优化 -->
+    <script src="assets/js/font-loader.js"></script>
+    <!-- 确保时间轴JS被加载 -->
+    <script src="assets/js/timeline.js"></script>
+    
+    <!-- ====== 时间轴数据与渲染脚本 ====== -->
+
+    <!-- ===================== 作品集数据与功能脚本 ===================== -->
+    <script>
+        // 完整的81个项目数据
+        let portfolioData = [
+          {
+            "id": 1,
+            "title": "AI编剧合伙人",
+            "desc": "让灵感不再搁浅",
+            "detail": "还在为故事开头或结构瓶颈而烦恼吗？这款AI编剧助手，是您突破创作障碍的强大盟友。我们深度融合了豆瓣Top250部经典电影的叙事精华，并将其注入好莱坞工业级的\"施耐德节拍表\"中。您只需提供一个核心创意，它就能立刻为您解构、重组并生成一份逻辑严谨、节奏分明的专业剧本大纲。它不是在模仿，而是在激发。告别空白文档的恐惧，从一个成熟的故事框架开始，让您的下一个绝妙创意，拥有一个坚实的起点，轻松走向银幕。",
+            "tags": [
+              "agent",
+              "prompt"
+            ],
+            "link": "http://124.222.75.42:3000/chat/share?shareId=dwdoczexn3apwfj7sxlnv1yv",
+            "date": "2024,7"
+          },
+          {
+            "id": 2,
+            "title": "八字概念助手",
+            "desc": "人生地图，轻松读懂",
+            "detail": "\"八字\"似乎总是与神秘、晦涩联系在一起？现在，让我们用一种全新的方式来探索这份古老的智慧。本助手融合了\"命运的求索\"与\"虫二的人类研究所\"两大公众号的精华内容，摒弃所有生僻术语，用最通俗幽默的现代语言，为您解读每一个八字概念。它就像一位懂你的朋友，将复杂的人生密码，翻译成你可以理解的\"出厂设置说明书\"。在这里，没有宿命论的枷锁，只有探索自我天赋、理解行为模式的乐趣。轻松入门，开启你的个性化人生探索之旅。",
+            "tags": [
+              "agent",
+              "prompt"
+            ],
+            "link": "http://124.222.75.42:3000/chat/share?shareId=vnu7mxaru8g33ttgbx7upbur",
+            "date": "2024,8"
+          },
+          {
+            "id": 3,
+            "title": "景观项目介绍助手",
+            "desc": "好设计，值得被更好地书写",
+            "detail": "每一个卓越的景观项目，都值得拥有一篇能打动人心的介绍文章。然而，从设计理念到文字表达，常常隔着一道鸿沟。这款AI写作助手，专为景观设计师打造。我们精选了2000余篇顶尖公众号的优秀范文作为其知识核心，它能深度理解您提供的项目简介，智能匹配最优美的文笔和最专业的行业表述。无论是升华设计理念，还是描绘空间细节，它都能为您一键生成结构清晰、文辞优美的初稿。让文字配得上您的设计，让项目价值被更广泛地看见。",
+            "tags": [
+              "agent",
+              "prompt"
+            ],
+            "link": "http://124.222.75.42:3000/chat/share?shareId=4eoupujtr2rerx5g7goju6m9",
+            "date": "2024,9"
+          },
+          {
+            "id": 4,
+            "title": "医疗信息查询助手",
+            "desc": "权威参考在手，健康沟通不愁",
+            "detail": "当身体出现不适，网络信息繁杂真假难辨，徒增焦虑。本助手是您身边严谨、可靠的健康知识查询工具。它的知识完全基于国际权威的《默克家庭诊疗手册》，能根据您的症状描述，为您精准检索并呈现相关的客观信息、可能原因及手册中的警示信号。我们郑重承诺：本助手仅供您在就医前或与医生沟通时作为知识参考，绝不提供任何形式的诊断或治疗建议。面对健康问题，请永远相信并咨询专业的执业医师。我们旨在为您提供可靠信息，而非替代专业诊疗。",
+            "tags": [
+              "agent",
+              "prompt"
+            ],
+            "link": "http://124.222.75.42:3000/chat/share?shareId=nwl0tfmtchmrmsqedvd7dnxi",
+            "date": "2024,6"
+          },
+          {
+            "id": 5,
+            "title": "UE5场景构建",
+            "desc": "UE5场景渲染",
+            "detail": "通过4M地形映射、WorldEngine、Oceanology、EasyFog、Ultra Dynamic Sky等插件构造并渲染了冰岛极光下孤独钢琴的场景",
+            "tags": [
+              "ue5"
+            ],
+            "link": "",
+            "date": "2022,12"
+          },
+          {
+            "id": 6,
+            "title": "GeminiR1",
+            "desc": "强强联合，只为最优答案",
+            "detail": "结合DeepSeek的深度推理过程与Gemini的卓越生成能力，通过规避单一模型的幻觉与短板问题，为用户提供逻辑更严谨、内容更可靠的综合性AI回答。",
+            "tags": [
+              "agent",
+              "web"
+            ],
+            "link": "https://cybermuggles.pages.dev/",
+            "date": "2025,2"
+          },
+          {
+            "id": 7,
+            "title": "LobeChat",
+            "desc": "你的专属AI，部署在你的私人空间",
+            "detail": "一款可部署在个人服务器上的大模型聊天机器人。通过API灵活对接到各类先进的语言模型，为朋友或小圈子用户提供稳定、私密且高度可控的AI聊天服务。",
+            "tags": [
+              "agent",
+              "web"
+            ],
+            "link": "http://124.222.75.42:3210/",
+            "date": "2025,2"
+          },
+          {
+            "id": 8,
+            "title": "PunchUp",
+            "desc": "让你的段子，一出口就炸场",
+            "detail": "基于Fastgpt框架，融合本土化的脱口秀创作规则与评分系统。它能将你的想法或中文文本迅速转化为具备\"梗感\"的段子，并立刻给出效果评分与优化建议。",
+            "tags": [
+              "agent",
+              "prompt"
+            ],
+            "link": "http://124.222.75.42:3000/chat/share?shareId=nx5qy67x0iaflcmvsvlhx5rr",
+            "date": "2024,1"
+          },
+          {
+            "id": 9,
+            "title": "爆款打印机",
+            "desc": "一句话，生成刷屏级文章封面",
+            "detail": "一个部署在Vercel上的前端应用。它内置十余种小红书、公众号爆款风格提示词模板，能将你的文案一键融入并生成适配的HTML封面文件，提供快捷下载。",
+            "tags": [
+              "agent",
+              "prompt",
+              "设计"
+            ],
+            "link": "https://coverprinter.vercel.app/",
+            "date": "2025,4"
+          },
+          {
+            "id": 10,
+            "title": "海报制作师",
+            "desc": "从一句话到一张海报，创意全程在线",
+            "detail": "一套LLM与Seedream结合的自动化设计工作流。它首先通过大模型分析你的核心文案，生成匹配的视觉风格提示词，再无缝交由Seedream完成专业级海报的设计与生成。",
+            "tags": [
+              "agent",
+              "prompt",
+              "设计"
+            ],
+            "link": "https://monica.im/home/chat/seedream%E6%B5%B7%E6%8A%A5%E8%AE%BE%E8%AE%A1%E5%B8%88/h7ztNtQa",
+            "date": "2025,6"
+          },
+          {
+            "id": 11,
+            "title": "心流体验设计师",
+            "desc": "为你的客户，设计沉浸式成长路径",
+            "detail": "一款服务于个体客户一对一的AI设计工具。通过多轮对话，它能产出一套具体、可执行的活动设计方案，旨在帮助终端用户在日常生活中体验到\"心流\"，以提升客户满意度与忠诚度。",
+            "tags": [
+              "agent",
+              "prompt"
+            ],
+            "link": "https://monica.im/home/chat/%E5%BF%83%E6%B5%81%E4%BD%93%E9%AA%8C%E8%AE%BE%E8%AE%A1%E5%B8%88/veHz9LUG",
+            "date": "2025,4"
+          },
+          {
+            "id": 12,
+            "title": "背景更换助手 (Coze版)",
+            "desc": "轻松换背景，图片焦点由你定",
+            "detail": "一款搭建在Coze平台上的智能体机器人。用户只需上传图片，它便能利用图像识别与分割技术，精准移除或替换图片背景，快速满足社交媒体、证件照等场景需求。",
+            "tags": [
+              "agent",
+              "prompt"
+            ],
+            "link": "https://www.coze.cn/store/agent/7403006567237025846?bot_id=true",
+            "date": "2024,11"
+          },
+          {
+            "id": 13,
+            "title": "99种说爱的方式",
+            "desc": "99种说爱的方式，总有一种打动TA",
+            "detail": "通过接入Minimax Agent的强大生成能力，围绕\"爱\"的主题，查找到历史上诗人、画家、王侯表达爱意的方式。无论是日常表达还是特殊纪念，都能为你提供灵感。",
+            "tags": [
+              "web"
+            ],
+            "link": "https://abdm1n7tav.space.minimax.io/",
+            "date": "2025,5"
+          },
+          {
+            "id": 14,
+            "title": "大模型竞技场",
+            "desc": "同一指令，看谁表现更好",
+            "detail": "部署于Vercel的前端应用，允许用户输入同一段提示词，同时调用多个不同的大模型API。通过并排展示结果和特定规则的自动评分，直观比较各模型的特色与优劣。",
+            "tags": [
+              "web"
+            ],
+            "link": "https://mdcard.vercel.app/",
+            "date": "2024,11"
+          },
+          {
+            "id": 15,
+            "title": "谁是卧底——图灵玩伴",
+            "desc": "是游戏高手，也是生活助手",
+            "detail": "部署于个人服务器的聊天机器人，内置\"谁是卧底\"游戏逻辑，旨在通过与玩家的深度对话挑战图灵测试。同时集成天气预报、事项提醒等实用功能，并规划基于交互记录进行个性化服务升级。",
+            "tags": [
+              "agent",
+              "prompt"
+            ],
+            "link": "",
+            "date": "2024,7"
+          },
+          {
+            "id": 16,
+            "title": "静读RSS",
+            "desc": "在信息洪流中，为你辟一处宁静",
+            "detail": "一款部署在Vercel上的前端RSS阅读器。它专注于提供极致简洁、美观且无干扰的阅读界面，聚合你的RSS订阅源，帮助你在喧嚣的信息环境中高效获取核心内容。",
+            "tags": [
+              "web"
+            ],
+            "link": "https://rss-web-crawler.vercel.app/",
+            "date": "2024,11"
+          },
+          {
+            "id": 17,
+            "title": "AGI社会学研究员",
+            "desc": "跨平台深度探索，洞见未来社会",
+            "detail": "一个以\"AGI时代下个体何以自处\"为核心课题的Deep Research比较。它对比了ChatGPT O1Pro、Grok、Gemini等多平台的深度搜索能力，对特定哲学及社会学议题进行全面、多维度的信息挖掘与整合分析，并对结果依次评分。",
+            "tags": [
+              "agent"
+            ],
+            "link": "https://mp.weixin.qq.com/s/ZpS1ilNurIbu5DTHSTiTTw",
+            "date": "2025,3"
+          },
+          {
+            "id": 18,
+            "title": "伦敦眼——2023年历9月",
+            "desc": "2017年6月摄于韦斯特敏斯特大桥上",
+            "detail": "",
+            "tags": [
+              "摄影",
+              "设计"
+            ],
+            "link": "",
+            "date": "2017,6"
+          },
+          {
+            "id": 19,
+            "title": "冰岛暗夜——2023年历12月",
+            "desc": "2017年3月摄于冰岛雷克雅未克",
+            "detail": "",
+            "tags": [
+              "摄影",
+              "设计"
+            ],
+            "link": "",
+            "date": "2017,3"
+          },
+          {
+            "id": 20,
+            "title": "黑沙滩——2024年历3月",
+            "desc": "2017年3月摄于冰岛维克沙滩",
+            "detail": "",
+            "tags": [
+              "摄影",
+              "设计"
+            ],
+            "link": "",
+            "date": "2017,3"
+          },
+          {
+            "id": 21,
+            "title": "云在青天——2024年历4月",
+            "desc": "2023年10月摄于山西隰县小西天",
+            "detail": "",
+            "tags": [
+              "摄影",
+              "设计"
+            ],
+            "link": "",
+            "date": "2023,1"
+          },
+          {
+            "id": 22,
+            "title": "Per Aspera Ad Astra——2023年历封面",
+            "desc": "2020年6月摄于航班上",
+            "detail": "",
+            "tags": [
+              "摄影",
+              "设计"
+            ],
+            "link": "",
+            "date": "2020,6"
+          },
+          {
+            "id": 23,
+            "title": "想见白云洞中仙",
+            "desc": "山西晋城玉皇庙三清宫壁画",
+            "detail": "",
+            "tags": [
+              "设计",
+              "AIGC"
+            ],
+            "link": "",
+            "date": "2024,12"
+          },
+          {
+            "id": 24,
+            "title": "寅时浴日",
+            "desc": "Flames Glitter in Long Lake",
+            "detail": "",
+            "tags": [
+              "AIGC"
+            ],
+            "link": "",
+            "date": "2024,11"
+          },
+          {
+            "id": 25,
+            "title": "东山高卧",
+            "desc": "Zarathustra Above Cloud",
+            "detail": "",
+            "tags": [
+              "AIGC"
+            ],
+            "link": "",
+            "date": "2024,11"
+          },
+          {
+            "id": 26,
+            "title": "耳畔凌波",
+            "desc": "What Freedom!",
+            "detail": "",
+            "tags": [
+              "AIGC"
+            ],
+            "link": "",
+            "date": "2024,12"
+          },
+          {
+            "id": 27,
+            "title": "眼底余晖",
+            "desc": "Phosphenic Cosmic Echo",
+            "detail": "",
+            "tags": [
+              "AIGC"
+            ],
+            "link": "",
+            "date": "2024,11"
+          },
+          {
+            "id": 28,
+            "title": "飘茵堕溷",
+            "desc": "Ophelia Admist Roses",
+            "detail": "",
+            "tags": [
+              "AIGC"
+            ],
+            "link": "",
+            "date": "2024,12"
+          },
+          {
+            "id": 29,
+            "title": "掌蕴夏木",
+            "desc": "Crimson Life Tree",
+            "detail": "",
+            "tags": [
+              "AIGC"
+            ],
+            "link": "",
+            "date": "2024,11"
+          },
+          {
+            "id": 30,
+            "title": "仓鼠黄犬",
+            "desc": "Atlas Shrugged",
+            "detail": "",
+            "tags": [
+              "AIGC"
+            ],
+            "link": "",
+            "date": "2024,11"
+          },
+          {
+            "id": 31,
+            "title": "本自具足",
+            "desc": "Life is Opinion",
+            "detail": "",
+            "tags": [
+              "AIGC"
+            ],
+            "link": "",
+            "date": "2024,11"
+          },
+          {
+            "id": 32,
+            "title": "茗山九相",
+            "desc": "Kusozu of Mingshan Temple",
+            "detail": "",
+            "tags": [
+              "AIGC"
+            ],
+            "link": "",
+            "date": "2024,12"
+          },
+          {
+            "id": 33,
+            "title": "万化生身",
+            "desc": "Infinite Manifestation",
+            "detail": "",
+            "tags": [
+              "AIGC"
+            ],
+            "link": "",
+            "date": "2024,12"
+          },
+          {
+            "id": 34,
+            "title": "一朝风月一指马",
+            "desc": "One Electron Bounded in Recurrence",
+            "detail": "",
+            "tags": [
+              "AIGC"
+            ],
+            "link": "",
+            "date": "2024,12"
+          },
+          {
+            "id": 35,
+            "title": "负阴抱阳",
+            "desc": "Grace of Aurora",
+            "detail": "",
+            "tags": [
+              "AIGC"
+            ],
+            "link": "",
+            "date": "2024,12"
+          },
+          {
+            "id": 36,
+            "title": "南昌经开中央公园一期",
+            "desc": "循环高差的利用和布置：用过螺旋的空间，将变换起伏的场地连接起来，让孩子们穿梭其间。散布期间的互动设施，增添冒险时不经意间的趣味。",
+            "detail": "",
+            "tags": [
+              "设计",
+              "摄影"
+            ],
+            "link": "",
+            "date": "2024,12"
+          },
+          {
+            "id": 37,
+            "title": "生命叹号",
+            "desc": "以生命的负熵本质为成都田野设计的一系列种子纪念碑",
+            "detail": "",
+            "tags": [
+              "设计",
+              "摄影"
+            ],
+            "link": "",
+            "date": "2020,1"
+          },
+          {
+            "id": 38,
+            "title": "盆景鹿",
+            "desc": "以麓湖吉祥物为原型设计的麓湖湖区停泊港湾",
+            "detail": "",
+            "tags": [
+              "设计",
+              "摄影"
+            ],
+            "link": "",
+            "date": "2022,4"
+          },
+          {
+            "id": 39,
+            "title": "贝壳港湾",
+            "desc": "以印度洋扇贝为原型设计的麓湖湖区停泊港湾",
+            "detail": "",
+            "tags": [
+              "设计",
+              "摄影"
+            ],
+            "link": "",
+            "date": "2022,4"
+          },
+          {
+            "id": 40,
+            "title": "国家地理封底：巴黎圣母院",
+            "desc": "2017年11月摄于巴黎，有幸被选为国家地理封底",
+            "detail": "",
+            "tags": [
+              "摄影"
+            ],
+            "link": "",
+            "date": "2017,1"
+          },
+          {
+            "id": 41,
+            "title": "城市的星空不再闪烁",
+            "desc": "以家乡与都市星空的对比，描绘了格子间白领加班的迷茫",
+            "detail": "",
+            "tags": [
+              "诗歌"
+            ],
+            "link": "",
+            "date": "2025,1"
+          },
+          {
+            "id": 42,
+            "title": "妈 我把回家的钥匙丢了",
+            "desc": "以家乡与都市住家的对比，展现了对城市亲情淡漠的反思",
+            "detail": "",
+            "tags": [
+              "诗歌"
+            ],
+            "link": "",
+            "date": "2025,1"
+          },
+          {
+            "id": 43,
+            "title": "小时候羡慕机场的笔记本",
+            "desc": "以成长过程中的对比，反映了景观社会对个体的符号化及异化",
+            "detail": "",
+            "tags": [
+              "诗歌"
+            ],
+            "link": "",
+            "date": "2025,2"
+          },
+          {
+            "id": 44,
+            "title": "我们是宇宙感知自身的方式",
+            "desc": "将不同展现存在主义命题的影片串联剪辑，构成了一副创作、选择及自由的画卷",
+            "detail": "",
+            "tags": [
+              "视频"
+            ],
+            "link": "https://www.bilibili.com/video/BV1VsTszZERg",
+            "date": "2025,6"
+          },
+          {
+            "id": 45,
+            "title": "Lost in Space",
+            "desc": "一首典型的Lo-fi Hip Hop / Ambient风格的纯音乐，以其舒缓的节奏和温暖的音色，营造出一种放松、内省且略带怀旧的氛围。",
+            "detail": "",
+            "tags": [
+              "音乐",
+              "AIGC"
+            ],
+            "link": "https://suno.com/s/K1bh6SAmbOIekcAB",
+            "date": "2024,6"
+          },
+          {
+            "id": 46,
+            "title": "aitoshuu.art",
+            "desc": "一日内从零开始完成的个人网站，主要用于展示AIGC作品",
+            "detail": "",
+            "tags": [
+              "web"
+            ],
+            "link": "https://aitoshuu.art/",
+            "date": "2024,12"
+          },
+          {
+            "id": 47,
+            "title": "鸣沙星夜",
+            "desc": "2016年6月摄于甘肃鸣沙山",
+            "detail": "",
+            "tags": [
+              "摄影"
+            ],
+            "link": "",
+            "date": "2016,6"
+          },
+          {
+            "id": 48,
+            "title": "伦敦街头",
+            "desc": "2017年2月摄于伦敦皮卡迪利圆形广场",
+            "detail": "",
+            "tags": [
+              "摄影"
+            ],
+            "link": "",
+            "date": "2017,2"
+          },
+          {
+            "id": 49,
+            "title": "千禧桥",
+            "desc": "Getty Images供稿作品，2017年9月摄于伦敦泰特现代美术馆",
+            "detail": "",
+            "tags": [
+              "摄影"
+            ],
+            "link": "",
+            "date": "2017,9"
+          },
+          {
+            "id": 50,
+            "title": "塔桥流云",
+            "desc": "Getty Images供稿作品，2017年6月摄于伦敦塔前",
+            "detail": "",
+            "tags": [
+              "摄影"
+            ],
+            "link": "",
+            "date": "2017,6"
+          },
+          {
+            "id": 51,
+            "title": "少女峰",
+            "desc": "Getty Images供稿作品，2017年11月摄于瑞士因特拉肯镇",
+            "detail": "",
+            "tags": [
+              "摄影"
+            ],
+            "link": "",
+            "date": "2017,1"
+          },
+          {
+            "id": 52,
+            "title": "梵蒂冈螺旋梯",
+            "desc": "Getty Images供稿作品，2017年11月摄于梵蒂冈",
+            "detail": "",
+            "tags": [
+              "摄影"
+            ],
+            "link": "",
+            "date": "2017,11"
+          },
+          {
+            "id": 53,
+            "title": "黄金沙滩",
+            "desc": "2017年12月摄于北爱尔兰《权力游戏》取景地",
+            "detail": "",
+            "tags": [
+              "摄影"
+            ],
+            "link": "",
+            "date": "2017,12"
+          },
+          {
+            "id": 54,
+            "title": "新天鹅堡",
+            "desc": "Getty Images供稿作品，2017年11月摄于德国慕尼黑新天鹅堡前",
+            "detail": "",
+            "tags": [
+              "摄影"
+            ],
+            "link": "",
+            "date": "2017,12"
+          },
+          {
+            "id": 55,
+            "title": "羽果巡演",
+            "desc": "2020年12月摄于上海育音堂羽果乐队巡演现场",
+            "detail": "",
+            "tags": [
+              "摄影"
+            ],
+            "link": "",
+            "date": "2020,11"
+          },
+          {
+            "id": 57,
+            "title": "真如效果图提升2",
+            "desc": "在配套信息不完全的情况下，将Stable Diffusion应用于效果图质量提升",
+            "detail": "",
+            "tags": [
+              "aigc",
+              "设计"
+            ],
+            "link": "",
+            "date": "2024,11"
+          },
+          {
+            "id": 58,
+            "title": "展映",
+            "desc": "存在主义的呐喊",
+            "detail": "藉由观影量提取主题，并制作相关的预告片与展映片单，用以疗愈处在职场迷茫期的好友",
+            "tags": [
+              "仪式"
+            ],
+            "link": "",
+            "date": "2025,6"
+          },
+          {
+            "id": 59,
+            "title": "家宴",
+            "desc": "下午茶&晚宴活动及流程与配套设计",
+            "detail": "将准备制作的菜谱及准备的茶宴制作对应的米其林风格菜单，并结合实际的操作步骤与llm商议时间安排与具体呈现效果",
+            "tags": [
+              "仪式"
+            ],
+            "link": "",
+            "date": "2025,6"
+          },
+          {
+            "id": 60,
+            "title": "山西黑神话巡礼",
+            "desc": "赶在《黑神话：悟空》爆火的前一年，根据预告片呈现及背景展开，制定山西的圣地巡礼，获得了高质量且小众的体验，犹在隰县小西天感受颇为强烈",
+            "detail": "",
+            "tags": [
+              "仪式"
+            ],
+            "link": "",
+            "date": "2023,1"
+          },
+          {
+            "id": 61,
+            "title": "黑胶定制",
+            "desc": "定制专属款式的黑胶唱片，设计封面封底及唱片中心部分，并根据双面时长及情感曲线安排曲目",
+            "detail": "",
+            "tags": [
+              "仪式"
+            ],
+            "link": "",
+            "date": "2024,4"
+          },
+          {
+            "id": 62,
+            "title": "财来就我",
+            "desc": "乙巳年红包封面，累积曝光8万+，使用红包8000+",
+            "detail": "受靠天吃饭启发，设计了财来就我、五福临门、吉星高照、利见大人、鸿运当头、日进斗金、坐享其成、平步青云、抬头见喜共九款传统智慧的红包封面。",
+            "tags": [
+              "AIGC"
+            ],
+            "link": "",
+            "date": "2025,1"
+          },
+          {
+            "id": 63,
+            "title": "西安中南君启大区",
+            "desc": "森林花园的旅居生活",
+            "detail": "本次设计范围是大区实体展示区域，也是永久的核心景观花园。为了能够让客户感受到完全真实的未来场景体验，作为先行建造展示给客户的区域，设计原则为体现大区逻辑的同时考虑未来与周围入户组团在无缝连接上的可延展性。",
+            "tags": [
+              "设计"
+            ],
+            "link": "",
+            "date": "2020,3"
+          },
+          {
+            "id": 64,
+            "title": "上海万科宝山启宸",
+            "desc": "游鳞雨帘",
+            "detail": "霜凝青汗简,冰透碧游鳞，穿越时空终抵游鳞之梦。景观将建筑的留白通过不同颜色的琉璃瓦筒组合成一个旋转渐变的水景，夜晚在灯光与音乐的陪衬下，途径此处，便会被这梦幻的场景吸引驻足。",
+            "tags": [
+              "设计"
+            ],
+            "link": "",
+            "date": "2018,7"
+          },
+          {
+            "id": 65,
+            "title": "中南西安君启景墙",
+            "desc": "通而不透、透而不露，欲扬先抑带动起游人的情绪",
+            "detail": "以\"梦\"为主题打造体验回家的参观动线，我们希望能带来如梦乡一般的纯净与安逸，并赋予天马行空一般的想象与戏剧感的憧憬。",
+            "tags": [
+              "设计"
+            ],
+            "link": "",
+            "date": "2019,9"
+          },
+          {
+            "id": 66,
+            "title": "上海徐汇滨江小楼改造",
+            "desc": "小楼是徐汇滨江的一枚珍珠",
+            "detail": "将蓝领公寓改造成文化艺术展示空间，提升开放空间的艺术价值和文化属性，取名\"小楼\"",
+            "tags": [
+              "设计"
+            ],
+            "link": "",
+            "date": "2019,1"
+          },
+          {
+            "id": 67,
+            "title": "南京华彩天地办公区改造",
+            "desc": "T6景观环境整体提升",
+            "detail": "华采天地位于南京河西CBD中心位置。T6是综合体中的一个小地块，包括办公及中高端餐饮。我们试图用最小的动作，实现最大的改善效果。",
+            "tags": [
+              "设计"
+            ],
+            "link": "",
+            "date": "2021,4"
+          },
+          {
+            "id": 68,
+            "title": "珠海华润置地广场",
+            "desc": "以舒展的姿态去拥抱自然大景观，以开放的心情见证一座TOD湾区小城的生长",
+            "detail": "在山与海之间，城与人之间，人工设计的景观则自愿地安静下来，做纽带，做剧场，做长久相伴的展望台。",
+            "tags": [
+              "设计"
+            ],
+            "link": "",
+            "date": "2023,3"
+          },
+          {
+            "id": 69,
+            "title": "武川远景生态公园",
+            "desc": "六镇之首，塞北往事",
+            "detail": "以大地艺术为骨肉，以少而精的艺术化装置点睛，呼应塞北风光",
+            "tags": [
+              "设计"
+            ],
+            "link": "",
+            "date": "2023,9"
+          },
+          {
+            "id": 70,
+            "title": "上海中海顺昌玖里示范区",
+            "desc": "街道和楼房凸现在它之上，是一些点和线",
+            "detail": "弄堂铺排上海一百年后，也不可避免的迎来市中心士绅化的整体变革。我们热爱自己生活的城市，希望尽自己真诚与努力去珍惜这样的机会。",
+            "tags": [
+              "设计"
+            ],
+            "link": "",
+            "date": "2021,6"
+          },
+          {
+            "id": 71,
+            "title": "上海中海顺昌玖里大区",
+            "desc": "街道和楼房凸现在它之上，是一些点和线",
+            "detail": "弄堂铺排上海一百年后，也不可避免的迎来市中心士绅化的整体变革。我们热爱自己生活的城市，希望尽自己真诚与努力去珍惜这样的机会。",
+            "tags": [
+              "设计"
+            ],
+            "link": "",
+            "date": "2022,3"
+          },
+          {
+            "id": 72,
+            "title": "珠海华润银行总部大厦景观",
+            "desc": "构建独属于湾区小城的城市景观与办公体验，山海之间的故事未完待续",
+            "detail": "场地面积不大但包括城市界面与广场、内部通勤、休憩办公、餐饮社交、会议接待等多个功能模块。在这样小空间高需求的情况下，内外兼修层次丰富，一笔设计多种目的，先空间基底后视觉呈现等策略，是我们解题的主要思路。",
+            "tags": [
+              "设计"
+            ],
+            "link": "",
+            "date": "2025,3"
+          },
+          {
+            "id": 73,
+            "title": "南京华彩天地商场改造",
+            "desc": "T6景观环境整体提升",
+            "detail": "华采天地位于南京河西CBD中心位置。T6是综合体中的一个小地块，包括办公及中高端餐饮。我们试图用最小的动作，实现最大的改善效果。",
+            "tags": [
+              "设计"
+            ],
+            "link": "",
+            "date": "2021,4"
+          },
+          {
+            "id": 74,
+            "title": "富阳某素拓基地项目",
+            "desc": "最终停留在了效果图阶段",
+            "detail": "设计充分利用山地的复杂地形与资源，各式建筑与景观流动在一起，创造了和谐完整但充满变化的空间时间体验。",
+            "tags": [
+              "设计"
+            ],
+            "link": "",
+            "date": "2022,6"
+          },
+          {
+            "id": 75,
+            "title": "华采天地 One Park",
+            "desc": "花园剧场",
+            "detail": "区别于很多商业项目减少高大植物以追求昭示性的要求，这次来自华采天地改造的邀约，则直接提出希望：我们想要一座花园。而改造完成后所带来的旺盛人气，也终于为这一次紧锣密鼓的冲刺行动，提交了令人满意的答卷。",
+            "tags": [
+              "设计"
+            ],
+            "link": "",
+            "date": "2023,11"
+          },
+          {
+            "id": 76,
+            "title": "安亭新镇开放住区环境更新",
+            "desc": "樟以当庭",
+            "detail": "园冶说：\"梧桐匝地，槐以当庭\"，每棵树都值得好好对待。或衬之以径，或绕之以庭，或承之以影。才好感受光线穿林，落雨打叶",
+            "tags": [
+              "设计"
+            ],
+            "link": "",
+            "date": "2024,8"
+          },
+          {
+            "id": 77,
+            "title": "上海万科塘桥陆家嘴滨江中心示范区及屋顶花园",
+            "desc": "",
+            "detail": "与SWA合作，完成塘桥top级上午办公区的打造",
+            "tags": [
+              "设计"
+            ],
+            "link": "",
+            "date": "2020,3"
+          },
+          {
+            "id": 78,
+            "title": "无尽水帘",
+            "desc": "游鳞雨帘",
+            "detail": "极简化地以三色琉璃瓦完成不断重复的上升旋转中",
+            "tags": [
+              "设计",
+              "视频"
+            ],
+            "link": "https://www.instagram.com/p/B0U1KEUHSvr/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==",
+            "date": "2018,8"
+          },
+          {
+            "id": 79,
+            "title": "日晷宫",
+            "desc": "以今为体，以古为用",
+            "detail": "借用半扭转的地形与屋檐投影形成日晷，加上一池三山标定时刻",
+            "tags": [
+              "设计",
+              "视频"
+            ],
+            "link": "https://www.instagram.com/reel/CujgdWFtiT-/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==",
+            "date": "2023,1"
+          },
+          {
+            "id": 80,
+            "title": "Jiamu",
+            "desc": "以《滴天髓》为词，与现代电子音乐风格的曲子，充满了力量感、宿命感和史诗般的宏大叙事性。",
+            "detail": "",
+            "tags": [
+              "音乐",
+              "AIGC"
+            ],
+            "link": "https://suno.com/s/i54eIEuhnhzuZ7CB",
+            "date": "2024,6"
+          },
+          {
+            "id": 81,
+            "title": "甲木参天",
+            "desc": "以《滴天髓》为词，是典型的 Artcore / J-Core (日式核心) 风格，并融合了 Future Bass 和 Trance 的元素，有明显的情绪转换",
+            "detail": "",
+            "tags": [
+              "音乐",
+              "AIGC"
+            ],
+            "link": "https://suno.com/s/A4oss8xzyOMFwmJg",
+            "date": "2024,6"
+          }
+        ];
+
+        // 标签映射（按钮显示用中文，筛选用英文key）
+        const tagMap = {
+          agent: 'Agent',
+          prompt: 'Prompt',
+          aigc: 'AIGC',
+          ue5: 'UE5',
+          web: '网站',
+          design: '设计',
+          photography: '摄影',
+          video: '视频',
+          poetry: '诗歌',
+          music: '音乐',
+          ritual: '仪式'
+        };
+        // 新增：中→英映射表
+        const tagKeyMap = {
+          "设计": "design",
+          "摄影": "photography",
+          "AIGC": "aigc",
+          "网站": "web",
+          "视频": "video",
+          "诗歌": "poetry",
+          "音乐": "music",
+          "仪式": "ritual"
+        };
+
+        // 全局变量
+        let allTags = Object.keys(tagMap);
+        let currentTag = '*';
+        let sortDesc = null; // null表示随机顺序，true最新优先，false最早优先
+        let originalPortfolioData = portfolioData.slice(); // 保留原始顺序
+
+        // 智能排序函数：确保首页前24个项目全部为agent或aigc标签
+        function smartSort(data) {
+            const priorityTags = ['agent', 'aigc']; // 只要agent或aigc
+            const PAGE_SIZE = 24; // 首页显示数量
+
+            // 1. 分类
+            const priorityItems = [];
+            const otherItems = [];
+            data.forEach(item => {
+                const hasPriorityTag = (item.tags || []).some(tag => 
+                    priorityTags.includes(tagKeyMap[tag] || tag)
+                );
+                if (hasPriorityTag) {
+                    priorityItems.push(item);
+                } else {
+                    otherItems.push(item);
+                }
+            });
+
+            // 2. 随机打乱
+            const shuffledPriority = shuffle([...priorityItems]);
+            const shuffledOthers = shuffle([...otherItems]);
+
+            // 3. 取前24个优先项目，不足则用其它类型补齐
+            const firstPage = shuffledPriority.slice(0, PAGE_SIZE);
+            const needFill = PAGE_SIZE - firstPage.length;
+            let fillItems = [];
+            if (needFill > 0) {
+                fillItems = shuffledOthers.slice(0, needFill);
+            }
+            // 4. 剩余项目
+            const restPriority = shuffledPriority.slice(PAGE_SIZE);
+            const restOthers = shuffledOthers.slice(needFill);
+
+            // 5. 合并：前24个全部为agent/aigc（不足则补齐），其余随机
+            return [...firstPage, ...fillItems, ...restPriority, ...restOthers];
+        }
+
+        // 页面加载时初始化
+        // 使用智能排序：前20位优先显示agent、aigc、prompt标签的项目
+        portfolioData = smartSort([...originalPortfolioData]);
+        document.addEventListener('DOMContentLoaded', function() {
+            renderMenu();
+            renderMasonry();
+            
+            // 排序按钮事件
+            document.getElementById('sort-latest').onclick = ()=>{ 
+                sortDesc=true; 
+                updateSortButtons();
+                renderMasonry(); 
+            };
+            document.getElementById('sort-oldest').onclick = ()=>{ 
+                sortDesc=false; 
+                updateSortButtons();
+                renderMasonry(); 
+            };
+            
+            // 初始化按钮状态
+            updateSortButtons();
+            
+            // 监听滚动事件，优化预加载
+            let scrollTimeout;
+            window.addEventListener('scroll', () => {
+                clearTimeout(scrollTimeout);
+                scrollTimeout = setTimeout(() => {
+                    preloadVisibleImages();
+                }, 100); // 滚动停止100ms后执行预加载
+            });
+        });
+
+        // 渲染菜单，点击标签时也有缓冲动画
+        function renderMenu() {
+            let html = `<button class="btn btn-primary${currentTag==='*'?' active':''}" data-tag="*">全部</button>`;
+            allTags.forEach(tag=>{
+                html += `<button class="btn btn-primary${currentTag===tag?' active':''}" data-tag="${tag}">${tagMap[tag]}</button>`;
+            });
+            document.querySelector('.portfolio-menu').innerHTML = html;
+            document.querySelectorAll('.portfolio-menu .btn').forEach(btn=>{
+                btn.onclick = ()=>{ 
+                    currentTag=btn.dataset.tag; 
+                    renderMenu(); 
+                    renderMasonry(); // 这里会自动带动画
+                };
+            });
+        }
+
+        // 渲染Masonry布局，带缓冲动画
+        function renderMasonry() {
+            const masonry = document.querySelector('.portfolio-masonry');
+            if (!masonry) return;
+            // 先淡出
+            masonry.style.opacity = 0;
+            setTimeout(() => {
+                let list = portfolioData.slice();
+                if(currentTag!=='*') {
+                    list = list.filter(item =>
+                      (item.tags || []).some(t => (tagKeyMap[t] || t) === currentTag)
+                    );
+                }
+                // 排序逻辑
+                if(sortDesc===true) {
+                    list.sort((a,b)=> (b.date||'').localeCompare(a.date||''));
+                } else if(sortDesc===false) {
+                    list.sort((a,b)=> (a.date||'').localeCompare(b.date||''));
+                }
+                // 否则保持当前随机顺序
+                let html = '';
+                list.forEach(item=>{
+                    const thumb = `assets/img/protfolio/thumb/${item.id}.webp`;
+                    html += `<div class="portfolio-card" data-id="${item.id}">
+                        <div class="portfolio-thumb-container">
+                            <img class="portfolio-thumb lazyload" data-src="${thumb}" alt="${item.title}">
+                        </div>
+                    </div>`;
+                });
+                masonry.innerHTML = html;
+                document.querySelectorAll('.portfolio-card').forEach(card=>{
+                    card.onclick = ()=>showModal(card.dataset.id);
+                });
+                setTimeout(() => {
+                    masonry.style.opacity = 1;
+                    // 立即设置所有容器的正确宽高比，然后开始预加载
+                    setAllContainerAspectRatios();
+                    preloadVisibleImages();
+                }, 180); // 动画时长180ms
+            }, 180); // 动画时长180ms
+        }
+        
+        // 设置所有容器的正确宽高比
+        function setAllContainerAspectRatios() {
+            const cards = document.querySelectorAll('.portfolio-card');
+            cards.forEach((card, index) => {
+                const img = card.querySelector('.portfolio-thumb');
+                if (img) {
+                    // 创建临时图片来获取尺寸
+                    const tempImg = new Image();
+                    tempImg.onload = () => {
+                        const container = card.querySelector('.portfolio-thumb-container');
+                        const aspectRatio = (tempImg.height / tempImg.width) * 100;
+                        container.style.paddingBottom = aspectRatio + '%';
+                        console.log(`项目${card.dataset.id}设置比例: ${aspectRatio.toFixed(2)}%`);
+                    };
+                    tempImg.onerror = () => {
+                        // 如果获取尺寸失败，保持默认比例
+                        const container = card.querySelector('.portfolio-thumb-container');
+                        container.style.paddingBottom = '75%';
+                        console.warn(`项目${card.dataset.id}获取尺寸失败，使用默认比例`);
+                    };
+                    tempImg.src = img.dataset.src || img.src;
+                }
+            });
+        }
+        
+        // 预加载即将进入视口的图片
+        function preloadVisibleImages() {
+            const cards = document.querySelectorAll('.portfolio-card');
+            const viewportHeight = window.innerHeight;
+            
+            cards.forEach((card, index) => {
+                const rect = card.getBoundingClientRect();
+                const isNearViewport = rect.top < viewportHeight + 600; // 提前600px开始加载
+                
+                if (isNearViewport) {
+                    const img = card.querySelector('.portfolio-thumb');
+                    if (img && img.classList.contains('lazyload')) {
+                        // 显示加载状态
+                        card.classList.add('loading');
+                        
+                        // 触发实际懒加载
+                        img.classList.add('lazyloading');
+                        img.src = img.dataset.src;
+                        
+                        // 图片加载完成后移除加载状态
+                        img.onload = () => {
+                            img.classList.remove('lazyload', 'lazyloading');
+                            img.classList.add('lazyloaded');
+                            card.classList.remove('loading');
+                        };
+                        
+                        // 图片加载失败时的处理
+                        img.onerror = () => {
+                            card.classList.remove('loading');
+                            img.classList.remove('lazyload', 'lazyloading');
+                        };
+                    }
+                }
+            });
+        }
+
+        // 打乱数组顺序
+        function shuffle(arr) {
+            for(let i=arr.length-1;i>0;i--){
+                const j=Math.floor(Math.random()*(i+1));
+                [arr[i],arr[j]]=[arr[j],arr[i]];
+            }
+            return arr;
+        }
+        
+        // 更新排序按钮状态
+        function updateSortButtons() {
+            document.getElementById('sort-latest').classList.remove('active');
+            document.getElementById('sort-oldest').classList.remove('active');
+            if (sortDesc === true) {
+                document.getElementById('sort-latest').classList.add('active');
+            } else if (sortDesc === false) {
+                document.getElementById('sort-oldest').classList.add('active');
+            }
+        }
+
+        // 显示弹窗
+        function showModal(id) {
+            try {
+                const item = portfolioData.find(i=>String(i.id)===String(id));
+                if(!item) return;
+                const imgSrc = `assets/img/protfolio/${item.id}.webp`;
+                let modalBg = document.createElement('div');
+                modalBg.className = 'portfolio-modal-bg';
+                modalBg.innerHTML = `
+                    <div class="portfolio-modal">
+                        <div class="portfolio-modal-img-container">
+                            <!-- 懒加载弹窗大图，兼容lazysizes，首屏不阻塞 -->
+                            <img class="portfolio-modal-img-bg lazyload" data-src="${imgSrc}" alt="${item.title}">
+                        </div>
+                        <div class="portfolio-modal-content">
+                            ${item.link ? `<a href="${item.link}" target="_blank" class="portfolio-modal-title link">${item.title}</a>` : `<div class="portfolio-modal-title no-link">${item.title}</div>`}
+                            <div class="portfolio-modal-desc">${item.desc}</div>
+                            <div class="portfolio-modal-detail">${item.detail||''}</div>
+                        </div>
+                    </div>
+                `;
+                document.body.appendChild(modalBg);
+                const modal = modalBg.querySelector('.portfolio-modal');
+                // 弹窗弹出时隐藏右侧sidebar-menu，防止遮罩被覆盖
+                try {
+                    const sidebar = document.querySelector('.sidebar-menu');
+                    if(sidebar) {
+                        sidebar.style.visibility = 'hidden';
+                        console.log('已隐藏sidebar-menu，确保全屏遮罩无死角');
+                    }
+                } catch(e) {
+                    console.error('隐藏sidebar-menu时出错', e);
+                }
+                // 动画
+                requestAnimationFrame(() => {
+                    setTimeout(() => {
+                        modal.classList.add('show');
+                    }, 10);
+                });
+                modalBg.onclick = e=>{ 
+                    if(e.target===modalBg) {
+                        modal.classList.remove('show');
+                        modalBg.classList.add('hide');
+                        // 关闭弹窗时恢复sidebar-menu显示
+                        try {
+                            const sidebar = document.querySelector('.sidebar-menu');
+                            if(sidebar) {
+                                sidebar.style.visibility = 'visible';
+                                console.log('已恢复sidebar-menu显示');
+                            }
+                        } catch(e) {
+                            console.error('恢复sidebar-menu显示时出错', e);
+                        }
+                        setTimeout(()=>{ modalBg.remove(); },250);
+                    }
+                };
+            } catch(err) {
+                console.error('弹窗显示流程出错', err);
+            }
+        }
+    </script>
+
+    <script>
+        //hero image moving js
+        const Moving = document.getElementById("moving");
+        // 修正：只有找到id为moving的元素时才绑定事件，防止报错
+        if (Moving) {
+          document.onmousemove = ev => {
+            const positionX = (window.innerWidth / -90 - ev.x) / -70;
+            const positionY = -ev.y / 20;
+            Moving.style.transform = `translate(${positionX}px, ${positionY}px)`;
+          };
+        }
+    </script>
+
+    <script>
+    // ================== 技能区块圆环进度条初始化 ==================
+    // 依赖jquery和circle-progress.min.js
+    document.addEventListener('DOMContentLoaded', function() {
+      document.querySelectorAll('.custom-skill-pie-list .bar').forEach(function(el) {
+        const value = parseFloat(el.getAttribute('data-value')) || 0;
+        const thickness = parseInt(el.getAttribute('data-thickness')) || 2;
+        // 统一竹色主题色
+        const fill = { color: '#809A6F' };
+        // 找到对应的box用于显示百分比
+        const box = el.parentElement.querySelector('.box');
+        // 初始化圆环
+        $(el).circleProgress({
+          value: value,
+          size: 56,
+          thickness: thickness,
+          fill: fill,
+          emptyFill: '#e6e6e6',
+          startAngle: -Math.PI / 2,
+          animation: { duration: 1200 }
+        }).on('circle-animation-progress', function(event, progress, stepValue) {
+          // 动态显示百分比数字
+          if(box) {
+            const percent = Math.round(stepValue * 100);
+            box.textContent = percent + '%';
+          }
+        });
+        // 初始显示
+        if(box) {
+          box.textContent = Math.round(value * 100) + '%';
+        }
+      });
+    });
+    // ================== END ==================
+    </script>
+
+    <!-- ==== 博客区块自动插入点（请勿删除） ==== -->
+    <div id="homepage-blog-list">
+      <!-- BLOG_LIST_PLACEHOLDER -->
+    </div>
+    <!-- ==== /博客区块自动插入点 ==== -->
+
+    <!-- 博客区块按钮排版优化及交互修复 -->
+    <style>
+    .blog-area .card-footer .btn {
+        min-width: 140px;
+        margin: 0 auto;
+        display: block;
+        font-size: 1.1rem;
+        font-weight: 700;
+    }
+    </style>
+
+    <script>
+    // 保证"阅读全文"按钮点击后能恢复原样（防止active后样式卡住）
+    document.querySelectorAll('.btn-primary-gradient').forEach(function(btn){
+      btn.addEventListener('mouseup',function(){
+        setTimeout(()=>btn.blur(),150);
+      });
+      btn.addEventListener('mouseleave',function(){
+        btn.blur();
+      });
+    });
+    </script>
+
+    <!-- 修正锚点跳转卡死问题：增加锚点平滑滚动兼容性和容错，防止页面未渲染完时跳转卡死 -->
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        // 兼容所有锚点跳转，防止页面未渲染完时卡死
+        document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
+          anchor.addEventListener('click', function(e) {
+            var targetId = this.getAttribute('href').replace('#', '');
+            if(targetId && document.getElementById(targetId)) {
+              e.preventDefault();
+              setTimeout(function() {
+                document.getElementById(targetId).scrollIntoView({ behavior: 'smooth', block: 'start' });
+              }, 50); // 延迟，确保目标区块已渲染
+            }
+          });
+        });
+      });
+    </script>
+
+</body>
+</html>
+<style>
+/* 让返回顶部按钮在所有内容之上，彻底防止任何遮挡 */
+.breathing-backtotop-wrapper,
+.breathing-backtotop-btn {
+  z-index: 2147483647 !important; /* 2^31-1，浏览器允许的最大z-index */
+  position: fixed !important;
+  right: 30px !important;
+  bottom: 30px !important;
+  pointer-events: auto !important;
+  display: block !important;
+  opacity: 1 !important;
+}
+</style>
+
+<style>
+/* 终极彻底隔离返回顶部按钮，防止任何全局按钮样式污染（属性选择器+所有伪类+最高优先级） */
+[class*="breathing-backtotop-btn"],
+[class*="breathing-backtotop-btn"]:focus,
+[class*="breathing-backtotop-btn"]:active,
+[class*="breathing-backtotop-btn"]:hover,
+[class*="breathing-backtotop-btn"]:visited,
+[class*="breathing-backtotop-btn"]:focus-visible,
+[class*="breathing-backtotop-btn"]:focus-within,
+[class*="breathing-backtotop-btn"]:target,
+[class*="breathing-backtotop-btn"]:checked,
+[class*="breathing-backtotop-btn"]:enabled,
+[class*="breathing-backtotop-btn"]:disabled {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+  color: inherit !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  font: inherit !important;
+  text-shadow: none !important;
+  transition: none !important;
+  filter: none !important;
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  animation: none !important;
+  transform: none !important;
+}
+</style>
+
+<style>
+/* ===================== 移动端时间轴与按钮组样式最终精简修正版 ===================== */
+@media (max-width: 768px) {
+  /* 1. hero区顶部留白，防止导航栏遮挡标题 */
+  .hero-area.section-space {
+    padding-top: 80px !important;
+  }
+
+  /* 2. 时间轴区域修正 */
+  #timeline .timeline-axis,
+  #portfolio-ai .timeline-axis {
+    position: relative !important;
+    height: 60px !important;
+    min-height: 60px !important;
+    margin-bottom: 12px !important;
+    background: none !important;
+    display: block !important;
+    overflow-x: auto !important;
+    /* 隐藏滚动条，但保留滚动功能 */
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+  #timeline .timeline-axis::-webkit-scrollbar,
+  #portfolio-ai .timeline-axis::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, and Opera */
+  }
+
+  /* 在移动端隐藏原始的、不够长的线条 */
+  #timeline .timeline-line,
+  #portfolio-ai .timeline-line {
+    display: none !important;
+  }
+
+  /* 将列表本身作为新时间轴线的容器 */
+  #timeline .timeline-list,
+  #portfolio-ai .timeline-list {
+    position: relative !important;
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: stretch !important;
+    /* 关键：让列表宽度由其内容（所有时间点）决定 */
+    width: max-content !important;
+    min-width: 100% !important;
+    height: 100% !important;
+    padding: 0 16px !important; /* 在列表两端留出空间 */
+    background: none !important;
+  }
+
+  /* 使用伪元素创建一条与列表等宽的新线 */
+  #timeline .timeline-list::before,
+  #portfolio-ai .timeline-list::before {
+    content: '' !important;
+    position: absolute !important;
+    left: 16px; /* 与列表padding匹配，从第一个点开始 */
+    right: 16px; /* 与列表padding匹配，到最后一个点结束 */
+    top: 22px; /* 与圆点垂直对齐 */
+    height: 4px !important;
+    background: #a2b89f !important;
+    border-radius: 2px !important;
+    /* 将线放在列表的背景层，点和标签会自然覆盖它 */
+    z-index: -1 !important; 
+  }
+  
+  /* 时间轴上的每个点 */
+  #timeline .timeline-item-point,
+  #portfolio-ai .timeline-item-point {
+    display: block !important;
+    position: relative !important;
+    height: 100% !important;
+    margin: 0 12px !important; /* 点之间的间距 */
+    min-width: 50px !important; /* 保证标签有足够空间 */
+    text-align: center !important;
+  }
+
+  /* 圆点标记 */
+  #timeline .timeline-item-point .point-marker,
+  #portfolio-ai .timeline-item-point .point-marker {
+    position: absolute !important;
+    top: 22px !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    margin: 0 !important;
+    z-index: 3; /* 圆点在最上层 */
+  }
+
+  /* 标签文字 */
+  #timeline .timeline-item-point .point-label,
+  #portfolio-ai .timeline-item-point .point-label {
+    position: absolute !important;
+    top: 34px !important; 
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    font-size: 0.9em !important;
+    line-height: 1.2 !important;
+    white-space: nowrap !important;
+    display: block !important;
+    height: auto !important;
+    margin: 0 !important;
+    padding-top: 4px; /* 与圆点拉开一点距离 */
+  }
+
+  /* 3. timeline/portfolio-ai卡片区块间距拉开 */
+  #timeline, #portfolio-ai {
+    margin-bottom: 40px !important;
+    padding-bottom: 24px !important;
+    padding-top: 24px !important;
+  }
+  #timeline .timeline-card-container,
+  #portfolio-ai .timeline-card-container {
+    margin-top: 20px !important;
+    margin-bottom: 32px !important;
+    min-height: unset !important;
+    width: 100% !important;
+    height: auto !important;
+    max-height: unset !important;
+    background: none !important;
+  }
+  #timeline .timeline-card,
+  #portfolio-ai .timeline-card {
+    background: #f7faf5 !important;
+    box-shadow: 0 4px 24px 0 rgba(80,100,80,0.07) !important;
+    border-radius: 18px !important;
+    margin-bottom: 0 !important;
+    padding-top: 16px !important;
+  }
+  /* 4. about me按钮组纵向居中，按钮缩小 */
+  .about-content-wrapper {
+    display: block !important;
+    min-height: unset !important;
+  }
+  .about-content-wrapper .button-groups {
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: center !important;
+    align-items: center !important;
+    margin-top: 32px !important;
+    margin-bottom: 32px !important;
+    width: 100% !important;
+    gap: 24px !important;
+  }
+  .about-content-wrapper .button-groups .btn,
+  #sort-latest, #sort-oldest {
+    font-size: 1em !important;
+    padding: 0.5em 1.2em !important;
+    border-radius: 24px !important;
+    min-width: 100px !important;
+    min-height: 38px !important;
+  }
+  
+  /* 5. 移动端响应式优化 */
+  .hero-area.section-space { padding-top: 80px !important; }
+  .resume-tab-group { gap: 16px; }
+  .timeline-flex-layout { flex-direction: column !important; align-items: stretch !important; gap: 20px !important; }
+  .timeline-axis {
+      height: 60px !important; min-height: 60px !important; width: 100% !important;
+      overflow-x: auto !important; padding-bottom: 0 !important;
+      -ms-overflow-style: none; scrollbar-width: none;
+  }
+  .timeline-axis::-webkit-scrollbar { display: none; }
+  .timeline-line { display: none !important; }
+  .timeline-list {
+      position: relative !important; display: flex !important; flex-direction: row !important;
+      align-items: stretch !important; width: max-content !important; min-width: 100% !important;
+      height: 100% !important; 
+      padding: 0 24px !important; 
+  }
+  .timeline-list::before {
+      content: '' !important; position: absolute !important;
+      left: 24px !important; right: 24px !important;
+      top: 22px; height: 4px !important; background: #a2b89f !important;
+      border-radius: 2px !important; z-index: -1 !important;
+  }
+  .timeline-item-point {
+      display: block !important; position: relative !important; height: 100% !important;
+      margin: 0 12px !important; min-width: 50px !important; text-align: center !important;
+  }
+  .timeline-item-point .point-marker {
+      position: absolute !important; top: 22px !important; left: 50% !important;
+      transform: translate(-50%, -50%) !important; margin: 0 !important; z-index: 3;
+  }
+  .timeline-item-point .point-label {
+      position: absolute !important; top: 34px !important; left: 50% !important;
+      transform: translateX(-50%) !important; font-size: 0.9em !important;
+      white-space: nowrap !important; padding-top: 4px;
+  }
+  .timeline-card-container { width: 100% !important; margin-left: 0 !important; }
+  .timeline-card, .timeline-card.show {
+      padding: 1.5rem 1rem !important; min-height: unset !important; height: auto !important;
+  }
+}
+</style>
+<!-- ====== 移动端响应式样式优化完成 ====== -->

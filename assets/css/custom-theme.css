@@ -1,0 +1,1492 @@
+/* 自定义竹色主题 - 覆盖原有紫色主题 */
+
+/* 字体配置 - 已切换为系统字体方案 */
+/* 全局字体设置 */
+body, html {
+    font-family: 'PingFang SC', 'Microsoft YaHei', 'Source Han Sans SC', 'Noto Sans SC', 'WenQuanYi Micro Hei', 'Helvetica Neue', Arial, sans-serif;
+}
+
+* {
+    font-family: 'PingFang SC', 'Microsoft YaHei', 'Source Han Sans SC', 'Noto Sans SC', 'WenQuanYi Micro Hei', 'Helvetica Neue', Arial, sans-serif !important;
+}
+
+:root {
+    --bamboo-main: #809A6F;
+    --bamboo-dark: #5A7A4F;
+    --bamboo-light: #A8C090;
+    --bamboo-accent: #D4E6C3;
+    --bamboo-bg: #F5F8F2;
+    --bamboo-text: #2C3E2A;
+    --bs-blue: #809A6F;
+    --bs-indigo: #5A7A4F;
+    --bs-primary: #809A6F;
+    --bs-link-color: #809A6F;
+    --bs-link-hover-color: #5A7A4F;
+}
+
+/* 彻底移除全局 a, .btn, .btn-primary, .btn-primary-gradient, .tag-btn 的 color/background 定义，避免影响按钮 */
+/* 只保留普通链接绿色，按钮全部由专属样式控制 */
+
+a, .tag-btn, .sidebar-menu .nav-menu .menu-item.active, .sidebar-menu .nav-menu .menu-item:hover {
+  color: var(--bamboo-main) !important;
+  border-color: var(--bamboo-main) !important;
+  background: none !important;
+}
+
+/* 强制按钮专属样式，优先级最高 */
+.btn,
+.btn-primary,
+.btn-primary-gradient,
+.btn-primary-outlined,
+.button,
+.main-btn,
+.bamboo-gradient,
+input[type="submit"],
+input[type="button"],
+button,
+a.button {
+  background: #5A7A4F !important;
+  color: #fff !important;
+  border: 2px solid #5A7A4F !important;
+  border-radius: 999px !important;
+  font-weight: 700 !important;
+  box-shadow: none !important;
+  opacity: 1 !important;
+  min-width: 160px;
+  padding: 0.7em 2em;
+  font-size: 1.2rem;
+  text-align: center;
+  display: inline-block;
+  transition: background 0.2s, color 0.2s, border 0.2s;
+  cursor: pointer;
+  outline: none;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.18) !important;
+}
+
+.btn:hover,
+.btn-primary:hover,
+.btn-primary-gradient:hover,
+.btn-primary-outlined:hover,
+.button:hover,
+.main-btn:hover,
+.bamboo-gradient:hover,
+input[type="submit"]:hover,
+input[type="button"]:hover,
+button:hover,
+a.button:hover {
+  background: #fff !important;
+  color: #5A7A4F !important;
+  border: 2px solid #5A7A4F !important;
+  text-shadow: none !important;
+}
+
+/* ========== 按钮active修复 ========== */
+.btn:active,
+.btn-primary:active,
+.btn-primary-gradient:active,
+.btn-primary-outlined:active,
+.button:active,
+.main-btn:active,
+.bamboo-gradient:active,
+input[type="submit"]:active,
+input[type="button"]:active,
+button:active,
+a.button:active {
+  background: #5A7A4F !important;
+  color: #fff !important;
+  border: 2px solid #5A7A4F !important;
+}
+.btn:focus:not(:hover):not(:active),
+.btn-primary:focus:not(:hover):not(:active),
+.btn-primary-gradient:focus:not(:hover):not(:active),
+.btn-primary-outlined:focus:not(:hover):not(:active),
+.button:focus:not(:hover):not(:active),
+.main-btn:focus:not(:hover):not(:active),
+.bamboo-gradient:focus:not(:hover):not(:active),
+input[type="submit"]:focus:not(:hover):not(:active),
+input[type="button"]:focus:not(:hover):not(:active),
+button:focus:not(:hover):not(:active),
+a.button:focus:not(:hover):not(:active) {
+  background: #5A7A4F !important;
+  color: #fff !important;
+  border: 2px solid #5A7A4F !important;
+}
+
+/* 禁用态按钮 */
+.btn:disabled,
+.btn[disabled],
+.btn-primary:disabled,
+.btn-primary-gradient:disabled,
+.btn-primary-outlined:disabled,
+.button:disabled,
+.main-btn:disabled,
+.bamboo-gradient:disabled,
+input[type="submit"]:disabled,
+input[type="button"]:disabled,
+button:disabled,
+a.button:disabled {
+  background: #e0e0e0 !important;
+  color: #b0b0b0 !important;
+  border-color: #e0e0e0 !important;
+  opacity: 0.7 !important;
+  cursor: not-allowed;
+  text-shadow: none !important;
+}
+
+/* 按钮内icon跟随字体色 */
+.btn i,
+.button i,
+.main-btn i,
+.bamboo-gradient i {
+  color: inherit !important;
+  opacity: 1 !important;
+}
+
+/* 只影响普通链接，不影响按钮类 */
+a:not(.btn):not(.button):not(.main-btn):not(.btn-primary):not(.btn-primary-gradient):not(.btn-primary-outlined):not(.bamboo-gradient) {
+  color: var(--bamboo-main) !important;
+  background: none !important;
+  border: none !important;
+}
+
+/* ========== 主题切换icon极简风格 ========== */
+.btn_theme_switch {
+  /* 移除所有按钮化样式，只保留icon居中 */
+  background: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  width: auto !important;
+  height: auto !important;
+  min-width: unset !important;
+  min-height: unset !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  cursor: pointer;
+  transition: none;
+}
+.btn_theme_switch svg {
+  width: 2em !important;
+  height: 2em !important;
+  display: block !important;
+  margin: 0 !important;
+  color: #5A7A4F !important; /* 默认绿色icon */
+  fill: #5A7A4F !important;
+  transition: color 0.2s, fill 0.2s, filter 0.2s;
+}
+.btn_theme_switch:hover svg,
+.btn_theme_switch:focus svg {
+  color: #3d5233 !important; /* hover时icon略深 */
+  fill: #3d5233 !important;
+  filter: drop-shadow(0 2px 6px rgba(90,122,79,0.10));
+}
+
+/* 导航链接颜色 */
+.sidebar-menu .nav-menu li .nav-link {
+    color: #809A6F !important;
+    border-color: #D4E6C3 !important;
+}
+
+.sidebar-menu .nav-menu li .nav-link.active {
+    color: #2C3E2A !important;
+}
+
+html.dark .sidebar-menu .nav-menu li .nav-link.active {
+    color: #fff !important;
+}
+
+/* 移动端导航 */
+.mobile-menu .nav-menu li .nav-link {
+    color: #809A6F !important;
+    border-color: #D4E6C3 !important;
+}
+
+.mobile-menu .nav-menu li .nav-link.active {
+    color: #2C3E2A !important;
+}
+
+html.dark .mobile-menu .nav-menu li .nav-link.active {
+    color: #fff !important;
+}
+
+/* 左侧边栏 */
+.left-sidebar .social-icon a {
+    color: #809A6F !important;
+}
+
+.left-sidebar .social-icon a:hover {
+    color: #5A7A4F !important;
+}
+
+.left-sidebar .message {
+    background: linear-gradient(#F5F8F2, #F5F8F2) content-box, linear-gradient(#ffffff, #ffffff) padding-box, linear-gradient(to right, #809A6F, #A8C090) border-box !important;
+}
+
+.left-sidebar .message svg path {
+    fill: #5A7A4F !important;
+}
+
+html.dark .left-sidebar .message {
+    background: linear-gradient(#20133A, #20133A) content-box, linear-gradient(#20133A, #20133A) padding-box, linear-gradient(to right, #809A6F, #A8C090) border-box !important;
+}
+
+html.dark .left-sidebar .message svg path {
+    fill: #809A6F !important;
+}
+
+/* 标题渐变 */
+.section-title {
+    background: linear-gradient(to right, #809A6F, #A8C090) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: rgba(0,0,0,0) !important;
+}
+
+html.dark .section-title {
+    background: linear-gradient(to right, #A8C090, #809A6F) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: rgba(0,0,0,0) !important;
+}
+
+/* 水印标题 */
+.watermark-title::before {
+    background: linear-gradient(to right, #809A6F, #A8C090) !important;
+    -webkit-background-clip: text !important;
+}
+
+html.dark .watermark-title::before {
+    background: linear-gradient(to right, #A8C090, #809A6F) !important;
+    -webkit-background-clip: text !important;
+}
+
+/* 链接颜色 */
+.protfolio-details-area .watermark-title a,
+.blog-details-area .watermark-title a {
+    color: #809A6F !important;
+}
+
+/* 输入框焦点 */
+input:focus,
+textarea:focus {
+    border-color: #809A6F !important;
+}
+
+html.dark input:focus {
+    border-color: #809A6F !important;
+    background-color: #0b0020 !important;
+}
+
+.form-control:focus {
+    border-color: #809A6F !important;
+}
+
+/* 顶部按钮 */
+.topbutton:hover {
+    background: #809A6F !important;
+    color: #fff !important;
+}
+
+/* 服务卡片 */
+.service_card {
+    background: linear-gradient(to right, #F5F8F2 90%, #FFFFFF) padding-box, linear-gradient(to right, white, white) border-box !important;
+}
+
+html.dark .service_card {
+    background: linear-gradient(to right, #809A6F, #0B0020) padding-box, linear-gradient(to right, #0B0020, #0B0020) border-box !important;
+}
+
+.service_card:hover {
+    background: linear-gradient(white, white) padding-box, linear-gradient(45deg, #809A6F, #A8C090) border-box !important;
+}
+
+html.dark .service_card:hover {
+    background: linear-gradient(#0B0020, #0B0020) padding-box, linear-gradient(45deg, #809A6F, #A8C090) border-box !important;
+}
+
+.service_card:hover .title a {
+    background: linear-gradient(to right, #809A6F, #A8C090) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: rgba(0,0,0,0) !important;
+}
+
+.service_card:hover .primary_btn {
+    background: linear-gradient(to right, #809A6F, #5A7A4F) border-box !important;
+    color: #fff !important;
+}
+
+/* 侧边栏小部件 */
+aside .widget {
+    border-color: #809A6F !important;
+}
+
+html.dark aside .widget {
+    border-color: #0b0020 !important;
+    background: linear-gradient(to right, #5A7A4F, #0B0020) !important;
+}
+
+aside .widget .widget-title::before {
+    background-color: #809A6F !important;
+}
+
+/* 标签云 */
+aside .widget .tagcloud a {
+    background: linear-gradient(90deg, #5A7A4F 0%, #A8C090 100%) !important;
+    color: #fff !important;
+    border: none !important;
+    border-radius: 20px !important;
+    font-size: 1rem !important;
+    font-weight: 500 !important;
+    box-shadow: none !important;
+    filter: none !important;
+    padding: 4px 18px !important;
+    margin: 0 4px 4px 0 !important;
+    display: inline-block !important;
+}
+
+aside .widget .tagcloud a:hover {
+    background: linear-gradient(90deg, #A8C090 0%, #5A7A4F 100%) !important;
+    color: #fff !important;
+}
+
+/* 搜索按钮 */
+.widget_search .search-btn {
+    background: linear-gradient(to right, #809A6F 0%, #5A7A4F 51%, #809A6F 100%) border-box !important;
+}
+
+/* 分页 */
+.pagination-wrapper .page-item .page-link {
+    color: #809A6F !important;
+}
+
+/* 工具提示 */
+html.dark .tooltip {
+    --clr: #809A6F !important;
+}
+
+/* 头部区域 */
+.header-area {
+    background: #F5F8F2 !important;
+}
+
+html.dark .header-area {
+    background: #809A6F !important;
+}
+
+/* 侧边栏菜单 */
+.sidebar-menu {
+    background: #F5F8F2 !important;
+}
+
+html.dark .sidebar-menu {
+    background: #5A7A4F !important;
+}
+
+/* 移动端菜单 */
+.mobile-menu {
+    background: #F5F8F2 !important;
+}
+
+html.dark .mobile-menu {
+    background: #5A7A4F !important;
+}
+
+.mobile-menu .menu-header button {
+    background: linear-gradient(to right, #809A6F 0%, #5A7A4F 51%, #809A6F 100%) border-box !important;
+}
+
+/* 左侧边栏 */
+.left-sidebar {
+    background: #fff !important;
+    border-color: #D4E6C3 !important;
+}
+
+html.dark .left-sidebar {
+    background: #0b0020 !important;
+    border-color: rgba(128, 154, 111, 0.3) !important;
+}
+
+/* 英雄区域标题 */
+.hero-area .hero-content .hero-title {
+    background: linear-gradient(to right, #809A6F, #A8C090) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: rgba(0,0,0,0) !important;
+}
+
+.hero-area .hero-content .hero-title span {
+    color: #809A6F !important;
+}
+
+/* 有趣事实区域 */
+.funfact-area .column_wrapper {
+    background: linear-gradient(to right, #F5F8F2 90%, #FFFFFF) !important;
+}
+
+html.dark .funfact-area .column_wrapper {
+    background: linear-gradient(to right, #5A7A4F, #0B0020) !important;
+}
+
+.funfact-area .funfact-box h2 {
+    background: linear-gradient(to right, #809A6F, #A8C090) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: rgba(0,0,0,0) !important;
+}
+
+/* 关于我区域 */
+.about_me_area .about-content-wrapper {
+    background: linear-gradient(white, white) padding-box, linear-gradient(45deg, #809A6F, #A8C090) border-box !important;
+}
+
+html.dark .about_me_area .about-content-wrapper {
+    background: linear-gradient(#0B0020, #0B0020) padding-box, linear-gradient(45deg, #809A6F, #A8C090) border-box !important;
+}
+
+.about_me_area .left-info h2 {
+    background: linear-gradient(to right, #809A6F, #A8C090) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: rgba(0,0,0,0) !important;
+}
+
+.about_me_area .right-info::before {
+    border-left-color: #809A6F !important;
+}
+
+.about_me_area .right-info::after {
+    background: #809A6F !important;
+    box-shadow: 0px 0px 0 8px #D4E6C3, 0px 0px 0 9px #809A6F !important;
+}
+
+html.dark .about_me_area .right-info::after {
+    box-shadow: 0px 0px 0 8px #0b0020, 0px 0px 0 9px #809A6F !important;
+}
+
+/* 推荐区域 */
+.testimonial-area .testimonial .author img {
+    background: linear-gradient(white, white) padding-box, linear-gradient(45deg, #809A6F, #A8C090) border-box !important;
+}
+
+.testimonial-slider .swiper-slide.swiper-slide-active .author img {
+    border-color: #809A6F !important;
+}
+
+.testimonial-slider .swiper-button-prev,
+.testimonial-slider .swiper-button-next {
+    background: linear-gradient(white, white) padding-box, linear-gradient(to right, #809A6F, #5A7A4F) border-box !important;
+}
+
+html.dark .testimonial-slider .swiper-button-prev,
+html.dark .testimonial-slider .swiper-button-next {
+    background: linear-gradient(#0b0020, #0b0020) padding-box, linear-gradient(to right, #809A6F, #5A7A4F) border-box !important;
+}
+
+.testimonial-slider .swiper-button-prev:hover,
+.testimonial-slider .swiper-button-next:hover {
+    background: linear-gradient(45deg, #809A6F, #5A7A4F) !important;
+}
+
+.testimonial-slider .swiper-pagination .swiper-pagination-bullet-active {
+    background: #809A6F !important;
+}
+
+/* 客户区域 */
+.client-area .client-content {
+    background: linear-gradient(to bottom, #A8C090 0%, #A8C090 50%, rgba(245, 248, 242, 0) 95%) !important;
+}
+
+html.dark .client-area .client-content {
+    background: linear-gradient(to bottom, #A8C090 0%, #809A6F 50%, rgba(11, 0, 32, 0) 95%) !important;
+}
+
+/* 兴趣区域 */
+.interest-area .single-item .icon {
+    background: #F5F8F2 !important;
+}
+
+html.dark .interest-area .single-item .icon {
+    background: #2C3E2A !important;
+}
+
+.interest-area .single-item .icon path {
+    fill: #809A6F !important;
+}
+
+/* 作品集区域 */
+.Protfolio-area .protfolio-menu {
+    border-color: #D4E6C3 !important;
+}
+
+html.dark .Protfolio-area .protfolio-menu {
+    border-color: #2C3E2A !important;
+}
+
+.Protfolio-area .protfolio-menu button.active {
+    color: #5A7A4F !important;
+}
+
+html.dark .Protfolio-area .protfolio-menu button.active {
+    background: linear-gradient(to right, #809A6F, #A8C090) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: rgba(0,0,0,0) !important;
+}
+
+.Protfolio-area .protfolio-menu button::before {
+    background: linear-gradient(to right, #809A6F, #A8C090) !important;
+}
+
+.Protfolio-area .protfolio-container .single-protfolio .details .details-link::before {
+    background: #809A6F !important;
+}
+
+/* 博客区域 */
+.blog-area .post-item {
+    background: linear-gradient(to right, #F5F8F2 90%, #FFFFFF) padding-box, linear-gradient(to right, white, white) border-box !important;
+}
+
+html.dark .blog-area .post-item {
+    background: linear-gradient(to right, #809A6F, #0B0020) padding-box, linear-gradient(to right, #0B0020, #0B0020) border-box !important;
+}
+
+.blog-area .post-item:hover {
+    background: linear-gradient(white, white) padding-box, linear-gradient(45deg, #809A6F, #A8C090) border-box !important;
+}
+
+html.dark .blog-area .post-item:hover {
+    background: linear-gradient(#0B0020, #0B0020) padding-box, linear-gradient(45deg, #809A6F, #A8C090) border-box !important;
+}
+
+.blog-area .post-body {
+    border-color: #A8C090 !important;
+}
+
+html.dark .blog-area .post-body {
+    border-color: #5A7A4F !important;
+}
+
+.blog-area .post-meta .category_btn:hover {
+    background: linear-gradient(to right, #809A6F, #5A7A4F) border-box !important;
+    color: #fff !important;
+}
+
+.blog-area .post-footer .post-react button {
+    border-color: #809A6F !important;
+    background: #F5F8F2 !important;
+}
+
+.blog-area .post-footer .post-react button:hover {
+    color: #fff !important;
+    background: #809A6F !important;
+}
+
+/* 简历区域 */
+.resume-area .nav {
+    background: linear-gradient(white, white) padding-box, linear-gradient(45deg, #809A6F, #A8C090) border-box !important;
+}
+
+html.dark .resume-area .nav {
+    background: linear-gradient(#0B0020, #0B0020) padding-box, linear-gradient(45deg, #809A6F, #A8C090) border-box !important;
+}
+
+.resume-area .nav .nav-link.active {
+    background: #5A7A4F !important;
+    color: #fff !important;
+}
+
+.resume-area .resume-wrapper {
+    border-left-color: #809A6F !important;
+}
+
+.resume-area .resume-wrapper .resume-content {
+    background: linear-gradient(to right, #F5F8F2 90%, #FFFFFF) padding-box, linear-gradient(to right, white, white) border-box !important;
+}
+
+html.dark .resume-area .resume-wrapper .resume-content {
+    background: linear-gradient(to right, #809A6F, #0B0020) padding-box, linear-gradient(to right, #0B0020, #0B0020) border-box !important;
+}
+
+.resume-area .resume-wrapper .resume-content:hover {
+    background: linear-gradient(white, white) padding-box, linear-gradient(45deg, #809A6F, #A8C090) border-box !important;
+}
+
+.resume-area .resume-wrapper .resume-content:hover .resume-title {
+    background: linear-gradient(to right, #809A6F, #A8C090) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: rgba(0,0,0,0) !important;
+}
+
+/* ========== 简历区块圆点SVG图标优化 ========== */
+/* 工作经历：公文包SVG */
+.resume-area .resume-wrapper .resume-content.work::before {
+    content: "" !important;
+    background: url('data:image/svg+xml;utf8,<svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="40" height="40" rx="20" fill="%23F5F8F2"/><path d="M12 18V15.5C12 14.1193 13.1193 13 14.5 13H25.5C26.8807 13 28 14.1193 28 15.5V18" stroke="%235A7A4F" stroke-width="2"/><rect x="10" y="18" width="20" height="10" rx="2" fill="%235A7A4F"/><rect x="16" y="21" width="8" height="3" rx="1.5" fill="white"/></svg>') no-repeat center/contain, linear-gradient(#F5F8F2, #F5F8F2) content-box, linear-gradient(#ffffff, #ffffff) padding-box, linear-gradient(to right, #809A6F, #A8C090) border-box !important;
+}
+html.dark .resume-area .resume-wrapper .resume-content.work::before {
+    background: url('data:image/svg+xml;utf8,<svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="40" height="40" rx="20" fill="%23809A6F"/><path d="M12 18V15.5C12 14.1193 13.1193 13 14.5 13H25.5C26.8807 13 28 14.1193 28 15.5V18" stroke="white" stroke-width="2"/><rect x="10" y="18" width="20" height="10" rx="2" fill="white"/><rect x="16" y="21" width="8" height="3" rx="1.5" fill="%23809A6F"/></svg>') no-repeat center/contain, linear-gradient(#809A6F, #5A7A4F) content-box, linear-gradient(#0B0020, #0B0020) padding-box, linear-gradient(to right, #809A6F, #A8C090) border-box !important;
+}
+/* 教育经历：学位帽SVG */
+.resume-area .resume-wrapper .resume-content.edu::before {
+    content: "" !important;
+    background: url('data:image/svg+xml;utf8,<svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="40" height="40" rx="20" fill="%23F5F8F2"/><path d="M20 13L32 18L20 23L8 18L20 13Z" fill="%235A7A4F"/><path d="M20 23V28" stroke="%235A7A4F" stroke-width="2"/><path d="M14 20V24C14 25.1046 16.6863 26 20 26C23.3137 26 26 25.1046 26 24V20" stroke="%235A7A4F" stroke-width="2"/></svg>') no-repeat center/contain, linear-gradient(#F5F8F2, #F5F8F2) content-box, linear-gradient(#ffffff, #ffffff) padding-box, linear-gradient(to right, #809A6F, #A8C090) border-box !important;
+}
+html.dark .resume-area .resume-wrapper .resume-content.edu::before {
+    background: url('data:image/svg+xml;utf8,<svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="40" height="40" rx="20" fill="%23809A6F"/><path d="M20 13L32 18L20 23L8 18L20 13Z" fill="white"/><path d="M20 23V28" stroke="white" stroke-width="2"/><path d="M14 20V24C14 25.1046 16.6863 26 20 26C23.3137 26 26 25.1046 26 24V20" stroke="white" stroke-width="2"/></svg>') no-repeat center/contain, linear-gradient(#809A6F, #5A7A4F) content-box, linear-gradient(#0B0020, #0B0020) padding-box, linear-gradient(to right, #809A6F, #A8C090) border-box !important;
+}
+
+/* 技能区域 */
+.skills-area .skill-progressbar .progress-outter {
+    background: #809A6F !important;
+}
+
+.skills-area .skill-progressbar .progress-mark-percent {
+    background: #2C3E2A !important;
+}
+
+html.dark .skills-area .skill-progressbar .progress-mark-percent {
+    background: #5A7A4F !important;
+}
+
+.skills-area .skill-progressbar .progress-mark-percent::after {
+    border-color: #2C3E2A rgba(0,0,0,0) rgba(0,0,0,0) !important;
+}
+
+html.dark .skills-area .skill-progressbar .progress-mark-percent::after {
+    border-color: #5A7A4F rgba(0,0,0,0) rgba(0,0,0,0) !important;
+}
+
+.skills-area .skill-progressbar .progress-content {
+    background: #5A7A4F !important;
+}
+
+/* 联系区域 */
+.contact-area .contact-content ul li a {
+    border-color: #809A6F !important;
+}
+
+html.dark .contact-area .contact-content ul li a {
+    border-color: #809A6F !important;
+}
+
+.contact-area .contact-content ul li a:hover {
+    color: #809A6F !important;
+    border-color: #809A6F !important;
+}
+
+.contact-area .google-map iframe {
+    border-color: #fff !important;
+}
+
+html.dark .contact-area .google-map iframe {
+    border-color: #809A6F !important;
+}
+
+.contact-area .contact-bg {
+    background-color: #809A6F !important;
+}
+
+html.dark .contact-area .contact-bg {
+    background-color: #2C3E2A !important;
+}
+
+/* 作品集详情页 */
+.protfolio-details-area .banner-wrapper::before {
+    background: linear-gradient(rgba(255, 255, 255, 0) 20%, rgba(128, 154, 111, 0.75) 80%) !important;
+}
+
+.protfolio-details-area .banner-meta {
+    background: #F5F8F2 !important;
+}
+
+html.dark .protfolio-details-area .banner-meta {
+    background: linear-gradient(to right, #0B0020, #5A7A4F) !important;
+}
+
+.protfolio-details-area .project-details-content .title {
+    background: linear-gradient(to right, #809A6F, #A8C090) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: rgba(0,0,0,0) !important;
+}
+
+.protfolio-details-area .protfolio-details-slider .swiper-button-next,
+.protfolio-details-area .protfolio-details-slider .swiper-button-prev {
+    background: #fff !important;
+    color: #2C3E2A !important;
+}
+
+.protfolio-details-area .protfolio-details-slider .swiper-button-next:hover,
+.protfolio-details-area .protfolio-details-slider .swiper-button-prev:hover {
+    color: #fff !important;
+    background: #5A7A4F !important;
+}
+
+.protfolio-details-area .protfolio-details-slider .swiper-pagination .swiper-pagination-bullet {
+    background: #809A6F !important;
+}
+
+.protfolio-details-area .protfolio-details-slider .swiper-pagination .swiper-pagination-bullet-active {
+    background: #809A6F !important;
+}
+
+/* 博客详情页 */
+.blog-details-area .banner-wrapper::before {
+    background: linear-gradient(rgba(255, 255, 255, 0) 20%, rgba(128, 154, 111, 0.75) 80%) !important;
+}
+
+.blog-details-area .blog-description .title {
+    background: linear-gradient(to right, #809A6F, #A8C090) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: rgba(0,0,0,0) !important;
+}
+
+.blog-details-area .blog-footer {
+    background: #F5F8F2 !important;
+}
+
+html.dark .blog-details-area .blog-footer {
+    background: linear-gradient(to right, #5A7A4F, #0B0020) !important;
+}
+
+.blog-details-area .blog-footer .social-icon a {
+    color: #809A6F !important;
+}
+
+.blog-details-area .blog-footer .tags a {
+    background: linear-gradient(to right, #fff 0%, #fff 40%, #809A6F 70%, #5A7A4F 100%) !important;
+}
+
+html.dark .blog-details-area .blog-footer .tags a {
+    background: linear-gradient(to right, #20133A, #20133A) padding-box, linear-gradient(to right, #809A6F, #A8C090) border-box !important;
+}
+
+html.dark .blog-details-area .blog-footer .tags a:hover {
+    background: linear-gradient(to right, #809A6F, #5A7A4F) padding-box, linear-gradient(to right, #809A6F, #5A7A4F) border-box !important;
+}
+
+.blog-details-area .blog-footer .tags a:hover {
+    color: #fff !important;
+    background-position: right !important;
+}
+
+.blog-details-area .comment-wrapper .comment-avatar img {
+    background: linear-gradient(white, white) padding-box, linear-gradient(45deg, #809A6F, #A8C090) border-box !important;
+}
+
+.blog-details-area .comment-wrapper .reply-box textarea {
+    background: linear-gradient(white, white) padding-box, linear-gradient(to right, #809A6F, #A8C090) border-box !important;
+}
+
+html.dark .blog-details-area .comment-wrapper .reply-box textarea {
+    background: linear-gradient(#0B0020, #0B0020) padding-box, linear-gradient(to right, #809A6F, #A8C090) border-box !important;
+}
+
+.blog-details-area .comment-wrapper .reply-box textarea:focus {
+    border-color: #809A6F !important;
+}
+
+.blog-details-area .comment-wrapper .comment-box {
+    background: linear-gradient(#F5F8F2, #F5F8F2) padding-box, linear-gradient(to right, #809A6F, #A8C090) border-box !important;
+}
+
+html.dark .blog-details-area .comment-wrapper .comment-box {
+    background: linear-gradient(#0B0020, #0B0020) padding-box, linear-gradient(to right, #809A6F, #A8C090) border-box !important;
+}
+
+/* 预加载器 */
+.preloader {
+    background: #F5F8F2 !important;
+}
+
+html.dark .preloader {
+    background: #2C3E2A !important;
+}
+
+.preloader .content {
+    color: #2C3E2A !important;
+}
+
+html.dark .preloader .content {
+    color: #ddd !important;
+}
+
+.preShape2 {
+    border-color: rgba(0,0,0,0) rgba(0,0,0,0) #809A6F rgba(0,0,0,0) !important;
+}
+
+/* 深色模式下的预加载器 */
+html.dark .preShape1 {
+    border-color: #fff rgba(0,0,0,0) rgba(0,0,0,0) rgba(0,0,0,0) !important;
+}
+
+/* 版权信息 */
+.sidebar-menu .copyright-content p {
+    color: #809A6F !important;
+}
+
+.mobile-menu .copyright-content p {
+    color: #809A6F !important;
+}
+
+/* 深色模式下的版权信息 */
+html.dark .sidebar-menu .copyright-content p a {
+    color: #fff !important;
+}
+
+html.dark .mobile-menu .copyright-content p a {
+    color: #fff !important;
+}
+
+/* 评论区标题和评论框统一茶色主题 */
+.comment-section-title {
+  color: #5A7A4F !important;
+  font-size: 2.2rem;
+  font-weight: bold;
+  margin-bottom: 1.2em;
+}
+
+.comment-box, .comment-form textarea {
+  background: #F5F8F2 !important;
+  border: 1.5px solid #A8C090 !important;
+  color: #2C3E2A !important;
+}
+
+html.dark .comment-box, html.dark .comment-form textarea {
+  background: #2C3E2A !important;
+  border: 1.5px solid #809A6F !important;
+  color: #fff !important;
+}
+
+.comment-form button,
+.comment-form input[type="submit"] {
+  color: #fff !important;
+}
+
+.comment-form button:hover {
+  background: #5A7A4F !important;
+}
+
+/* 评论区整体间距优化 */
+.comment-section {
+  margin-top: 3em;
+  margin-bottom: 2em;
+}
+
+/* 竹色主题渐变标签按钮 */
+.bamboo-gradient {
+  background: linear-gradient(90deg, #5A7A4F 0%, #A8C090 100%) !important;
+  color: #fff !important;
+  border: none;
+  border-radius: 20px;
+  padding: 4px 18px;
+  margin: 0 4px 4px 0;
+  font-size: 1rem;
+  font-weight: 500;
+  box-shadow: 0 2px 8px rgba(128,154,111,0.08);
+  transition: background 0.3s;
+}
+.bamboo-gradient:hover {
+  background: linear-gradient(90deg, #A8C090 0%, #5A7A4F 100%) !important;
+}
+
+/* 搜索框背景色为浅绿色 */
+.search-box input[type="text"],
+.search-box input[type="search"],
+.search-box textarea {
+  background: #F4F8F2 !important;
+  border: 1px solid #A8C090;
+  color: #5A7A4F;
+}
+.search-box button,
+.search-box input[type="submit"] {
+  background: #A8C090 !important;
+  color: #fff;
+  border: none;
+}
+
+/* 右侧小标题竹色 */
+.sidebar-menu .widget-title,
+.sidebar-menu .search-title,
+.sidebar-menu .recent-title,
+.sidebar-menu .category-title {
+  color: #809A6F !important;
+  font-weight: bold;
+}
+
+/* 右侧导航栏SVG图标适配 */
+.sidebar-menu .nav-menu .menu-item svg,
+.sidebar-menu .nav-menu .menu-item img {
+  width: 22px;
+  height: 22px;
+  margin-right: 8px;
+  vertical-align: middle;
+  border-radius: 6px;
+  background: #F4F8F2;
+}
+
+/* 重要：全局去除蓝色、紫色 */
+body, .blog-description, .sidebar-menu, .sidebar-menu .nav-menu, .sidebar-menu .nav-menu .menu-item, .sidebar-menu .nav-menu .menu-item.active, .sidebar-menu .nav-menu .menu-item:hover, .sidebar-menu .widget-title, .sidebar-menu .search-title, .sidebar-menu .recent-title, .sidebar-menu .category-title, .sidebar-menu .section-title, .sidebar-menu .summary-title, .sidebar-menu .comment-title, .sidebar-menu .blog-footer .label, .sidebar-menu .blog-footer .title, .sidebar-menu .blog-footer h6, .sidebar-menu .blog-footer h4, .sidebar-menu .blog-footer h3, .sidebar-menu .blog-footer h2, .sidebar-menu .blog-footer h1, .sidebar-menu .blog-footer .search-title, .sidebar-menu .blog-footer .summary-title {
+  /* 强制去除蓝色、紫色 */
+  text-shadow: none !important;
+}
+
+/* h1、h2标题字号整体缩小 */
+.blog-description h1 {
+  font-size: 2.2rem !important;
+  color: #5A7A4F !important;
+  font-weight: bold;
+  margin-bottom: 1.2em;
+}
+.blog-description h2 {
+  font-size: 1.5rem !important;
+  color: #5A7A4F !important;
+  font-weight: bold;
+  margin-bottom: 1em;
+}
+
+/* 结语等正文小标题竹色 */
+.blog-description h2,
+.blog-description h3,
+.blog-description h4,
+.blog-description h5,
+.blog-description h6 {
+  color: #5A7A4F !important;
+  font-weight: bold;
+}
+
+/* 新增：博客正文小标题竹色美化 */
+.bamboo-subtitle {
+  color: #5A7A4F !important;
+  font-weight: bold;
+  margin-top: 2em;
+  margin-bottom: 1em;
+  font-size: 1.5rem !important;
+  letter-spacing: 0.01em;
+  line-height: 1.3;
+}
+
+/* 强制覆盖所有h1~h6蓝紫色 */
+h1, h2, h3, h4, h5, h6 {
+  color: #5A7A4F !important;
+  text-shadow: none !important;
+  filter: none !important;
+}
+
+/* 强制覆盖所有a、button、tag-btn蓝紫色 */
+a, .btn, .btn-primary, .btn-primary-gradient, .tag-btn {
+  color: #809A6F !important;
+  border-color: #809A6F !important;
+  background: none !important;
+}
+
+/* 彻底去除蓝色、紫色 */
+:root {
+  --bs-blue: #809A6F;
+  --bs-indigo: #5A7A4F;
+  --bs-primary: #809A6F;
+  --bs-link-color: #809A6F;
+  --bs-link-hover-color: #5A7A4F;
+}
+
+/* 兼容bootstrap等残留蓝紫色class */
+.text-primary, .text-info, .text-indigo, .text-blue, .text-link, .text-violet, .text-purple {
+  color: #809A6F !important;
+}
+.bg-primary, .bg-info, .bg-indigo, .bg-blue, .bg-link, .bg-violet, .bg-purple {
+  background-color: #A8C090 !important;
+}
+.border-primary, .border-info, .border-indigo, .border-blue, .border-link, .border-violet, .border-purple {
+  border-color: #809A6F !important;
+}
+
+/* 兼容a:visited等 */
+a:visited {
+  color: #5A7A4F !important;
+}
+
+/* ================== 按钮字体颜色修正 START ================== */
+/* 只修正按钮字体颜色，确保在背景上清晰可见，不改变背景样式 */
+.btn,
+.btn-primary,
+.btn-primary-gradient,
+.btn-primary-outlined,
+.button,
+.main-btn,
+.bamboo-gradient,
+input[type="submit"],
+input[type="button"],
+button,
+a.button {
+  color: #fff !important;          /* 确保按钮字体为白色，在任何背景上都清晰 */
+  font-weight: 600 !important;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.3) !important; /* 添加文字阴影增强可读性 */
+}
+.btn:hover,
+.btn-primary:hover,
+.btn-primary-gradient:hover,
+.btn-primary-outlined:hover,
+.button:hover,
+.main-btn:hover,
+.bamboo-gradient:hover,
+input[type="submit"]:hover,
+input[type="button"]:hover,
+button:hover,
+a.button:hover {
+  color: #fff !important;          /* 悬停时也保持白色字体 */
+  text-shadow: 0 1px 2px rgba(0,0,0,0.3) !important;
+}
+/* 禁用态按钮 */
+.btn:disabled,
+.btn[disabled],
+button:disabled,
+input[type="submit"]:disabled {
+  color: #b0b0b0 !important;
+  text-shadow: none !important;
+}
+/* 让按钮内icon也变色 */
+.btn i,
+.button i,
+.main-btn i,
+.bamboo-gradient i {
+  color: inherit !important;
+  opacity: 1 !important;
+}
+/* ================== 按钮字体颜色修正 END ================== */
+
+/* ================== 链接样式修正 START ================== */
+/* 只针对普通链接设置字体颜色，背景透明，不影响按钮 */
+a:not(.btn):not(.button):not(.main-btn):not(.bamboo-gradient) {
+  color: var(--bamboo-main) !important;
+  background: none !important;
+  border: none !important;
+}
+/* ================== 链接样式修正 END ================== */
+
+/* ========== 其余原有样式保持不变 ========== */
+
+.bamboo-label {
+  color: #809A6F !important;
+  font-weight: bold !important;
+  font-size: 1.1em;
+  letter-spacing: 0.02em;
+  margin-right: 0.5em;
+  display: inline-block;
+}
+
+.avatar-initial {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #809A6F !important;
+  color: #fff !important;
+  font-size: 2rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  box-shadow: none !important;
+  margin-right: 16px;
+}
+
+/* ========== 全局绿底白字按钮风格终极强制覆盖 ========== */
+.btn,
+.btn-primary,
+.btn-primary-gradient,
+.btn-primary-outlined,
+.button,
+.main-btn,
+.bamboo-gradient,
+input[type="submit"],
+input[type="button"],
+button,
+a.button {
+  background: #5A7A4F !important;
+  color: #fff !important;
+  border: 2px solid #5A7A4F !important;
+  border-radius: 999px !important;
+  box-shadow: none !important;
+  font-weight: 600 !important;
+  opacity: 1 !important;
+  transition: background 0.2s, color 0.2s, border 0.2s;
+}
+.btn:hover,
+.btn-primary:hover,
+.btn-primary-gradient:hover,
+.btn-primary-outlined:hover,
+.button:hover,
+.main-btn:hover,
+.bamboo-gradient:hover,
+input[type="submit"]:hover,
+input[type="button"]:hover,
+button:hover,
+a.button:hover {
+  background: #fff !important;
+  color: #5A7A4F !important;
+  border: 2px solid #5A7A4F !important;
+}
+
+/* 禁用态按钮 */
+.btn:disabled,
+.btn[disabled],
+button:disabled,
+input[type="submit"]:disabled {
+  background: #e0e0e0 !important;
+  color: #b0b0b0 !important;
+  border-color: #e0e0e0 !important;
+  opacity: 0.7 !important;
+}
+
+/* 让按钮内icon也变色 */
+.btn i,
+.button i,
+.main-btn i,
+.bamboo-gradient i {
+  color: inherit !important;
+  opacity: 1 !important;
+}
+/* ========== END ========== */
+
+/* ========== 按钮样式终极修正 ========== */
+.btn,
+.btn-primary,
+.btn-primary-gradient,
+.button,
+.main-btn,
+.bamboo-gradient,
+input[type="submit"],
+input[type="button"],
+button,
+a.button {
+  background: #5A7A4F !important;
+  color: #fff !important;
+  border: 2px solid #5A7A4F !important;
+  border-radius: 999px !important;
+  font-weight: 700 !important;
+  min-width: 180px;
+  padding: 0.9em 2.5em;
+  font-size: 1.35rem;
+  text-align: center;
+  display: inline-block;
+  transition: background 0.2s, color 0.2s, border 0.2s;
+  cursor: pointer;
+  outline: none;
+  box-shadow: none !important;
+  opacity: 1 !important;
+}
+
+.btn:hover,
+.btn:active,
+.btn.active,
+.btn:focus,
+.button:hover,
+.button:active,
+.button.active,
+.button:focus,
+.main-btn:hover,
+.main-btn:active,
+.main-btn.active,
+.main-btn:focus,
+input[type="submit"]:hover,
+input[type="submit"]:active,
+input[type="submit"].active,
+input[type="submit"]:focus,
+input[type="button"]:hover,
+input[type="button"]:active,
+input[type="button"].active,
+input[type="button"]:focus,
+button:hover,
+button:active,
+button.active,
+button:focus,
+a.button:hover,
+a.button:active,
+a.button.active,
+a.button:focus {
+  background: #fff !important;
+  color: #5A7A4F !important;
+  border: 2px solid #5A7A4F !important;
+}
+
+.btn:disabled,
+.btn[disabled],
+.btn-primary:disabled,
+.btn-primary-gradient:disabled,
+.button:disabled,
+.main-btn:disabled,
+.bamboo-gradient:disabled,
+input[type="submit"]:disabled,
+input[type="button"]:disabled,
+button:disabled,
+a.button:disabled {
+  background: #e0e0e0 !important;
+  color: #b0b0b0 !important;
+  border-color: #e0e0e0 !important;
+  opacity: 0.7 !important;
+  cursor: not-allowed;
+}
+
+.btn i,
+.button i,
+.main-btn i,
+.bamboo-gradient i {
+  color: inherit !important;
+  opacity: 1 !important;
+}
+
+/* 只影响普通链接，不影响按钮类 */
+a:not(.btn):not(.button):not(.main-btn):not(.btn-primary):not(.btn-primary-gradient):not(.btn-primary-outlined):not(.bamboo-gradient) {
+  color: var(--bamboo-main) !important;
+  background: none !important;
+  border: none !important;
+}
+
+/* ========== hero区和关于我区块正文全部左对齐 ========== */
+.hero-area .hero-content,
+.about_me_area .left-info {
+  text-align: left !important;
+}
+
+/* ========== hero区主标题更大 ========== */
+.hero-title {
+  font-size: 3.6rem;
+  font-weight: 800;
+  color: #5A7A4F;
+  margin-bottom: 0.3em;
+  line-height: 1.15;
+}
+/* hero区副标题更大 */
+.hero-subtitle {
+  font-size: 2.6rem;
+  font-weight: 700;
+  color: #5A7A4F;
+  margin-bottom: 0.2em;
+}
+/* hero区描述更大 */
+.hero-desc {
+  font-size: 1.6rem;
+  font-weight: 500;
+  color: #3d4d36;
+  margin-bottom: 2em;
+}
+
+/* ========== 关于我区块正文更大 ========== */
+.about_me_area .left-info .content {
+  font-size: 1.25rem;
+  font-weight: 400;
+  color: #222;
+}
+
+/* ========== hero区按钮100%和关于我区联系我按钮一致 ========== */
+.hero-area .button-groups a {
+  min-width: 180px;
+  padding: 0.9em 2.5em;
+  font-size: 1.35rem;
+  font-weight: 700;
+  border-radius: 999px;
+  border: 2px solid #5A7A4F !important;
+  transition: background 0.2s, color 0.2s, border 0.2s;
+  outline: none;
+  box-shadow: none !important;
+  opacity: 1 !important;
+}
+.hero-area .button-groups a.btn-primary-gradient {
+  background: #5A7A4F !important;
+  color: #fff !important;
+}
+.hero-area .button-groups a.btn-primary-gradient:hover {
+  background: #fff !important;
+  color: #5A7A4F !important;
+}
+.hero-area .button-groups a.btn-primary-gradient:active,
+.hero-area .button-groups a.btn-primary-gradient:focus {
+  background: #5A7A4F !important;
+  color: #fff !important;
+}
+
+/* LOGO显示修复 */
+.header-area .logo img,
+.sidebar-menu .sidebar-header .logo img,
+.mobile-menu .menu-header .logo img {
+  width: auto !important;
+  height: auto !important;
+  max-width: 132px !important;
+  max-height: 33px !important;
+  display: block !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+h6.title {
+  font-size: 2.2em !important;
+  font-weight: bold !important;
+}
+
+/* 去除作品集按钮选中时的下划线 */
+.protfolio-menu .btn.active, .protfolio-menu .btn:active {
+  box-shadow: 0 0 0 3px #FFD600;
+  border: 2px solid #FFD600;
+  text-decoration: none !important;
+}
+.protfolio-menu .btn.active::after, .protfolio-menu .btn:active::after {
+  display: none !important;
+}
+
+/* 彻底去除作品集按钮所有状态下的下划线 */
+.Protofolio-area .protfolio-menu button,
+.Protofolio-area .protfolio-menu button.active,
+.Protofolio-area .protfolio-menu button:active,
+.Protofolio-area .protfolio-menu button:focus,
+.Protofolio-area .protfolio-menu button:hover {
+  border-bottom: none !important;
+}
+.Protofolio-area .protfolio-menu button::before,
+.Protofolio-area .protfolio-menu button.active::before,
+.Protofolio-area .protfolio-menu button:active::before,
+.Protofolio-area .protfolio-menu button:focus::before,
+.Protofolio-area .protfolio-menu button:hover::before {
+  display: none !important;
+}
+
+/* 让暗夜模式切换按钮与导航栏左对齐 */
+.sidebar-header {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding-left: 0.5em;
+}
+.sidebar-header .color-mode {
+  margin-left: 0;
+  margin-bottom: 1.5em;
+}
+
+/* 恢复联系我按钮为默认样式，悬浮时白底绿字，非悬浮和点击后绿底白字 */
+.btn-primary-outlined.contact-btn-fix,
+.btn-primary-outlined.contact-btn-fix:visited,
+.btn-primary-outlined.contact-btn-fix:active,
+.btn-primary-outlined.contact-btn-fix:focus {
+    color: #fff !important;
+    background: #5A7A4F !important;
+    border: 2px solid #5A7A4F !important;
+}
+.btn-primary-outlined.contact-btn-fix:hover {
+    color: #5A7A4F !important;
+    background: #fff !important;
+    border: 2px solid #5A7A4F !important;
+}
+
+/* ========== 按钮active修复 ========== */
+.btn:active,
+.btn-primary:active,
+.btn-primary-gradient:active,
+.button:active,
+.main-btn:active,
+.bamboo-gradient:active,
+input[type="submit"]:active,
+input[type="button"]:active,
+button:active,
+a.button:active {
+  background: #5A7A4F !important;
+  color: #fff !important;
+  border: 2px solid #5A7A4F !important;
+}
+.btn:focus:not(:hover):not(:active),
+.btn-primary:focus:not(:hover):not(:active),
+.btn-primary-gradient:focus:not(:hover):not(:active),
+.button:focus:not(:hover):not(:active),
+.main-btn:focus:not(:hover):not(:active),
+.bamboo-gradient:focus:not(:hover):not(:active),
+input[type="submit"]:focus:not(:hover):not(:active),
+input[type="button"]:focus:not(:hover):not(:active),
+button:focus:not(:hover):not(:active),
+a.button:focus:not(:hover):not(:active) {
+  background: #5A7A4F !important;
+  color: #fff !important;
+  border: 2px solid #5A7A4F !important;
+}
+/* ========== hero区按钮组和博客区按钮排版优化 ========== */
+.button-groups {
+  display: flex;
+  flex-direction: row;
+  gap: 2em;
+  justify-content: flex-start;
+  align-items: center;
+  margin-top: 2em;
+  text-align: left;
+}
+.blog-area .card-footer .btn {
+  margin: 0 auto 0.5em auto;
+  display: block;
+}
+
+/* ========== 关于我区块下载简历按钮和联系我按钮样式完全一致 ========== */
+.about_me_area .button-groups a.btn-primary-gradient,
+.about_me_area .button-groups a.btn-primary-outlined {
+  min-width: 180px;
+  padding: 0.9em 2.5em;
+  font-size: 1.35rem;
+  font-weight: 700;
+  border-radius: 999px;
+  border: 2px solid #5A7A4F !important;
+  transition: background 0.2s, color 0.2s, border 0.2s;
+  outline: none;
+  box-shadow: none !important;
+  opacity: 1 !important;
+  display: inline-block;
+  text-align: center;
+}
+.about_me_area .button-groups a.btn-primary-gradient {
+  background: #5A7A4F !important;
+  color: #fff !important;
+}
+.about_me_area .button-groups a.btn-primary-gradient:hover {
+  background: #fff !important;
+  color: #5A7A4F !important;
+}
+.about_me_area .button-groups a.btn-primary-gradient:active,
+.about_me_area .button-groups a.btn-primary-gradient:focus {
+  background: #5A7A4F !important;
+  color: #fff !important;
+}
+
+/* ========== hero区按钮组左对齐 ========== */
+.hero-area .button-groups {
+  display: flex;
+  flex-direction: row;
+  gap: 2em;
+  justify-content: flex-start;
+  align-items: center;
+  margin-top: 2em;
+  text-align: left !important;
+  padding-left: 0;
+}
+@media (max-width: 768px) {
+  .hero-area .button-groups {
+    gap: 1em;
+    margin-top: 1.2em;
+  }
+}
+
+/* ========== blog区阅读全文按钮和hero区按钮样式完全一致 ========== */
+.blog-area .btn-primary-gradient {
+  min-width: 180px;
+  padding: 0.9em 2.5em;
+  font-size: 1.35rem;
+  font-weight: 700;
+  border-radius: 999px;
+  border: 2px solid #5A7A4F !important;
+  background: #5A7A4F !important;
+  color: #fff !important;
+  transition: background 0.2s, color 0.2s, border 0.2s;
+  outline: none;
+  box-shadow: none !important;
+  opacity: 1 !important;
+  display: inline-block;
+  text-align: center;
+}
+.blog-area .btn-primary-gradient:hover {
+  background: #fff !important;
+  color: #5A7A4F !important;
+}
+.blog-area .btn-primary-gradient:active,
+.blog-area .btn-primary-gradient:focus {
+  background: #5A7A4F !important;
+  color: #fff !important;
+}

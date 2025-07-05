@@ -1,0 +1,574 @@
+/* ===================== 纵向时间轴核心样式 ===================== */
+
+/* CSS变量定义 */
+:root {
+    --timeline-line-color: #809A6F;
+    --timeline-marker-color: #5A7A4F;
+    --timeline-content-bg: #F5F8F2;
+    --timeline-border-color: #A8C090;
+    --timeline-text-color: #2C3E2A;
+    --timeline-hover-color: #D4E6C3;
+    --timeline-expanded-bg: #FFFFFF;
+    --timeline-shadow: 0 4px 20px rgba(128, 154, 111, 0.15);
+}
+
+/* 深色模式变量 */
+html.dark {
+    --timeline-line-color: #A8C090;
+    --timeline-marker-color: #809A6F;
+    --timeline-content-bg: #0B0020;
+    --timeline-border-color: #5A7A4F;
+    --timeline-text-color: #FFFFFF;
+    --timeline-hover-color: #3B1682;
+    --timeline-expanded-bg: #231442;
+    --timeline-shadow: 0 4px 20px rgba(168, 192, 144, 0.2);
+}
+
+/* 时间轴容器 */
+.timeline-section {
+    position: relative;
+    padding: 4rem 0;
+    background: none;
+    height: auto;
+    overflow: visible;
+}
+
+.timeline-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    overflow-x: hidden;
+    overflow-y: auto;
+    background: none;
+    position: relative;
+    height: auto;
+    box-sizing: border-box;
+}
+
+/* 时间轴线条 */
+.timeline-container::before {
+    content: '';
+    position: absolute;
+    left: 80px;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: linear-gradient(to bottom, var(--timeline-line-color) 0%, var(--timeline-border-color) 50%, var(--timeline-line-color) 100%);
+    border-radius: 2px;
+    z-index: 1;
+    transition: left 0.7s;
+}
+
+@media (max-width: 768px) {
+    .timeline-container::before {
+        left: 50%;
+        transform: translateX(-50%);
+    }
+}
+
+/* 时间轴项目 */
+.timeline-item {
+    position: relative;
+    margin-bottom: 2.5rem;
+    width: 100%;
+    opacity: 1;
+    transform: translateY(0);
+    font-size: 1.05rem;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+@media (max-width: 768px) {
+    .timeline-item {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+/* 时间点标记 */
+.timeline-marker {
+    position: absolute;
+    left: 80px;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 20px;
+    height: 20px;
+    background: var(--timeline-marker-color);
+    border: 4px solid #fff;
+    border-radius: 50%;
+    z-index: 3;
+    transition: box-shadow 0.7s, background 0.7s, border 0.7s, left 0.7s;
+    box-shadow: none;
+}
+
+@media (max-width: 768px) {
+    .timeline-marker {
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+}
+
+.timeline-item.expanded .timeline-marker,
+.timeline-item.active .timeline-marker,
+.timeline-item:hover .timeline-marker {
+    background: #2C3E2A;
+    border: 4px solid #A8C090;
+    box-shadow: 0 0 0 8px rgba(128,154,111,0.18), 0 0 12px 2px #A8C090;
+}
+
+/* 内容区域 */
+.timeline-content {
+    position: relative;
+    margin-left: 100px;
+    background: #fff;
+    border-radius: 16px;
+    padding: 1rem 2rem;
+    box-shadow: 0 4px 24px rgba(128,154,111,0.10);
+    border: none;
+    width: calc(100% - 120px);
+    min-height: 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    transition: padding 0.7s, width 0.7s, box-shadow 0.7s, background 0.7s, margin-left 0.7s, min-height 0.7s;
+    overflow: hidden;
+}
+
+@media (max-width: 768px) {
+    .timeline-content {
+        margin-left: 0;
+        margin-top: 60px;
+        width: 100%;
+        text-align: center;
+        transition: margin-left 0.7s, margin-top 0.7s, width 0.7s, min-height 0.7s;
+    }
+}
+
+.timeline-item.expanded .timeline-content,
+.timeline-item.active .timeline-content {
+    box-shadow: 0 8px 32px rgba(128,154,111,0.18);
+    background: #f8fbf4;
+    min-height: 240px;
+    padding: 2rem 2.5rem;
+}
+
+/* 头部区域 */
+.timeline-header {
+    display: grid;
+    grid-template-columns: 120px auto;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 0.2rem;
+    transition: margin-bottom 0.7s;
+    gap: 0;
+}
+
+.timeline-item.expanded .timeline-header,
+.timeline-item.active .timeline-header,
+.timeline-item:hover .timeline-header {
+    margin-bottom: 0.5rem;
+}
+
+/* 时间标签 - 纯文本，无背景、无边框、无箭头 */
+.timeline-date {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--timeline-marker-color);
+    font-family: inherit;
+    background: none !important;
+    padding: 0 !important;
+    border-radius: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+    white-space: nowrap;
+    transition: color 0.7s;
+    justify-self: start;
+}
+
+.timeline-date::after,
+.timeline-date::before {
+    display: none !important;
+    content: none !important;
+}
+
+/* 标题 */
+.timeline-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--timeline-text-color);
+    font-family: inherit;
+    margin: 0;
+    line-height: 1.4;
+    text-align: left;
+    transition: color 0.7s;
+    justify-self: start;
+}
+
+.timeline-item.expanded .timeline-title,
+.timeline-item.active .timeline-title,
+.timeline-item:hover .timeline-title {
+    color: var(--timeline-marker-color);
+}
+
+/* 详细内容区域 */
+.timeline-details {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-height 0.7s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.7s;
+    margin-top: 0;
+    padding-top: 0;
+    border-top: none;
+    width: 100%;
+}
+
+.timeline-item.expanded .timeline-details,
+.timeline-item.active .timeline-details,
+.timeline-item:hover .timeline-details {
+    max-height: 800px;
+    opacity: 1;
+    margin-top: 1.2rem;
+    padding-top: 0;
+    border-top: none;
+    width: 98%;
+}
+
+.timeline-details-text {
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: var(--timeline-text-color);
+    margin: 0;
+    opacity: 0.95;
+    transition: color 0.7s;
+}
+
+.timeline-item:not(.expanded):not(.active):not(:hover) .timeline-content {
+    padding: 1rem 2rem;
+    min-height: 60px;
+}
+
+/* 动画效果 */
+.timeline-item.scroll-animate {
+    animation: timelineSlideIn 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes timelineSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.timeline-item.expand-animate .timeline-content {
+    animation: timelineExpand 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes timelineExpand {
+    from {
+        transform: scale(0.95);
+        opacity: 0.8;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* 响应式设计 */
+@media (max-width: 1200px) {
+    .timeline-container {
+        padding: 0 1.5rem;
+    }
+}
+
+@media (max-width: 992px) {
+    .timeline-container {
+        padding: 0 1rem;
+    }
+    
+    .timeline-content {
+        padding: 1.25rem;
+    }
+    
+    .timeline-item.expanded .timeline-content {
+        padding: 1.75rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .timeline-section {
+        padding: 2rem 0;
+    }
+    
+    .timeline-container {
+        padding: 0 0.5rem;
+    }
+    
+    .timeline-content {
+        padding: 1rem;
+        margin-top: 50px;
+    }
+    
+    .timeline-item.expanded .timeline-content {
+        padding: 1.5rem;
+    }
+    
+    .timeline-title {
+        font-size: 1.1rem;
+    }
+    
+    .timeline-item.expanded .timeline-title {
+        font-size: 1.25rem;
+    }
+}
+
+/* 无障碍支持 */
+.timeline-item:focus-within .timeline-content {
+    outline: 2px solid var(--timeline-marker-color);
+    outline-offset: 2px;
+}
+
+/* 滚动条样式 */
+.timeline-container::-webkit-scrollbar {
+    width: 8px;
+    background: #f5f8f2;
+}
+
+.timeline-container::-webkit-scrollbar-thumb {
+    background: #c8d8c0;
+    border-radius: 4px;
+}
+
+/* 打印样式 */
+@media print {
+    .timeline-container::before {
+        display: none;
+    }
+    
+    .timeline-marker {
+        display: none;
+    }
+    
+    .timeline-content {
+        margin-left: 0;
+        box-shadow: none;
+        border: 1px solid #ccc;
+    }
+    
+    .timeline-item.expanded .timeline-details {
+        max-height: none;
+        opacity: 1;
+    }
+}
+
+/* ===================== 新两栏布局 ===================== */
+.timeline-flex-layout {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    gap: 0;
+    width: 100%;
+}
+.timeline-axis {
+    position: relative;
+    width: 60px;
+    min-width: 60px;
+}
+.timeline-line {
+    position: absolute;
+    left: 50%;
+    top: 20px;
+    bottom: 20px;
+    width: 4px;
+    background: linear-gradient(to bottom, var(--timeline-line-color) 0%, var(--timeline-border-color) 50%, var(--timeline-line-color) 100%);
+    border-radius: 2px;
+    transform: translateX(-50%);
+    z-index: 0;
+}
+.timeline-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: visible;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+.timeline-item-point {
+    position: relative;
+    min-height: 72px;
+    display: flex;
+    align-items: center;
+    z-index: 1;
+}
+.timeline-item-point .point-marker {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 18px;
+    height: 18px;
+    min-width: 18px;
+    min-height: 18px;
+    max-width: 18px;
+    max-height: 18px;
+    background: var(--timeline-marker-color);
+    border: 4px solid #fff;
+    border-radius: 50%;
+    box-shadow: 0 0 0 0 rgba(128,154,111,0.10);
+    transition: box-shadow 0.3s, background 0.3s, border 0.3s;
+    box-sizing: content-box;
+    line-height: 18px;
+    display: block;
+    z-index: 2;
+}
+.timeline-item-point .point-label {
+    font-size: 1.08rem;
+    font-weight: 600;
+    color: var(--timeline-marker-color);
+    background: none;
+    padding: 0 0 0 0;
+    border-radius: 0;
+    white-space: nowrap;
+    margin-top: 0;
+    transition: color 0.3s;
+    text-align: left;
+    position: relative;
+    z-index: 2;
+    line-height: 18px;
+    margin-left: 44px;
+}
+.timeline-item-point.active .point-label,
+.timeline-item-point:hover .point-label {
+    color: #2C3E2A;
+}
+.timeline-item-point.active .point-marker,
+.timeline-item-point:hover .point-marker {
+    background: #2C3E2A;
+    border: 4px solid #A8C090;
+    box-shadow: 0 0 0 8px rgba(128,154,111,0.18), 0 0 12px 2px #A8C090;
+}
+.point-marker:before {
+    content: none !important;
+}
+.point-marker svg {
+    display: block;
+    margin: auto;
+    width: 18px;
+    height: 18px;
+}
+
+/* 右侧单卡片内容区 */
+.timeline-card-container {
+    flex: 1 1 0;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    min-width: 0;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    margin-left: 48px;
+}
+.timeline-card {
+    background: var(--timeline-content-bg);
+    border-radius: 20px;
+    box-shadow: 0 6px 32px rgba(128,154,111,0.10);
+    padding: 2.2rem 2.8rem 2.2rem 2.8rem;
+    min-height: 340px;
+    width: 100%;
+    max-width: 700px;
+    margin: 0 auto;
+    transition: all 0.5s;
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+    opacity: 1;
+    animation: fadeInCard 0.5s;
+    height: 100%;
+    justify-content: center;
+}
+.timeline-card-date {
+    font-size: 1.08rem;
+    color: var(--timeline-marker-color);
+    margin-bottom: 0.2rem;
+    font-weight: 500;
+}
+.timeline-card-title {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: var(--timeline-text-color);
+    margin-bottom: 0.3rem;
+}
+.timeline-card-desc {
+    font-size: 1.13rem;
+    color: var(--timeline-text-color);
+    margin-bottom: 0.3rem;
+}
+.timeline-card-details {
+    font-size: 1.02rem;
+    color: #888;
+}
+@keyframes fadeInCard {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* 响应式：移动端横向时间轴 */
+@media (max-width: 768px) {
+    .timeline-flex-layout {
+        flex-direction: column;
+        gap: 24px;
+        align-items: stretch;
+    }
+    .timeline-axis {
+        flex-direction: row;
+        min-width: 0;
+        width: 100%;
+        overflow-x: auto;
+        padding-bottom: 12px;
+        align-items: flex-start;
+        height: auto;
+        padding-top: 0;
+    }
+    .timeline-list {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        justify-content: flex-start;
+        align-items: center;
+        height: auto;
+    }
+    .timeline-list::before {
+        left: 0;
+        top: 20px;
+        bottom: 20px;
+        right: 0;
+        height: 4px;
+        width: 100%;
+        background: linear-gradient(to right, var(--timeline-line-color) 0%, var(--timeline-border-color) 50%, var(--timeline-line-color) 100%);
+        transform: translateY(0);
+    }
+    .timeline-item-point {
+        flex-direction: column;
+        margin: 0 24px 0 0;
+        align-items: center;
+        padding-left: 0;
+    }
+    .timeline-card-container, .timeline-card {
+        height: auto;
+        margin-left: 0;
+        max-width: 100%;
+        padding: 1.2rem 0.7rem;
+    }
+} 
